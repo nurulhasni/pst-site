@@ -1,4 +1,3 @@
-import { Header } from "@/components/sections/Header";
 import { Hero } from "@/components/sections/Hero";
 import { ClientsStrip } from "@/components/sections/ClientsStrip";
 import { AboutIntro } from "@/components/sections/AboutIntro";
@@ -15,7 +14,6 @@ import { FloatingContact } from "@/components/sections/FloatingContact";
 export default function Home() {
   return (
     <main className="w-full overflow-x-hidden">
-      <Header />
       <Hero />
       <ClientsStrip />
       <AboutIntro />

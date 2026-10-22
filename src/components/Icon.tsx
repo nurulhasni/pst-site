@@ -259,7 +259,7 @@ const icons: Record<
   },
 };
 
-export function Icon({ id, className }: { id: string; className?: string }) {
+export function Icon({ id, className, fill }: { id: string; className?: string; fill?: string }) {
   const icon = icons[id];
   if (!icon) return null;
   return (
@@ -273,7 +273,7 @@ export function Icon({ id, className }: { id: string; className?: string }) {
         <path
           key={i}
           d={p.d}
-          fill={p.fill}
+          fill={fill ?? p.fill}
           stroke={p.stroke}
           strokeWidth={p.sw}
         />
