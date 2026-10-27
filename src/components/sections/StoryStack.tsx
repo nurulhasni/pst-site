@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { FeaturedStory } from "@/components/sections/FeaturedStory";
 import { StoryItem } from "@/components/sections/StoryItem";
 import { useLanguage } from "@/components/LanguageProvider";
@@ -10,16 +9,13 @@ import type { CustomerStories } from "@/lib/sheets";
 type StoryStackProps = {
   featured: CustomerStories["featured"];
   stories: CustomerStories["stories"];
+  openKey: string | null;
+  onToggle: (key: string) => void;
 };
 
-export function StoryStack({ featured, stories }: StoryStackProps) {
+export function StoryStack({ featured, stories, openKey, onToggle }: StoryStackProps) {
   const { lang } = useLanguage();
-  const [openKey, setOpenKey] = useState<string | null>("featured");
   const l = (text: string) => localize(text, lang);
-
-  function toggle(key: string) {
-    setOpenKey(openKey === key ? null : key);
-  }
 
   return (
     <>
@@ -30,7 +26,7 @@ export function StoryStack({ featured, stories }: StoryStackProps) {
         quoteAuthor={l(featured.quoteAuthor)}
         url={featured.url}
         open={openKey === "featured"}
-        onToggle={() => toggle("featured")}
+        onToggle={() => onToggle("featured")}
       />
       {stories.map((story) => (
         <StoryItem
@@ -42,7 +38,7 @@ export function StoryStack({ featured, stories }: StoryStackProps) {
           quote={story.quote ? l(story.quote) : undefined}
           quoteAuthor={story.quoteAuthor ? l(story.quoteAuthor) : undefined}
           open={openKey === story.title}
-          onToggle={() => toggle(story.title)}
+          onToggle={() => onToggle(story.title)}
         />
       ))}
     </>

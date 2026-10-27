@@ -1,23 +1,46 @@
 "use client";
 
+import { useState } from "react";
 import { Icon } from "@/components/Icon";
+import { VideoDialog } from "@/components/sections/VideoDialog";
 import { useLanguage } from "@/components/LanguageProvider";
+
+const videoSrc = "/2-Compressed.mp4";
 
 export function AboutIntro() {
   const { t } = useLanguage();
+  const [videoOpen, setVideoOpen] = useState(false);
+
+  function play() {
+    setVideoOpen(true);
+  }
 
   return (
     <div id="about" className="box-border w-full h-fit shrink-0 flex flex-row gap-[96px] p-[120px_96px] justify-start items-center relative [z-index:3] max-lg:p-[60px_20px_60px_20px] max-lg:flex-col max-lg:items-stretch max-lg:gap-[32px]">
       <div className="box-border w-[560px] shrink-0 h-[560px] relative max-lg:w-full max-lg:h-auto max-lg:aspect-square max-lg:max-w-[560px]">
-        <div className="box-border w-[520px] h-[520px] absolute left-0 top-0 max-lg:w-[calc(100%-24px)] max-lg:h-[calc(100%-24px)] bg-[url('https://images.unsplash.com/photo-1758691737124-05c5bffe46f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3OTI0NjY4NzJ8&ixlib=rb-4.1.0&q=80&w=1080')] bg-no-repeat bg-cover bg-center rounded-[12px] overflow-hidden [z-index:0] max-lg:w-full max-lg:h-[320px]">
-          <div className="box-border w-[520px] h-[520px] absolute left-0 top-0 flex flex-row gap-0 justify-start items-start [background-image:linear-gradient(180deg,_#00035400_40%,_#000354B3_100%)] bg-no-repeat bg-[length:100%_100%] [z-index:0] max-lg:w-full max-lg:h-full"></div>
-          <div className="box-border w-[80px] h-[80px] [box-shadow:0px_10px_30px_#00000059] absolute left-[220px] top-[220px] max-lg:left-[calc(50%-40px)] max-lg:top-[calc(50%-40px)] flex flex-row gap-0 justify-center items-center bg-[#A6CBD3] rounded-[999px] [z-index:1]">
+        <div className="box-border w-[520px] h-[520px] absolute left-0 top-0 max-lg:w-[calc(100%-24px)] max-lg:h-[calc(100%-24px)] bg-[#000354] rounded-[12px] overflow-hidden [z-index:0] max-lg:w-full max-lg:h-[320px]">
+          {/* Preview only: #t=0.1 makes the browser show the first frame as the poster */}
+          <video
+            src={`${videoSrc}#t=0.1`}
+            preload="metadata"
+            muted
+            playsInline
+            tabIndex={-1}
+            className="box-border w-full h-full absolute left-0 top-0 object-cover pointer-events-none [z-index:0]"
+          />
+          <div className="box-border w-[520px] h-[520px] absolute left-0 top-0 flex flex-row gap-0 justify-start items-start [background-image:linear-gradient(180deg,_#00035400_40%,_#000354B3_100%)] bg-no-repeat bg-[length:100%_100%] pointer-events-none [z-index:0] max-lg:w-full max-lg:h-full"></div>
+          <button
+            type="button"
+            aria-label={t("about.watch")}
+            onClick={play}
+            className="box-border w-[80px] h-[80px] [box-shadow:0px_10px_30px_#00000059] absolute left-[220px] top-[220px] max-lg:left-[calc(50%-40px)] max-lg:top-[calc(50%-40px)] flex flex-row gap-0 justify-center items-center bg-[#A6CBD3] hover:bg-[#C2DDE3] hover:scale-105 transition-transform rounded-[999px] cursor-pointer [z-index:1]"
+          >
             <Icon
               id="play-49912a"
               className="box-border w-[30px] shrink-0 h-[30px]"
             />
-          </div>
-          <div className="box-border w-fit h-fit absolute left-[28px] top-[28px] flex flex-row gap-[8px] p-[6px_12px] justify-start items-center bg-[#00035499] rounded-[999px] [z-index:2]">
+          </button>
+          <div className="box-border w-fit h-fit absolute left-[28px] top-[28px] flex flex-row gap-[8px] p-[6px_12px] justify-start items-center bg-[#00035499] rounded-[999px] pointer-events-none [z-index:2]">
             <Icon
               id="video-8046d5"
               className="box-border w-[14px] shrink-0 h-[14px]"
@@ -27,6 +50,7 @@ export function AboutIntro() {
             </div>
           </div>
         </div>
+        {videoOpen && <VideoDialog src={videoSrc} title={t("about.video")} onClose={() => setVideoOpen(false)} />}
         <div className="box-border w-[260px] h-fit [box-shadow:0px_10px_30px_#22364940] absolute left-[300px] top-[400px] max-lg:left-auto max-lg:top-auto max-lg:right-0 max-lg:bottom-0 max-sm:w-[220px] max-sm:p-[16px] flex flex-col gap-[6px] p-[24px] justify-start items-start bg-[#FFFFFF] rounded-[12px] [z-index:1]">
           <div className="text-[40px]/[40px] box-border text-[#000354] font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif] font-medium text-left [white-space:nowrap] max-lg:text-[30px]/[30px] max-lg:whitespace-normal">
             {t("about.est")}
@@ -82,15 +106,15 @@ export function AboutIntro() {
             </div>
           </div>
         </div>
-        <div className="box-border w-fit h-fit shrink-0 flex flex-row gap-[4px] justify-start items-center">
-          <div className="text-[16px]/[20px] box-border text-[#2F6E80] font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif] font-medium text-left [white-space:nowrap]">
+        <button type="button" onClick={play} className="box-border w-fit h-fit shrink-0 flex flex-row gap-[4px] justify-start items-center cursor-pointer">
+          <div className="text-[16px]/[20px] box-border text-[#2F6E80] hover:text-[#000354] transition-colors font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif] font-medium text-left [white-space:nowrap]">
             {t("about.watch")}
           </div>
           <Icon
             id="chevron-right-d09dc3"
             className="box-border w-[16px] shrink-0 h-[16px]"
           />
-        </div>
+        </button>
       </div>
     </div>
   );

@@ -262,7 +262,7 @@ export function EditCustomerStoryView() {
                     {featured && <Check size={14} className="text-[#FFFFFF]" />}
                   </span>
                   <span className={`text-[14px]/[18px] box-border text-[#223548] ${font} font-normal text-left [white-space:nowrap]`}>
-                    Featured — open first on homepage
+                    Featured: open first on homepage
                   </span>
                 </button>
                 <label className="box-border w-full h-fit shrink-0 flex flex-col gap-[8px] justify-start items-start">

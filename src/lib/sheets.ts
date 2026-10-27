@@ -14,7 +14,7 @@ const fallbackInsights: Insight[] = [
     category: "SAP",
     title: "5 reasons to migrate to SAP S/4HANA in 2025",
     excerpt:
-      "Why leading enterprises are accelerating their S/4HANA migration — and how to prepare your organization.",
+      "Why leading enterprises are accelerating their S/4HANA migration and how to prepare your organization.",
     image:
       "https://images.unsplash.com/photo-1785682117028-6fcf2c0b515b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
     url: "/blog/why-sap-s4hana-matters-for-modern-enterprises",
@@ -141,6 +141,9 @@ export type CustomerStory = {
   body?: string;
   quote?: string;
   quoteAuthor?: string;
+  company?: string;
+  companyMeta?: string;
+  image: string;
 };
 
 export type FeaturedStory = {
@@ -151,7 +154,14 @@ export type FeaturedStory = {
   company: string;
   companyMeta: string;
   url: string;
+  image: string;
 };
+
+const fallbackStoryImages = [
+  "https://images.unsplash.com/photo-1653290523116-662a6e8c4b88?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  "https://images.unsplash.com/photo-1751953813464-06a989a71c3a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  "https://images.unsplash.com/photo-1746014601017-4e515ef51722?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+];
 
 export type CustomerStories = {
   featured: FeaturedStory;
@@ -168,6 +178,7 @@ const fallbackCustomerStories: CustomerStories = {
     company: "Manufacturing Corp",
     companyMeta: "SAP S/4HANA · Supply chain",
     url: "#",
+    image: fallbackStoryImages[0],
   },
   stories: [
     {
@@ -177,11 +188,13 @@ const fallbackCustomerStories: CustomerStories = {
       body: "[Placeholder] Narrative text for this story goes here.",
       quote: "“[Placeholder] Quote from the client goes here.”",
       quoteAuthor: "[Placeholder] Name · Role, Company",
+      image: fallbackStoryImages[1],
     },
     {
       title: "Keeping energy operations running smoothly for years",
       meta: "Energy · Support & maintenance",
       url: "#",
+      image: fallbackStoryImages[2],
     },
   ],
 };
@@ -269,14 +282,18 @@ export async function getCustomerStories(): Promise<CustomerStories> {
       company: first.company,
       companyMeta: first.company_meta,
       url: first.url || "#",
+      image: first.image || fallbackStoryImages[0],
     },
-    stories: rest.map((r) => ({
+    stories: rest.map((r, i) => ({
       title: r.title,
       meta: r.meta,
       url: r.url || "#",
       body: r.body || undefined,
       quote: r.quote || undefined,
       quoteAuthor: r.quote_author || undefined,
+      company: r.company || undefined,
+      companyMeta: r.company_meta || undefined,
+      image: r.image || fallbackStoryImages[(i + 1) % fallbackStoryImages.length],
     })),
   };
 }

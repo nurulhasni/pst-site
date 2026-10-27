@@ -45,7 +45,7 @@ const copy = {
     updates: "Send me new articles and updates from PST. You can unsubscribe at any time.",
     unlocking: "Unlocking...",
     privacy:
-      "We use your details to give you access and, if you agree, to send updates — in line with Indonesia's Personal Data Protection Law. See our Privacy Policy.",
+      "We use your details to give you access and, if you agree, to send updates, in line with Indonesia's Personal Data Protection Law. See our Privacy Policy.",
     allSet: (name: string) => `You're all set, ${name}!`,
     unlockedDesc: "The full article is now unlocked. Other gated articles will open automatically on this browser.",
     confirmTitle: "Confirm your subscription",
@@ -73,7 +73,7 @@ const copy = {
     updates: "Kirimi saya artikel dan pembaruan baru dari PST. Anda dapat berhenti berlangganan kapan saja.",
     unlocking: "Membuka...",
     privacy:
-      "Kami menggunakan data Anda untuk memberikan akses dan, jika Anda setuju, mengirimkan pembaruan — sesuai dengan Undang-Undang Pelindungan Data Pribadi Indonesia. Lihat Kebijakan Privasi kami.",
+      "Kami menggunakan data Anda untuk memberikan akses dan, jika Anda setuju, mengirimkan pembaruan, sesuai dengan Undang-Undang Pelindungan Data Pribadi Indonesia. Lihat Kebijakan Privasi kami.",
     allSet: (name: string) => `Semua sudah siap, ${name}!`,
     unlockedDesc: "Artikel lengkap sudah terbuka. Artikel terbatas lainnya akan terbuka otomatis di peramban ini.",
     confirmTitle: "Konfirmasi langganan Anda",

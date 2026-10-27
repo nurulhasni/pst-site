@@ -20,7 +20,7 @@ export function FeaturedStory({ title, body, quote, quoteAuthor, url, open, onTo
   const { t } = useLanguage();
 
   return (
-    <div className={`group [box-sizing:content-box] max-lg:box-border w-[518.5px] shrink-0 flex flex-col gap-[16px] p-[4px_0px_28px_28px] justify-start items-start [border-width:0px_0px_0px_3px] [border-style:solid] ${open ? "[border-color:#A6CBD3]" : "[border-color:#FFFFFF]"} [margin:0px_0px_0px_-1.5px] max-lg:w-full max-lg:h-auto`}>
+    <div className={`group box-border w-full shrink-0 flex flex-col gap-[16px] p-[4px_0px_28px_28px] justify-start items-start [border-width:0px_0px_0px_3px] [border-style:solid] ${open ? "[border-color:#A6CBD3]" : "[border-color:#FFFFFF]"} [margin:0px_0px_0px_-1.5px] max-lg:w-full max-lg:h-auto`}>
       <button
         type="button"
         aria-expanded={open}
@@ -30,7 +30,7 @@ export function FeaturedStory({ title, body, quote, quoteAuthor, url, open, onTo
         } ${font} font-medium`}
       >
         <span>{title}</span>
-        <ChevronDown size={22} className={`shrink-0 mt-[5px] transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
+        <ChevronDown size={20} className={`shrink-0 transition-transform duration-200 ${open ? "mt-[6px] rotate-180" : "mt-[3px]"}`} />
       </button>
       {open && (
         <>

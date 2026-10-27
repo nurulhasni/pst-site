@@ -37,7 +37,7 @@ const copy = {
     whyEyebrow: "WHY PST",
     whyTitle: "Grow with a learning organization",
     whyDesc:
-      "We take our employees' development seriously. You will work in a dynamic environment where you can grow both professionally and personally — learning will always be part of your job.",
+      "We take our employees' development seriously. You will work in a dynamic environment where you can grow both professionally and personally, and learning will always be part of your job.",
     advantages: [
       "Total IT solution",
       "Learning organization",
@@ -159,7 +159,7 @@ const copy = {
     whyEyebrow: "MENGAPA PST",
     whyTitle: "Bertumbuh di organisasi pembelajar",
     whyDesc:
-      "Kami serius mengembangkan karyawan kami. Anda akan bekerja di lingkungan dinamis tempat Anda dapat bertumbuh secara profesional maupun pribadi — belajar akan selalu menjadi bagian dari pekerjaan Anda.",
+      "Kami serius mengembangkan karyawan kami. Anda akan bekerja di lingkungan dinamis tempat Anda dapat bertumbuh secara profesional maupun pribadi, dan belajar akan selalu menjadi bagian dari pekerjaan Anda.",
     advantages: [
       "Solusi TI menyeluruh",
       "Organisasi pembelajar",

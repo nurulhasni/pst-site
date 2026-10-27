@@ -95,7 +95,7 @@ export function NewBlogPostView() {
                 {slug || "auto-generated-from-title"}
               </span>
             </div>
-            <span className={`text-[12px]/[15px] box-border text-[#475E75] ${font} font-normal text-left [white-space:nowrap]`}>Generated from the title — you can edit it.</span>
+            <span className={`text-[12px]/[15px] box-border text-[#475E75] ${font} font-normal text-left [white-space:nowrap]`}>Generated from the title. You can edit it.</span>
           </label>
           <div className="box-border w-full h-fit shrink-0 flex flex-row gap-[16px] justify-start items-start max-sm:flex-col">
             <label className="box-border [flex:1_1_0] min-w-0 h-fit flex flex-col gap-[8px] justify-start items-start">

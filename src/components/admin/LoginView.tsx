@@ -33,7 +33,7 @@ export function LoginView() {
             Content Admin
           </div>
           <div className={`text-[18px]/[28px] box-border w-[480px] max-w-full text-[#FFFFFFBF] ${font} font-normal text-left`}>
-            Manage blog posts, gallery, careers, clients and testimonials for pst.co.id — all in one place.
+            Manage blog posts, gallery, careers, clients and testimonials for pst.co.id, all in one place.
           </div>
         </div>
         <div className="box-border w-fit h-fit shrink-0 flex flex-row gap-[8px] p-[8px_14px] justify-start items-center bg-[#FFFFFF14] [outline:1px_solid_#FFFFFF33] [outline-offset:-0.5px] rounded-[999px]">
