@@ -476,9 +476,9 @@ export const idPosts: Record<string, IdPost> = {
 export const idBodies: Record<string, Block[]> = {
   "digital-transformation-trends-this-year": [
     { type: "lead", text: "Laju transformasi digital tidak pernah secepat sekarang. Perusahaan di Indonesia dan dunia mengadopsi teknologi baru agar tetap kompetitif, gesit, dan berorientasi pada pelanggan." },
-    { type: "p", text: "Dalam artikel ini, kami mengulas tren paling signifikan yang membentuk lanskap transformasi digital tahun ini — dan bagaimana organisasi dapat memanfaatkannya untuk pertumbuhan berkelanjutan." },
+    { type: "p", text: "Dalam artikel ini, kami mengulas tren paling signifikan yang membentuk lanskap transformasi digital tahun ini dan bagaimana organisasi dapat memanfaatkannya untuk pertumbuhan berkelanjutan." },
     { type: "h2", text: "Kebangkitan otomatisasi cerdas" },
-    { type: "p", text: "Otomatisasi bukan lagi sekadar menggantikan pekerjaan manual. Otomatisasi cerdas memadukan robotic process automation (RPA) dengan kecerdasan buatan untuk menciptakan sistem yang belajar, beradaptasi, dan mengambil keputusan — di bidang keuangan, SDM, rantai pasok, dan layanan pelanggan." },
+    { type: "p", text: "Otomatisasi bukan lagi sekadar menggantikan pekerjaan manual. Otomatisasi cerdas memadukan robotic process automation (RPA) dengan kecerdasan buatan untuk menciptakan sistem yang belajar, beradaptasi, dan mengambil keputusan di bidang keuangan, SDM, rantai pasok, dan layanan pelanggan." },
     { type: "p", text: "Manfaat utamanya meliputi:" },
     { type: "ul", items: [
       "Biaya operasional lebih rendah",

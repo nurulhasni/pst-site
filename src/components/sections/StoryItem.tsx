@@ -36,7 +36,7 @@ export function StoryItem({ title, meta, url, body, quote, quoteAuthor, open, on
         } ${font} font-medium`}
       >
         <span>{title}</span>
-        <ChevronDown size={20} className={`shrink-0 mt-[4px] transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
+        <ChevronDown size={20} className={`shrink-0 transition-transform duration-200 ${open ? "mt-[6px] rotate-180" : "mt-[3px]"}`} />
       </button>
       {!open && <div className={`text-[13px]/[17px] box-border text-[#FFFFFF99] ${font} font-normal text-left`}>{meta}</div>}
       {open && (

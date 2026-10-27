@@ -8,8 +8,11 @@ const idCopy: Record<string, string> = {
   "STRATEGY": "STRATEGI",
   "TECHNOLOGY": "TEKNOLOGI",
   "5 reasons to migrate to SAP S/4HANA in 2025": "5 alasan migrasi ke SAP S/4HANA di 2025",
+  "Why leading enterprises are accelerating their S/4HANA migration and how to prepare your organization.":
+    "Mengapa perusahaan terkemuka mempercepat migrasi S/4HANA dan cara menyiapkan organisasi Anda.",
+  // Older dashed wording, kept in case the live Google Sheet still uses it
   "Why leading enterprises are accelerating their S/4HANA migration — and how to prepare your organization.":
-    "Mengapa perusahaan terkemuka mempercepat migrasi S/4HANA — dan cara menyiapkan organisasi Anda.",
+    "Mengapa perusahaan terkemuka mempercepat migrasi S/4HANA dan cara menyiapkan organisasi Anda.",
   "A digital transformation roadmap for Indonesian enterprises": "Peta jalan transformasi digital untuk perusahaan Indonesia",
   "A practical guide to building a transformation strategy tailored to the Indonesian market.":
     "Panduan praktis menyusun strategi transformasi yang disesuaikan dengan pasar Indonesia.",

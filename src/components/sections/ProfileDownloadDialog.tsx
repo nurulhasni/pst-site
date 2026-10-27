@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import { createPortal } from "react-dom";
 import { Check, Download, X } from "lucide-react";
 import { requestProfile, type ProfileState } from "@/app/actions";
 import { useLanguage } from "@/components/LanguageProvider";
@@ -73,9 +74,10 @@ export function ProfileDownloadDialog() {
         <Download size={18} className="text-[#000354]" />
       </button>
 
-      {open && (
+      {/* Portal to body so the parent section's stacking context (z-index) can't clip the dialog */}
+      {open && createPortal(
         <div role="dialog" aria-modal="true" aria-label={c.title} className="fixed inset-0 z-[60] flex items-center justify-center p-[20px] bg-[#000354A6]" onClick={() => setOpen(false)}>
-          <div onClick={(event) => event.stopPropagation()} className="box-border w-full max-w-[520px] max-h-full flex flex-col gap-[20px] p-[32px] bg-[#FFFFFF] rounded-[16px]">
+          <div onClick={(event) => event.stopPropagation()} className="box-border w-full max-w-[520px] max-h-full overflow-y-auto flex flex-col gap-[20px] p-[32px] bg-[#FFFFFF] rounded-[16px]">
             <div className="box-border w-full flex flex-row gap-[16px] justify-between items-start">
               <div className="box-border w-full flex flex-col gap-[6px]">
                 <div className={`text-[22px]/[29px] text-[#000000] ${font} font-medium`}>{c.title}</div>
@@ -123,7 +125,8 @@ export function ProfileDownloadDialog() {
               </form>
             )}
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );

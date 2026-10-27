@@ -33,20 +33,20 @@ const copy = {
     certDesc: "Certified for SAP VAR-Delivered Support",
     offerEyebrow: "WHAT WE OFFER",
     offerTitle: "Our service portfolio",
-    offerDesc: "Four core services, one integrated team — from SAP implementation to long-term support and outsourcing.",
+    offerDesc: "Four core services, one integrated team, from SAP implementation to long-term support and outsourcing.",
     discuss: "Discuss this service",
     services: [
       {
         id: "sap-solution",
         title: "SAP Solution",
         description:
-          "ERP implementation is more than just an implementation of software or automation of the current business processes. An ERP system is merely a tool to help you run the business — its implementation should be driven by the business processes, instead of the tool.",
+          "ERP implementation is more than just an implementation of software or automation of the current business processes. An ERP system is merely a tool to help you run the business, so its implementation should be driven by the business processes, instead of the tool.",
       },
       {
         id: "sap-support",
         title: "SAP Support & Outsourcing",
         description:
-          "PST is an authorised Value Added Reseller (VAR) of SAP and was awarded the “Partner Center of Expertise” certification — a title granted for successfully completing the audit process for SAP VAR-Delivered Support.",
+          "PST is an authorised Value Added Reseller (VAR) of SAP and was awarded the “Partner Center of Expertise” certification, a title granted for successfully completing the audit process for SAP VAR-Delivered Support.",
       },
       {
         id: "business-process",
@@ -62,12 +62,12 @@ const copy = {
       },
     ],
     whyEyebrow: "WHY CHOOSE US",
-    whyTitle: "We understand what you need — and what fits you best",
+    whyTitle: "We understand what you need and what fits you best",
     reasons: [
       {
         title: "Full commitment and honest partnership",
         description:
-          "We believe success is achieved through commitment and collaboration. Our team works together with you to solve the problem — we don't just do business, we build long-lasting, sustainable partnerships with our clients.",
+          "We believe success is achieved through commitment and collaboration. Our team works together with you to solve the problem. We don't just do business, we build long-lasting, sustainable partnerships with our clients.",
       },
       {
         title: "Lower TCO and faster ROI",
@@ -77,13 +77,13 @@ const copy = {
       {
         title: "Wide-ranging team and experience",
         description:
-          "Our people come from different backgrounds and industries — automotive, FMCG, machinery and other manufacturing — giving us a wider perspective on our clients' challenges.",
+          "Our people come from different backgrounds and industries, such as automotive, FMCG, machinery and other manufacturing, giving us a wider perspective on our clients' challenges.",
       },
     ],
     riseEyebrow: "RISE WITH SAP",
     riseTitle: "Driving business innovation together",
     riseDesc:
-      "Ready to move to the cloud? PST guides your RISE with SAP journey — from assessing your current landscape to running your new SAP S/4HANA Cloud system.",
+      "Ready to move to the cloud? PST guides your RISE with SAP journey, from assessing your current landscape to running your new SAP S/4HANA Cloud system.",
     riseItems: ["Move to SAP S/4HANA Cloud", "Gain business process insights", "Guided by PST from assessment to go-live"],
     riseCta: "Talk to our team",
     clientsEyebrow: "OUR CLIENTS",
@@ -102,20 +102,20 @@ const copy = {
     certDesc: "Tersertifikasi untuk SAP VAR-Delivered Support",
     offerEyebrow: "YANG KAMI TAWARKAN",
     offerTitle: "Portofolio layanan kami",
-    offerDesc: "Empat layanan inti, satu tim terintegrasi — dari implementasi SAP hingga dukungan jangka panjang dan outsourcing.",
+    offerDesc: "Empat layanan inti, satu tim terintegrasi, dari implementasi SAP hingga dukungan jangka panjang dan outsourcing.",
     discuss: "Diskusikan layanan ini",
     services: [
       {
         id: "sap-solution",
         title: "Solusi SAP",
         description:
-          "Implementasi ERP lebih dari sekadar implementasi perangkat lunak atau otomatisasi proses bisnis yang ada. Sistem ERP hanyalah alat untuk membantu Anda menjalankan bisnis — implementasinya harus digerakkan oleh proses bisnis, bukan oleh alatnya.",
+          "Implementasi ERP lebih dari sekadar implementasi perangkat lunak atau otomatisasi proses bisnis yang ada. Sistem ERP hanyalah alat untuk membantu Anda menjalankan bisnis, sehingga implementasinya harus digerakkan oleh proses bisnis, bukan oleh alatnya.",
       },
       {
         id: "sap-support",
         title: "Dukungan & Outsourcing SAP",
         description:
-          "PST adalah Value Added Reseller (VAR) resmi SAP dan telah meraih sertifikasi “Partner Center of Expertise” — gelar yang diberikan atas keberhasilan menyelesaikan proses audit SAP VAR-Delivered Support.",
+          "PST adalah Value Added Reseller (VAR) resmi SAP dan telah meraih sertifikasi “Partner Center of Expertise”, gelar yang diberikan atas keberhasilan menyelesaikan proses audit SAP VAR-Delivered Support.",
       },
       {
         id: "business-process",
@@ -131,12 +131,12 @@ const copy = {
       },
     ],
     whyEyebrow: "MENGAPA MEMILIH KAMI",
-    whyTitle: "Kami memahami kebutuhan Anda — dan apa yang paling sesuai",
+    whyTitle: "Kami memahami kebutuhan Anda dan apa yang paling sesuai",
     reasons: [
       {
         title: "Komitmen penuh dan kemitraan yang jujur",
         description:
-          "Kami percaya kesuksesan diraih melalui komitmen dan kolaborasi. Tim kami bekerja bersama Anda menyelesaikan masalah — kami tidak sekadar berbisnis, kami membangun kemitraan jangka panjang yang berkelanjutan dengan klien.",
+          "Kami percaya kesuksesan diraih melalui komitmen dan kolaborasi. Tim kami bekerja bersama Anda menyelesaikan masalah. Kami tidak sekadar berbisnis, kami membangun kemitraan jangka panjang yang berkelanjutan dengan klien.",
       },
       {
         title: "TCO lebih rendah, ROI lebih cepat",
@@ -146,13 +146,13 @@ const copy = {
       {
         title: "Tim dan pengalaman yang beragam",
         description:
-          "Tim kami berasal dari beragam latar belakang dan industri — otomotif, FMCG, permesinan, dan manufaktur lainnya — sehingga kami memiliki perspektif yang lebih luas atas tantangan klien.",
+          "Tim kami berasal dari beragam latar belakang dan industri, seperti otomotif, FMCG, permesinan, dan manufaktur lainnya, sehingga kami memiliki perspektif yang lebih luas atas tantangan klien.",
       },
     ],
     riseEyebrow: "RISE WITH SAP",
     riseTitle: "Mendorong inovasi bisnis bersama",
     riseDesc:
-      "Siap beralih ke cloud? PST mendampingi perjalanan RISE with SAP Anda — dari asesmen lanskap saat ini hingga menjalankan sistem SAP S/4HANA Cloud yang baru.",
+      "Siap beralih ke cloud? PST mendampingi perjalanan RISE with SAP Anda, dari asesmen lanskap saat ini hingga menjalankan sistem SAP S/4HANA Cloud yang baru.",
     riseItems: ["Beralih ke SAP S/4HANA Cloud", "Dapatkan wawasan proses bisnis", "Didampingi PST dari asesmen hingga go-live"],
     riseCta: "Bicara dengan tim kami",
     clientsEyebrow: "KLIEN KAMI",

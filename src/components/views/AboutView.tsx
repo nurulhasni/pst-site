@@ -24,7 +24,7 @@ const copy = {
     storyEyebrow: "OUR STORY",
     storyTitle: "Built around your business processes",
     storyP1:
-      "Many IT implementations, especially ERP, fail due to a lack of understanding of the customer's business processes and issues. Each company is unique — we can't just assume that any best practice is suitable and applicable.",
+      "Many IT implementations, especially ERP, fail due to a lack of understanding of the customer's business processes and issues. Each company is unique, so we can't just assume that any best practice is suitable and applicable.",
     storyP2:
       "That's why we help you find the right practices and conform them to your organization's culture and management approach. Our team brings experience from various industries, so we understand more clearly what you want and what the best possible solution is.",
     sectors: ["Automotive", "FMCG", "Machinery", "Manufacturing"],
@@ -33,7 +33,7 @@ const copy = {
     impactEyebrow: "OUR IMPACT",
     impactTitle: "Numbers that speak",
     impactDesc:
-      "Over two decades of delivering measurable results for Indonesian enterprises — from first blueprint to years of run support.",
+      "Over two decades of delivering measurable results for Indonesian enterprises, from first blueprint to years of run support.",
     stats: [
       { num: "25+", label: "Years of experience", desc: "Serving Indonesia since 1999" },
       { num: "15+", label: "Enterprise clients", desc: "Indonesian enterprises" },
@@ -65,7 +65,7 @@ const copy = {
     logoAlt: "PST logo",
     achievementEyebrow: "ACHIEVEMENT",
     achievementTitle: "Our experience",
-    achievementDesc: "Depth built over 25+ years of SAP projects — measured across the practices our clients rely on most.",
+    achievementDesc: "Depth built over 25+ years of SAP projects, measured across the practices our clients rely on most.",
     skills: [
       { label: "SAP ERP Implementation", value: 89 },
       { label: "Business Process Reengineering", value: 94 },
@@ -90,7 +90,7 @@ const copy = {
     storyEyebrow: "KISAH KAMI",
     storyTitle: "Dibangun di sekitar proses bisnis Anda",
     storyP1:
-      "Banyak implementasi TI, terutama ERP, gagal karena kurangnya pemahaman terhadap proses dan permasalahan bisnis pelanggan. Setiap perusahaan itu unik — kita tidak bisa begitu saja menganggap setiap best practice cocok dan dapat diterapkan.",
+      "Banyak implementasi TI, terutama ERP, gagal karena kurangnya pemahaman terhadap proses dan permasalahan bisnis pelanggan. Setiap perusahaan itu unik, sehingga kita tidak bisa begitu saja menganggap setiap best practice cocok dan dapat diterapkan.",
     storyP2:
       "Karena itu kami membantu Anda menemukan praktik yang tepat dan menyesuaikannya dengan budaya serta pendekatan manajemen organisasi Anda. Tim kami membawa pengalaman dari berbagai industri, sehingga kami lebih memahami apa yang Anda inginkan dan solusi terbaik yang memungkinkan.",
     sectors: ["Otomotif", "FMCG", "Permesinan", "Manufaktur"],
@@ -99,7 +99,7 @@ const copy = {
     impactEyebrow: "DAMPAK KAMI",
     impactTitle: "Angka yang berbicara",
     impactDesc:
-      "Lebih dari dua dekade menghadirkan hasil terukur bagi perusahaan Indonesia — dari blueprint pertama hingga dukungan operasional bertahun-tahun.",
+      "Lebih dari dua dekade menghadirkan hasil terukur bagi perusahaan Indonesia, dari blueprint pertama hingga dukungan operasional bertahun-tahun.",
     stats: [
       { num: "25+", label: "Tahun pengalaman", desc: "Melayani Indonesia sejak 1999" },
       { num: "15+", label: "Klien korporasi", desc: "Perusahaan Indonesia" },
@@ -131,7 +131,7 @@ const copy = {
     logoAlt: "Logo PST",
     achievementEyebrow: "PENCAPAIAN",
     achievementTitle: "Pengalaman kami",
-    achievementDesc: "Kedalaman yang dibangun selama 25+ tahun proyek SAP — diukur dari praktik yang paling diandalkan klien kami.",
+    achievementDesc: "Kedalaman yang dibangun selama 25+ tahun proyek SAP, diukur dari praktik yang paling diandalkan klien kami.",
     skills: [
       { label: "Implementasi SAP ERP", value: 89 },
       { label: "Rekayasa Ulang Proses Bisnis", value: 94 },
