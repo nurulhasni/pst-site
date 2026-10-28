@@ -17,10 +17,23 @@ const labelClass = `text-[14px]/[18px] text-[#223548] ${font} font-medium`;
 const helperClass = `absolute left-0 top-[82px] whitespace-nowrap text-[12px]/[15px] text-[#475E75] ${font}`;
 
 // Source values are sent to the server as-is; only the labels are translated.
+// Each source also sets the label and placeholder of the organization field.
 const sources = [
-  { value: "Company", en: "Company", id: "Perusahaan" },
-  { value: "University / Campus", en: "University / Campus", id: "Universitas / Kampus" },
-  { value: "Other", en: "Other", id: "Lainnya" },
+  {
+    value: "Company",
+    en: { label: "Company", field: "Company name *", placeholder: "e.g. PT Maju Jaya Indonesia" },
+    id: { label: "Perusahaan", field: "Nama perusahaan *", placeholder: "contoh: PT Maju Jaya Indonesia" },
+  },
+  {
+    value: "University / Campus",
+    en: { label: "University / Campus", field: "University / Campus name *", placeholder: "e.g. Universitas Indonesia" },
+    id: { label: "Universitas / Kampus", field: "Nama universitas / kampus *", placeholder: "contoh: Universitas Indonesia" },
+  },
+  {
+    value: "Other",
+    en: { label: "Other", field: "Organization name *", placeholder: "e.g. your organization or community" },
+    id: { label: "Lainnya", field: "Nama organisasi *", placeholder: "contoh: organisasi atau komunitas Anda" },
+  },
 ];
 
 const copy = {
@@ -38,8 +51,6 @@ const copy = {
     emailPh: "name@organization.com",
     helper: "We'll only use this to contact you about SAP.",
     from: "I'm from *",
-    company: "Company name *",
-    companyPh: "e.g. PT Maju Jaya Indonesia",
     phone: "Phone / WhatsApp (optional)",
     phonePh: "+62 ...",
     updates: "Send me new articles and updates from PST. You can unsubscribe at any time.",
@@ -66,8 +77,6 @@ const copy = {
     emailPh: "nama@organisasi.com",
     helper: "Kami hanya menggunakan ini untuk menghubungi Anda tentang SAP.",
     from: "Saya dari *",
-    company: "Nama perusahaan *",
-    companyPh: "contoh: PT Maju Jaya Indonesia",
     phone: "Telepon / WhatsApp (opsional)",
     phonePh: "+62 ...",
     updates: "Kirimi saya artikel dan pembaruan baru dari PST. Anda dapat berhenti berlangganan kapan saja.",
@@ -95,6 +104,8 @@ export function GatedArticle({ title, blocks, locked }: GatedArticleProps) {
   const [state, action, pending] = useActionState(unlockArticle, initialState);
   const [formOpen, setFormOpen] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const [from, setFrom] = useState(sources[0].value);
+  const fromCopy = (sources.find((source) => source.value === from) ?? sources[0])[lang];
 
   const showSuccess = state.status === "success" && !dismissed;
   const showForm = formOpen && !showSuccess;
@@ -158,7 +169,7 @@ export function GatedArticle({ title, blocks, locked }: GatedArticleProps) {
               action={action}
               onSubmit={() => setDismissed(false)}
               onClick={(event) => event.stopPropagation()}
-              className="box-border w-full max-w-[560px] h-[702px] max-h-full flex flex-col gap-[20px] p-[32px] bg-[#FFFFFF] rounded-[16px]"
+              className="box-border w-full max-w-[560px] h-fit max-h-full overflow-y-auto flex flex-col [&>*]:shrink-0 gap-[20px] p-[32px] bg-[#FFFFFF] rounded-[16px]"
             >
               <div className="box-border w-full h-[48px] flex flex-row justify-between items-center">
                 <div className="box-border w-[300px] max-w-full h-[48px] flex flex-row gap-[12px] items-center">
@@ -194,18 +205,25 @@ export function GatedArticle({ title, blocks, locked }: GatedArticleProps) {
               <fieldset className="relative box-border w-full h-[74px] flex flex-col gap-[8px]">
                 <legend className={labelClass}>{c.from}</legend>
                 <div className="box-border w-full h-[48px] p-[4px] flex flex-row gap-[4px] bg-[#EAECEE] rounded-[8px]">
-                  {sources.map((source, index) => (
+                  {sources.map((source) => (
                     <label key={source.value} className="box-border [flex:1_1_0] h-[40px] flex items-center justify-center rounded-[6px] cursor-pointer has-[:checked]:bg-[#FFFFFF] has-[:checked]:text-[#000354] text-[#475E75]">
-                      <input type="radio" name="from" value={source.value} defaultChecked={index === 0} className="sr-only" />
-                      <span className={`text-[14px]/[18px] ${font} font-medium`}>{lang === "id" ? source.id : source.en}</span>
+                      <input
+                        type="radio"
+                        name="from"
+                        value={source.value}
+                        checked={from === source.value}
+                        onChange={() => setFrom(source.value)}
+                        className="sr-only"
+                      />
+                      <span className={`text-[14px]/[18px] ${font} font-medium`}>{source[lang].label}</span>
                     </label>
                   ))}
                 </div>
               </fieldset>
 
               <label className="relative box-border w-full h-[74px] flex flex-col gap-[8px]">
-                <span className={labelClass}>{c.company}</span>
-                <input name="company" placeholder={c.companyPh} className={inputClass} />
+                <span className={labelClass}>{fromCopy.field}</span>
+                <input name="company" placeholder={fromCopy.placeholder} className={inputClass} />
                 <span className={helperClass}>{c.helper}</span>
               </label>
 
