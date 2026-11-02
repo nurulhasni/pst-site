@@ -75,6 +75,24 @@ export function AdminField({
   );
 }
 
+export function AdminLoading() {
+  return (
+    <div className="box-border w-full h-fit shrink-0 flex flex-col gap-[16px] p-[32px] max-lg:p-[20px]" aria-busy="true" aria-label="Loading">
+      <div className="box-border w-[280px] max-w-full h-[40px] bg-[#EAECEE] rounded-[999px] animate-pulse" />
+      <div className="box-border w-full h-[240px] bg-[#FFFFFF] [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[12px] animate-pulse" />
+    </div>
+  );
+}
+
+export function AdminNotice({ tone = "error", children }: { tone?: "error" | "info"; children: ReactNode }) {
+  const colors = tone === "error" ? "bg-[#FFEAF4] text-[#AA0808]" : "bg-[#EAF3F5] text-[#000354]";
+  return (
+    <div role={tone === "error" ? "alert" : "status"} className={`box-border w-full h-fit shrink-0 p-[12px_16px] rounded-[8px] text-[14px]/[20px] ${colors} ${font} font-normal text-left`}>
+      {children}
+    </div>
+  );
+}
+
 export function AdminToggle({ checked, onChange, label }: { checked: boolean; onChange: (next: boolean) => void; label: string }) {
   return (
     <button

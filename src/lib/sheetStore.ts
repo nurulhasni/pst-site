@@ -204,9 +204,11 @@ function findIndex(table: Table, id: string): number {
   return table.rows.findIndex((row) => (row[idColumn] ?? "").trim() === id);
 }
 
-export async function listRecords(tab: string): Promise<SheetRecord[]> {
+// Returns null when the tab doesn't exist yet, so callers can tell
+// "never set up" apart from "every row was deleted".
+export async function listRecords(tab: string): Promise<SheetRecord[] | null> {
   const table = await backend().read(tab);
-  if (!table) return [];
+  if (!table) return null;
   return table.rows
     .map((row, index) => ({ row, index }))
     .filter(({ row }) => row.some((cell) => cell?.trim()))
