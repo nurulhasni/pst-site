@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useState, useTransition, type FormEvent } from "react";
 import { BriefcaseBusiness, Code, Eye, Pencil, Server, Trash2, type LucideIcon } from "lucide-react";
 import { AdminField, AdminNotice, AdminToggle } from "@/components/admin/AdminUi";
-import { deleteFaq, deletePosition, importCareers, saveFaq, type FormState } from "@/app/admin/careers/actions";
+import { deleteFaq, deletePosition, importCareers, saveFaq } from "@/app/admin/careers/actions";
+import type { FormState } from "@/lib/adminForms";
 import { isListed, jakartaToday, type CareerFaq, type CareerPosition } from "@/lib/careerModel";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif] ";

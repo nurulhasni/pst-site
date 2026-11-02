@@ -84,35 +84,6 @@ async function readTab(tab: string): Promise<Record<string, string>[] | null> {
   );
 }
 
-export type Client = { name: string; logo: string };
-
-const fallbackClients: Client[][] = [
-  [
-    "utpe",
-    "komatsu-undercarriage",
-    "reman",
-    "dharma-polimetal",
-    "triatra",
-    "pml",
-    "pmp",
-    "kcic",
-    "ithaca",
-  ],
-  [
-    "nusacipta",
-    "jalin",
-    "wipro",
-    "edugate",
-    "nabati",
-    "canopus",
-    "bsm",
-    "lg",
-    "monogram",
-  ],
-].map((row) =>
-  row.map((slug) => ({ name: slug, logo: `/images/pst/clients/${slug}.png` })),
-);
-
 export type Service = {
   title: string;
   description: string;
@@ -223,21 +194,6 @@ const fallbackCustomerStories: CustomerStories = {
     },
   ],
 };
-
-export async function getClientRows(): Promise<Client[][]> {
-  "use cache";
-  cacheLife("minutes");
-  cacheTag(sheetTag("Clients"));
-
-  const rows = await readTab("Clients");
-  if (!rows) return fallbackClients;
-
-  const clients = rows
-    .filter((r) => r.logo)
-    .map((r) => ({ name: r.name, logo: r.logo }));
-  const half = Math.ceil(clients.length / 2);
-  return [clients.slice(0, half), clients.slice(half)].filter((r) => r.length);
-}
 
 export async function getInsights(): Promise<Insight[]> {
   "use cache";

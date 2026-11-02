@@ -87,7 +87,8 @@ export function AdminLoading() {
 export function AdminNotice({ tone = "error", children }: { tone?: "error" | "info"; children: ReactNode }) {
   const colors = tone === "error" ? "bg-[#FFEAF4] text-[#AA0808]" : "bg-[#EAF3F5] text-[#000354]";
   return (
-    <div role={tone === "error" ? "alert" : "status"} className={`box-border w-full h-fit shrink-0 p-[12px_16px] rounded-[8px] text-[14px]/[20px] ${colors} ${font} font-normal text-left`}>
+    // Forms put the notice at the top while Save sits at the bottom, so bring it into view
+    <div ref={(el) => el?.scrollIntoView({ block: "nearest", behavior: "smooth" })} role={tone === "error" ? "alert" : "status"} className={`box-border w-full h-fit shrink-0 p-[12px_16px] rounded-[8px] text-[14px]/[20px] ${colors} ${font} font-normal text-left`}>
       {children}
     </div>
   );

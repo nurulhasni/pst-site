@@ -15,29 +15,16 @@ import {
   positionValues,
   positionsTab,
 } from "@/lib/careerModel";
+import { datePattern, emailPattern, failure, order, text, type FormState } from "@/lib/adminForms";
 import { createRecord, deleteRecord, listRecords, updateRecord } from "@/lib/sheetStore";
 import { sheetTag } from "@/lib/sheets";
 
-export type FormState = { message: string; ok?: boolean };
-
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const datePattern = /^\d{4}-\d{2}-\d{2}$/;
-
-const text = (formData: FormData, name: string) => String(formData.get(name) ?? "").trim();
 // List items are stored one per line, so a line break inside an item would split it in two
 const items = (formData: FormData, name: string) =>
   formData
     .getAll(name)
     .map((value) => String(value).replace(/\s*\r?\n\s*/g, " ").trim())
     .filter(Boolean);
-const order = (formData: FormData) => {
-  const n = Number.parseFloat(text(formData, "order"));
-  return Number.isFinite(n) ? n : 999;
-};
-
-function failure(error: unknown): FormState {
-  return { message: error instanceof Error ? error.message : "Could not save. Please try again." };
-}
 
 export async function savePosition(_prev: FormState, formData: FormData): Promise<FormState> {
   await requireAdmin();

@@ -4,7 +4,8 @@ import Link from "next/link";
 import { startTransition, useActionState, useState, type FormEvent } from "react";
 import { ChevronDown, Plus, Trash2, X } from "lucide-react";
 import { AdminCard, AdminField, AdminNotice, AdminToggle } from "@/components/admin/AdminUi";
-import { deletePosition, savePosition, type FormState } from "@/app/admin/careers/actions";
+import { deletePosition, savePosition } from "@/app/admin/careers/actions";
+import type { FormState } from "@/lib/adminForms";
 import { defaultApplyEmail, employmentTypes, positionCategories, type CareerPosition } from "@/lib/careerModel";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif]";

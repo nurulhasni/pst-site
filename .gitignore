@@ -43,3 +43,6 @@ next-env.d.ts
 
 # local Sheet stand-in used when Google is not configured
 /.data/
+
+# images uploaded from the admin (served by app/uploads)
+/uploads/

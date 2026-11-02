@@ -1,16 +1,33 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
+import { notFound } from "next/navigation";
 import { AdminShell } from "@/components/admin/AdminShell";
+import { AdminLoading } from "@/components/admin/AdminUi";
 import { EditClientView } from "@/components/admin/EditClientView";
+import { requireAdmin } from "@/lib/adminSession";
+import { getClient } from "@/lib/clients";
 
 export const metadata: Metadata = {
   title: "Edit Client — Content Admin",
   robots: { index: false, follow: false },
 };
 
-export default function AdminEditClientPage() {
+async function ClientForm({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
+  await requireAdmin();
+  const { id } = await searchParams;
+  if (!id) return <EditClientView />;
+
+  const client = await getClient(id);
+  if (!client) notFound();
+  return <EditClientView client={client} />;
+}
+
+export default function AdminEditClientPage({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
   return (
     <AdminShell activeKey="clients" breadcrumb="Content / Clients / Edit" title="Edit Client">
-      <EditClientView />
+      <Suspense fallback={<AdminLoading />}>
+        <ClientForm searchParams={searchParams} />
+      </Suspense>
     </AdminShell>
   );
 }

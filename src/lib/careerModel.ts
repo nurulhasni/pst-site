@@ -1,4 +1,5 @@
 import type { SheetRecord } from "@/lib/sheetStore";
+export { jakartaToday } from "@/lib/dates";
 
 // Career data shapes and conversions shared by the admin forms (browser) and
 // the server code in careers.ts. Nothing here may touch the server.
@@ -146,11 +147,6 @@ export function faqValues(f: Omit<CareerFaq, "id">): Record<string, string> {
 }
 
 export const byOrder = <T extends { order: number }>(a: T, b: T) => a.order - b.order;
-
-// Today in Jakarta as YYYY-MM-DD, to compare with closing dates typed in the Sheet
-export function jakartaToday(): string {
-  return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Jakarta" });
-}
 
 export function isListed(p: CareerPosition, today: string): boolean {
   return p.open && Boolean(p.title) && (!p.closingDate || p.closingDate >= today);
