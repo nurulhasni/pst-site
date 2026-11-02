@@ -2,43 +2,39 @@
 
 import { FeaturedStory } from "@/components/sections/FeaturedStory";
 import { StoryItem } from "@/components/sections/StoryItem";
-import { useLanguage } from "@/components/LanguageProvider";
-import { localize } from "@/lib/sheetI18n";
-import type { CustomerStories } from "@/lib/sheets";
+import type { PublicStory } from "@/lib/storyModel";
 
 type StoryStackProps = {
-  featured: CustomerStories["featured"];
-  stories: CustomerStories["stories"];
+  // Already in the visitor's language
+  featured: PublicStory;
+  stories: PublicStory[];
   openKey: string | null;
   onToggle: (key: string) => void;
 };
 
 export function StoryStack({ featured, stories, openKey, onToggle }: StoryStackProps) {
-  const { lang } = useLanguage();
-  const l = (text: string) => localize(text, lang);
-
   return (
     <>
       <FeaturedStory
-        title={l(featured.title)}
-        body={l(featured.body)}
-        quote={l(featured.quote)}
-        quoteAuthor={l(featured.quoteAuthor)}
+        title={featured.title}
+        body={featured.body}
+        quote={featured.quote}
+        quoteAuthor={featured.quoteAuthor}
         url={featured.url}
-        open={openKey === "featured"}
-        onToggle={() => onToggle("featured")}
+        open={openKey === featured.key}
+        onToggle={() => onToggle(featured.key)}
       />
       {stories.map((story) => (
         <StoryItem
-          key={story.title}
-          title={l(story.title)}
-          meta={l(story.meta)}
+          key={story.key}
+          title={story.title}
+          meta={story.meta}
           url={story.url}
-          body={story.body ? l(story.body) : undefined}
-          quote={story.quote ? l(story.quote) : undefined}
-          quoteAuthor={story.quoteAuthor ? l(story.quoteAuthor) : undefined}
-          open={openKey === story.title}
-          onToggle={() => onToggle(story.title)}
+          body={story.body || undefined}
+          quote={story.quote || undefined}
+          quoteAuthor={story.quoteAuthor || undefined}
+          open={openKey === story.key}
+          onToggle={() => onToggle(story.key)}
         />
       ))}
     </>

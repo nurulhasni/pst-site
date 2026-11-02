@@ -130,71 +130,6 @@ const fallbackImpactStats: ImpactStat[] = [
   { value: "300+", label: "Projects delivered", note: "Implementations & rollouts" },
 ];
 
-export type CustomerStory = {
-  title: string;
-  meta: string;
-  url: string;
-  body?: string;
-  quote?: string;
-  quoteAuthor?: string;
-  company?: string;
-  companyMeta?: string;
-  image: string;
-};
-
-export type FeaturedStory = {
-  title: string;
-  body: string;
-  quote: string;
-  quoteAuthor: string;
-  company: string;
-  companyMeta: string;
-  url: string;
-  image: string;
-};
-
-const fallbackStoryImages = [
-  "https://images.unsplash.com/photo-1653290523116-662a6e8c4b88?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-  "https://images.unsplash.com/photo-1751953813464-06a989a71c3a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-  "https://images.unsplash.com/photo-1746014601017-4e515ef51722?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-];
-
-export type CustomerStories = {
-  featured: FeaturedStory;
-  stories: CustomerStory[];
-};
-
-const fallbackCustomerStories: CustomerStories = {
-  featured: {
-    title: "Transforming a manufacturer's supply chain with SAP S/4HANA",
-    body: "A manufacturing company partnered with PST to move its entire supply chain onto SAP S/4HANA. Deep SAP expertise and a shared commitment to the outcome carried the team through every stage of its digital transformation.",
-    quote:
-      "“Their team's deep expertise and commitment to our success made all the difference.”",
-    quoteAuthor: "Andi Wijaya · CIO, Manufacturing Corp",
-    company: "Manufacturing Corp",
-    companyMeta: "SAP S/4HANA · Supply chain",
-    url: "#",
-    image: fallbackStoryImages[0],
-  },
-  stories: [
-    {
-      title: "Turning an implementation into a strategic partnership",
-      meta: "Retail · Finance transformation",
-      url: "#",
-      body: "[Placeholder] Narrative text for this story goes here.",
-      quote: "“[Placeholder] Quote from the client goes here.”",
-      quoteAuthor: "[Placeholder] Name · Role, Company",
-      image: fallbackStoryImages[1],
-    },
-    {
-      title: "Keeping energy operations running smoothly for years",
-      meta: "Energy · Support & maintenance",
-      url: "#",
-      image: fallbackStoryImages[2],
-    },
-  ],
-};
-
 export async function getInsights(): Promise<Insight[]> {
   "use cache";
   cacheLife("minutes");
@@ -246,42 +181,6 @@ export async function getImpactStats(): Promise<ImpactStat[]> {
     .filter((r) => r.value)
     .map((r) => ({ value: r.value, label: r.label, note: r.note }));
   return stats.length ? stats : fallbackImpactStats;
-}
-
-export async function getCustomerStories(): Promise<CustomerStories> {
-  "use cache";
-  cacheLife("minutes");
-  cacheTag(sheetTag("Customer Stories"));
-
-  const rows = await readTab("Customer Stories");
-  if (!rows) return fallbackCustomerStories;
-
-  const [first, ...rest] = rows.filter((r) => r.title);
-  if (!first) return fallbackCustomerStories;
-
-  return {
-    featured: {
-      title: first.title,
-      body: first.body,
-      quote: first.quote,
-      quoteAuthor: first.quote_author,
-      company: first.company,
-      companyMeta: first.company_meta,
-      url: first.url || "#",
-      image: first.image || fallbackStoryImages[0],
-    },
-    stories: rest.map((r, i) => ({
-      title: r.title,
-      meta: r.meta,
-      url: r.url || "#",
-      body: r.body || undefined,
-      quote: r.quote || undefined,
-      quoteAuthor: r.quote_author || undefined,
-      company: r.company || undefined,
-      companyMeta: r.company_meta || undefined,
-      image: r.image || fallbackStoryImages[(i + 1) % fallbackStoryImages.length],
-    })),
-  };
 }
 
 let cachedToken: { value: string; expires: number } | null = null;

@@ -4,31 +4,28 @@ import { useState } from "react";
 import { Icon } from "@/components/Icon";
 import { StoryStack } from "@/components/sections/StoryStack";
 import { useLanguage } from "@/components/LanguageProvider";
-import { localize } from "@/lib/sheetI18n";
-import type { CustomerStories as CustomerStoriesData } from "@/lib/sheets";
+import { localStory, type CustomerStories as CustomerStoriesData } from "@/lib/storyModel";
 
-export function CustomerStoriesView({ featured, stories }: CustomerStoriesData) {
+export function CustomerStoriesView(props: CustomerStoriesData) {
   const { t, lang } = useLanguage();
-  const [openKey, setOpenKey] = useState<string | null>("featured");
+  const featured = localStory(props.featured, lang);
+  const stories = props.stories.map((story) => localStory(story, lang));
+  const [openKey, setOpenKey] = useState<string | null>(featured.key);
   // The image keeps showing the last opened story when every item is collapsed
-  const [activeKey, setActiveKey] = useState("featured");
+  const [activeKey, setActiveKey] = useState(featured.key);
 
   // Only expandable stories (featured + ones with a body) get a slide
-  const slides = [
-    { key: "featured", image: featured.image, icon: "factory-ebdede", company: featured.company, companyMeta: localize(featured.companyMeta, lang) },
-    ...stories
-      .filter((story) => story.body)
-      .map((story) => {
-        const [industry, focus] = localize(story.meta, lang).split(" · ");
-        return {
-          key: story.title,
-          image: story.image,
-          icon: "briefcase-09c5d9",
-          company: story.company || industry,
-          companyMeta: story.companyMeta ? localize(story.companyMeta, lang) : focus ?? "",
-        };
-      }),
-  ];
+  const slides = [featured, ...stories.filter((story) => story.body)].map((story, index) => {
+    const [industry, focus] = story.meta.split(" · ");
+    return {
+      key: story.key,
+      image: story.image,
+      icon: index === 0 ? "factory-ebdede" : "briefcase-09c5d9",
+      logo: story.logo,
+      company: story.company || industry,
+      companyMeta: story.company ? story.companyMeta : (focus ?? ""),
+    };
+  });
   const active = slides.find((slide) => slide.key === activeKey) ?? slides[0];
 
   function toggle(key: string) {
@@ -38,7 +35,7 @@ export function CustomerStoriesView({ featured, stories }: CustomerStoriesData) 
   }
 
   return (
-    <div className="box-border w-full h-fit shrink-0 flex flex-col gap-[56px] p-[120px_96px] justify-start items-start bg-[#000354] relative [z-index:8] max-lg:p-[60px_20px_60px_20px] max-lg:gap-[32px]">
+    <div id="customer-stories" className="scroll-mt-[80px] box-border w-full h-fit shrink-0 flex flex-col gap-[56px] p-[120px_96px] justify-start items-start bg-[#000354] relative [z-index:8] max-lg:p-[60px_20px_60px_20px] max-lg:gap-[32px]">
       <div className="box-border w-full h-fit shrink-0 flex flex-row gap-[48px] justify-start items-end max-lg:flex-col max-lg:items-stretch max-lg:gap-[32px]">
         <div className="box-border [flex:1_1_0] h-fit flex flex-col gap-[16px] justify-start items-start min-w-0">
           <div className="box-border w-fit h-fit shrink-0 flex flex-row gap-0 justify-start items-start">
@@ -68,12 +65,18 @@ export function CustomerStoriesView({ featured, stories }: CustomerStoriesData) 
           ))}
           <div className="box-border w-[664px] h-[560px] absolute left-0 top-0 flex flex-row gap-0 justify-start items-start [background-image:linear-gradient(180deg,_#00035400_50%,_#00035499_100%)] bg-no-repeat bg-[length:100%_100%] [z-index:1] max-lg:w-full max-lg:h-full"></div>
           <div className="box-border w-[300px] h-fit [box-shadow:0px_10px_30px_#00035433] absolute left-[32px] top-[424px] flex flex-row gap-[14px] p-[18px_20px] justify-start items-center bg-[#FFFFFF] rounded-[12px] [z-index:2] max-lg:w-auto max-lg:left-[16px] max-lg:right-[16px] max-lg:top-auto max-lg:bottom-[16px]">
-            <div className="box-border w-[48px] shrink-0 h-[48px] flex flex-row gap-0 justify-center items-center bg-[#EAF3F5] rounded-[8px]">
-              <Icon
-                id={active.icon}
-                className="box-border w-[24px] shrink-0 h-[24px]"
-              />
-            </div>
+            {active.logo ? (
+              <div className="box-border w-[48px] shrink-0 h-[48px] p-[6px] bg-[#FFFFFF] [outline:1px_solid_#EAECEE] [outline-offset:-0.5px] rounded-[8px]">
+                <div role="img" aria-label={active.company} className="box-border w-full h-full bg-no-repeat bg-contain bg-center" style={{ backgroundImage: `url('${active.logo}')` }} />
+              </div>
+            ) : (
+              <div className="box-border w-[48px] shrink-0 h-[48px] flex flex-row gap-0 justify-center items-center bg-[#EAF3F5] rounded-[8px]">
+                <Icon
+                  id={active.icon}
+                  className="box-border w-[24px] shrink-0 h-[24px]"
+                />
+              </div>
+            )}
             <div className="box-border w-fit shrink-0 h-fit flex flex-col gap-[2px] justify-start items-start">
               <div className="text-[17px]/[22px] box-border text-[#000354] font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif] font-medium text-left [white-space:nowrap]">
                 {active.company}
