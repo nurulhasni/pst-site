@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { logout } from "@/app/admin/actions";
 import {
   Briefcase,
   Building2,
@@ -70,7 +71,7 @@ export function AdminSidebar({ activeKey }: { activeKey: string }) {
         </div>
       </div>
 
-      <nav className="box-border w-full [flex:1_1_0] flex flex-col gap-[4px] p-[20px_12px] justify-start items-start">
+      <nav className="box-border w-full [flex:1_1_0] min-h-0 overflow-y-auto flex flex-col gap-[4px] p-[20px_12px] justify-start items-start">
         <div className={`text-[11px]/[14px] box-border text-[#FFFFFF66] ${font} font-medium tracking-[1.2px] text-left [white-space:nowrap]`}>CONTENT</div>
         {contentItems.map((item) => (
           <NavRow key={item.key} item={item} active={item.key === activeKey} />
@@ -95,9 +96,11 @@ export function AdminSidebar({ activeKey }: { activeKey: string }) {
           <div className={`text-[14px]/[18px] box-border text-[#FFFFFF] ${font} font-medium text-left [white-space:nowrap]`}>Admin User</div>
           <div className={`text-[12px]/[16px] box-border text-[#FFFFFF99] ${font} font-normal text-left [white-space:nowrap]`}>admin@pst.co.id</div>
         </div>
-        <button type="button" aria-label="Log out" className="box-border w-[18px] shrink-0 h-[18px] flex items-center justify-center cursor-pointer text-[#FFFFFFA6] hover:text-[#FFFFFF] transition-colors">
-          <LogOut size={18} />
-        </button>
+        <form action={logout} className="box-border w-[18px] shrink-0 h-[18px] flex">
+          <button type="submit" aria-label="Log out" className="box-border w-[18px] shrink-0 h-[18px] flex items-center justify-center cursor-pointer text-[#FFFFFFA6] hover:text-[#FFFFFF] transition-colors">
+            <LogOut size={18} />
+          </button>
+        </form>
       </div>
     </aside>
   );

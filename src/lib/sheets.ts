@@ -1,5 +1,5 @@
 import { createSign } from "node:crypto";
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 
 export type Insight = {
   category: string;
@@ -39,14 +39,39 @@ const fallbackInsights: Insight[] = [
   },
 ];
 
+export function serviceAccountReady(): boolean {
+  return Boolean(
+    process.env.GOOGLE_SHEET_ID &&
+      process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL &&
+      process.env.GOOGLE_PRIVATE_KEY,
+  );
+}
+
+// Cache tag for everything read from one tab; admin saves call updateTag with it.
+export function sheetTag(tab: string): string {
+  return `sheet:${tab}`;
+}
+
 async function readTab(tab: string): Promise<Record<string, string>[] | null> {
   const id = process.env.GOOGLE_SHEET_ID;
   const key = process.env.GOOGLE_API_KEY;
-  if (!id || !key) return null;
+  if (!id) return null;
 
-  const res = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/${id}/values/${encodeURIComponent(tab)}?key=${key}`,
-  );
+  // The service account lets the sheet stay private. The API key only works
+  // when the sheet is shared publicly, so it is kept as a fallback for older setups.
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${id}/values/${encodeURIComponent(tab)}`;
+  let res: Response;
+  try {
+    if (serviceAccountReady()) {
+      res = await fetch(url, { headers: { Authorization: `Bearer ${await getAccessToken()}` } });
+    } else if (key) {
+      res = await fetch(`${url}?key=${key}`);
+    } else {
+      return null;
+    }
+  } catch {
+    return null;
+  }
   if (!res.ok) return null;
 
   const { values } = (await res.json()) as { values?: string[][] };
@@ -202,6 +227,7 @@ const fallbackCustomerStories: CustomerStories = {
 export async function getClientRows(): Promise<Client[][]> {
   "use cache";
   cacheLife("minutes");
+  cacheTag(sheetTag("Clients"));
 
   const rows = await readTab("Clients");
   if (!rows) return fallbackClients;
@@ -216,6 +242,7 @@ export async function getClientRows(): Promise<Client[][]> {
 export async function getInsights(): Promise<Insight[]> {
   "use cache";
   cacheLife("minutes");
+  cacheTag(sheetTag("Insights"));
 
   const rows = await readTab("Insights");
   if (!rows) return fallbackInsights;
@@ -235,6 +262,7 @@ export async function getInsights(): Promise<Insight[]> {
 export async function getServices(): Promise<Service[]> {
   "use cache";
   cacheLife("minutes");
+  cacheTag(sheetTag("Services"));
 
   const rows = await readTab("Services");
   if (!rows) return fallbackServices;
@@ -253,6 +281,7 @@ export async function getServices(): Promise<Service[]> {
 export async function getImpactStats(): Promise<ImpactStat[]> {
   "use cache";
   cacheLife("minutes");
+  cacheTag(sheetTag("Impact Stats"));
 
   const rows = await readTab("Impact Stats");
   if (!rows) return fallbackImpactStats;
@@ -266,6 +295,7 @@ export async function getImpactStats(): Promise<ImpactStat[]> {
 export async function getCustomerStories(): Promise<CustomerStories> {
   "use cache";
   cacheLife("minutes");
+  cacheTag(sheetTag("Customer Stories"));
 
   const rows = await readTab("Customer Stories");
   if (!rows) return fallbackCustomerStories;
@@ -298,7 +328,12 @@ export async function getCustomerStories(): Promise<CustomerStories> {
   };
 }
 
-async function getAccessToken(): Promise<string> {
+let cachedToken: { value: string; expires: number } | null = null;
+
+export async function getAccessToken(): Promise<string> {
+  // Google tokens last an hour; reuse one until shortly before it expires
+  if (cachedToken && cachedToken.expires > Date.now() + 60_000) return cachedToken.value;
+
   const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
   const key = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n");
   if (!email || !key) {
@@ -327,7 +362,8 @@ async function getAccessToken(): Promise<string> {
   });
   if (!res.ok) throw new Error("Could not authenticate with Google");
 
-  const { access_token } = (await res.json()) as { access_token: string };
+  const { access_token, expires_in } = (await res.json()) as { access_token: string; expires_in: number };
+  cachedToken = { value: access_token, expires: Date.now() + expires_in * 1000 };
   return access_token;
 }
 

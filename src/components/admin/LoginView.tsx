@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type FormEvent } from "react";
-import { ArrowLeft, BadgeCheck, Check, Eye, EyeOff, Lock, Mail, ShieldCheck } from "lucide-react";
+import { useActionState, useState } from "react";
+import { ArrowLeft, BadgeCheck, Check, CircleAlert, Eye, EyeOff, Lock, Mail, ShieldCheck } from "lucide-react";
+import { login, type LoginState } from "@/app/admin/actions";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif]";
 
@@ -13,10 +14,7 @@ const labelClass = `text-[14px]/[18px] box-border text-[#223548] ${font} font-me
 export function LoginView() {
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(true);
-
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-  }
+  const [state, action, pending] = useActionState<LoginState, FormData>(login, { message: "", email: "" });
 
   return (
     <div className="box-border w-full min-h-screen flex flex-row gap-0 justify-start items-start bg-[#FFFFFF] overflow-hidden max-lg:flex-col">
@@ -45,7 +43,7 @@ export function LoginView() {
       </div>
 
       <div className="box-border [flex:1_1_0] min-h-screen flex flex-row gap-0 justify-center items-center py-[48px] max-lg:py-[40px] max-lg:px-[20px]">
-        <form onSubmit={handleSubmit} className="box-border w-[400px] max-w-full shrink-0 h-fit flex flex-col gap-[24px] justify-start items-start">
+        <form action={action} className="box-border w-[400px] max-w-full shrink-0 h-fit flex flex-col gap-[24px] justify-start items-start">
           <div className="box-border w-full h-fit shrink-0 flex flex-col gap-[8px] justify-start items-start">
             <div className={`text-[36px]/[47px] box-border text-[#000000] ${font} font-medium text-left [white-space:nowrap]`}>Welcome back</div>
             <div className={`text-[16px]/[21px] box-border text-[#354A5F] ${font} font-normal text-left [white-space:nowrap]`}>
@@ -60,6 +58,8 @@ export function LoginView() {
               <input
                 type="email"
                 name="email"
+                required
+                defaultValue={state.email}
                 autoComplete="email"
                 placeholder="admin@pst.co.id"
                 className={inputClass}
@@ -74,6 +74,7 @@ export function LoginView() {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
+                required
                 autoComplete="current-password"
                 placeholder="••••••••••"
                 className={inputClass}
@@ -105,6 +106,7 @@ export function LoginView() {
               </span>
               <span className={`text-[14px]/[18px] box-border text-[#223548] ${font} font-normal text-left [white-space:nowrap]`}>Remember me</span>
             </button>
+            {remember && <input type="hidden" name="remember" value="on" />}
             <button
               type="button"
               className={`text-[14px]/[18px] box-border text-[#2F6E80] hover:text-[#000354] transition-colors ${font} font-medium text-left [white-space:nowrap] cursor-pointer`}
@@ -113,11 +115,19 @@ export function LoginView() {
             </button>
           </div>
 
+          {state.message && (
+            <div role="alert" className="box-border w-full h-fit shrink-0 flex flex-row gap-[10px] p-[12px_16px] justify-start items-start bg-[#FFEAF4] rounded-[8px]">
+              <CircleAlert size={18} className="text-[#D20A0A] shrink-0" />
+              <div className={`text-[14px]/[20px] box-border [flex:1_1_0] text-[#AA0808] ${font} font-normal text-left`}>{state.message}</div>
+            </div>
+          )}
+
           <button
             type="submit"
-            className={`box-border w-full h-[48px] shrink-0 flex flex-row gap-[8px] p-[0px_24px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium cursor-pointer transition-colors`}
+            disabled={pending}
+            className={`box-border w-full h-[48px] shrink-0 flex flex-row gap-[8px] p-[0px_24px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] disabled:opacity-60 disabled:cursor-wait rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium cursor-pointer transition-colors`}
           >
-            Sign in
+            {pending ? "Signing in…" : "Sign in"}
           </button>
 
           <div className="box-border w-full h-fit shrink-0 flex flex-row gap-[10px] p-[14px_16px] justify-start items-start bg-[#F5F6F7] rounded-[8px]">
