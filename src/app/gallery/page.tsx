@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { GalleryView } from "@/components/views/GalleryView";
+import { getPublicPhotos } from "@/lib/gallery";
 
 export const metadata: Metadata = {
   title: "Gallery — PT Prima Sistem Terpadu",
@@ -7,6 +8,6 @@ export const metadata: Metadata = {
     "Workshops, projects and time together: the team behind every PST engagement.",
 };
 
-export default function GalleryPage() {
-  return <GalleryView />;
+export default async function GalleryPage() {
+  return <GalleryView photos={await getPublicPhotos()} />;
 }

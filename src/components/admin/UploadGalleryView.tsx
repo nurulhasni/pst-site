@@ -1,148 +1,190 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type KeyboardEvent } from "react";
-import { Check, ChevronDown, CloudUpload, Trash2, X } from "lucide-react";
-import { AdminCard, AdminToggle } from "@/components/admin/AdminUi";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState, type DragEvent, type FormEvent } from "react";
+import { ChevronDown, CloudUpload, Trash2, X } from "lucide-react";
+import { AdminCard, AdminField, AdminNotice, AdminToggle } from "@/components/admin/AdminUi";
+import { uploadPhoto } from "@/app/admin/gallery/actions";
+import { MAX_PHOTO_MB, galleryCategories } from "@/lib/galleryModel";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif]";
 
 const fieldBox = "box-border w-full h-[48px] shrink-0 flex flex-row gap-0 p-[0px_16px] justify-start items-center bg-[#FFFFFF] [outline:1px_solid_#475E75] [outline-offset:-0.5px] rounded-[8px] focus-within:[outline:2px_solid_#2F6E80] focus-within:[outline-offset:-1px]";
 const controlClass = `box-border w-full min-w-0 bg-transparent text-[16px]/[20px] text-[#223548] ${font} font-normal outline-none placeholder:text-[#8396A8]`;
 const labelClass = `text-[14px]/[18px] box-border text-[#223548] ${font} font-medium text-left [white-space:nowrap]`;
+const accepted = ["image/png", "image/jpeg", "image/webp", "image/gif"];
 
-const categories = ["Events", "Projects", "Team", "Office"];
+type Status = "waiting" | "uploading" | "done" | "failed";
+type Item = { key: string; file: File; preview: string; status: Status; error?: string };
 
-type Upload = { name: string; size: string; photo: string; progress: number };
+const megabytes = (bytes: number) => `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 
-const initialUploads: Upload[] = [
-  { name: "workshop-day-1.png", size: "1.2 MB", photo: "Gallery-4.png", progress: 100 },
-  { name: "workshop-day-2.png", size: "1.1 MB", photo: "Gallery-5.png", progress: 100 },
-  { name: "kickoff-meeting.png", size: "1.0 MB", photo: "Gallery-8.png", progress: 64 },
-];
-
-export function UploadGalleryView() {
-  const [uploads, setUploads] = useState(initialUploads);
-  const [tags, setTags] = useState(["Workshop", "SAP"]);
-  const [tagInput, setTagInput] = useState("");
+export function UploadGalleryView({ nextOrder }: { nextOrder: number }) {
+  const router = useRouter();
+  const input = useRef<HTMLInputElement>(null);
+  const [items, setItems] = useState<Item[]>([]);
+  const [rejected, setRejected] = useState<string[]>([]);
+  const [dragging, setDragging] = useState(false);
   const [published, setPublished] = useState(true);
-  const [homepage, setHomepage] = useState(false);
-  const [downloadable, setDownloadable] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState("");
 
-  function addTag(event: KeyboardEvent<HTMLInputElement>) {
-    if (event.key !== "Enter") return;
-    event.preventDefault();
-    const next = tagInput.trim();
-    if (next && !tags.includes(next)) setTags([...tags, next]);
-    setTagInput("");
+  // Free the preview URLs when leaving the page
+  const previews = useRef<string[]>([]);
+  useEffect(() => () => previews.current.forEach((url) => URL.revokeObjectURL(url)), []);
+
+  function add(files: FileList | null) {
+    if (!files) return;
+    const skipped: string[] = [];
+    const next: Item[] = [];
+    for (const file of Array.from(files)) {
+      if (!accepted.includes(file.type)) skipped.push(`${file.name}: not a PNG, JPG, WebP or GIF image`);
+      else if (file.size > MAX_PHOTO_MB * 1024 * 1024) skipped.push(`${file.name}: larger than ${MAX_PHOTO_MB} MB`);
+      else {
+        const preview = URL.createObjectURL(file);
+        previews.current.push(preview);
+        next.push({ key: `${file.name}-${file.size}-${file.lastModified}-${Math.random()}`, file, preview, status: "waiting" });
+      }
+    }
+    setRejected(skipped);
+    setItems((current) => [...current, ...next]);
+    if (input.current) input.current.value = "";
   }
 
-  return (
-    <form onSubmit={(event) => event.preventDefault()} className="box-border w-full h-fit shrink-0 flex flex-row gap-[24px] p-[32px] justify-start items-start max-lg:flex-col max-lg:p-[20px]">
-      <div className="box-border [flex:1_1_0] min-w-0 h-fit flex flex-col gap-[24px] justify-start items-start">
-        <AdminCard title="Images" sub="Upload one or more photos">
-          <label className="box-border w-full h-fit shrink-0 flex flex-col gap-[10px] p-[56px_24px] justify-start items-center bg-[#F5F6F7] [outline:1.5px_solid_#A9B4BE] [outline-offset:-0.75px] rounded-[12px] cursor-pointer hover:bg-[#EAF3F5] transition-colors">
-            <div className="box-border w-[52px] h-[52px] shrink-0 flex flex-row gap-0 justify-center items-center bg-[#EAF3F5] rounded-[999px]">
-              <CloudUpload size={24} className="text-[#2F6E80]" />
-            </div>
-            <div className="box-border w-fit h-fit shrink-0 flex flex-row gap-[4px] justify-start items-start">
-              <span className={`text-[15px]/[20px] box-border text-[#2F6E80] ${font} font-medium text-left [white-space:nowrap]`}>Click to upload</span>
-              <span className={`text-[15px]/[20px] box-border text-[#354A5F] ${font} font-normal text-left [white-space:nowrap]`}>or drag and drop multiple images</span>
-            </div>
-            <span className={`text-[13px]/[17px] box-border text-[#475E75] ${font} font-normal text-left [white-space:nowrap]`}>PNG, JPG or WEBP up to 10 MB each</span>
-            <input type="file" multiple accept="image/png,image/jpeg,image/webp" className="sr-only" aria-label="Upload images" />
-          </label>
+  function drop(event: DragEvent<HTMLElement>) {
+    event.preventDefault();
+    setDragging(false);
+    add(event.dataTransfer.files);
+  }
 
-          <div className="box-border w-full h-fit shrink-0 flex flex-col gap-[10px] justify-start items-start">
-            {uploads.map((upload) => {
-              const done = upload.progress === 100;
-              return (
-                <div key={upload.name} className="box-border w-full h-fit shrink-0 flex flex-row gap-[14px] p-[12px] justify-start items-center [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[8px]">
-                  <div className="box-border w-[56px] shrink-0 h-[42px] bg-no-repeat bg-cover bg-center rounded-[4px]" style={{ backgroundImage: `url(/images/pst/gallery/${upload.photo})` }} />
-                  <div className="box-border [flex:1_1_0] min-w-0 h-fit flex flex-col gap-[6px] justify-start items-start">
-                    <div className="box-border w-full h-fit shrink-0 flex flex-row gap-0 justify-between items-start">
-                      <span className={`text-[14px]/[18px] box-border text-[#000000] ${font} font-medium text-left [white-space:nowrap]`}>{upload.name}</span>
-                      <span className={`text-[12px]/[16px] box-border ${done ? "text-[#188918]" : "text-[#475E75]"} ${font} font-normal text-left [white-space:nowrap]`}>
-                        {done ? `${upload.size} · Uploaded` : `${upload.size} · ${upload.progress}%`}
-                      </span>
+  const setStatus = (key: string, status: Status, error?: string) =>
+    setItems((current) => current.map((item) => (item.key === key ? { ...item, status, error } : item)));
+
+  // One request per photo keeps each under the size limit and gives real progress
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const pendingItems = items.filter((item) => item.status !== "done");
+    if (!pendingItems.length) {
+      setMessage("Add at least one image first.");
+      return;
+    }
+    const form = new FormData(event.currentTarget);
+    if (!String(form.get("title") ?? "").trim()) {
+      setMessage("Title is required.");
+      return;
+    }
+    setMessage("");
+    setBusy(true);
+    let order = Number.parseFloat(String(form.get("order"))) || nextOrder;
+    let failed = 0;
+    for (const item of pendingItems) {
+      setStatus(item.key, "uploading");
+      const data = new FormData();
+      for (const [key, value] of form.entries()) if (key !== "order") data.append(key, value);
+      data.set("order", String(order++));
+      data.set("photo", item.file);
+      const result = await uploadPhoto({ message: "" }, data);
+      if (result.ok) setStatus(item.key, "done");
+      else {
+        failed++;
+        setStatus(item.key, "failed", result.message);
+      }
+    }
+    setBusy(false);
+    if (!failed) router.push("/admin/gallery");
+    else setMessage(`${failed} of ${pendingItems.length} uploads failed. Fix the problem and press Upload again to retry them.`);
+  }
+
+  const remaining = items.filter((item) => item.status !== "done").length;
+
+  return (
+    <form onSubmit={handleSubmit} className="box-border w-full h-fit shrink-0 flex flex-row gap-[24px] p-[32px] justify-start items-start max-lg:flex-col max-lg:p-[20px]">
+      {published && <input type="hidden" name="published" value="on" />}
+      <div className="box-border [flex:1_1_0] min-w-0 max-lg:w-full h-fit flex flex-col gap-[24px] justify-start items-start">
+        {message && <AdminNotice>{message}</AdminNotice>}
+
+        <AdminCard title="Images" sub="Upload one or more photos">
+          <input ref={input} type="file" multiple accept={accepted.join(",")} className="sr-only" aria-label="Upload images" onChange={(event) => add(event.target.files)} />
+          <button
+            type="button"
+            onClick={() => input.current?.click()}
+            onDragOver={(event) => {
+              event.preventDefault();
+              setDragging(true);
+            }}
+            onDragLeave={() => setDragging(false)}
+            onDrop={drop}
+            className={`box-border w-full h-fit shrink-0 flex flex-col gap-[10px] p-[56px_24px] justify-start items-center [outline:1.5px_dashed_#A9B4BE] [outline-offset:-0.75px] rounded-[12px] cursor-pointer transition-colors ${dragging ? "bg-[#EAF3F5]" : "bg-[#F5F6F7] hover:bg-[#EAF3F5]"}`}
+          >
+            <span className="box-border w-[52px] h-[52px] shrink-0 flex flex-row gap-0 justify-center items-center bg-[#EAF3F5] rounded-[999px]">
+              <CloudUpload size={24} className="text-[#2F6E80]" />
+            </span>
+            <span className="box-border w-fit max-w-full h-fit shrink-0 flex flex-row flex-wrap justify-center gap-[4px]">
+              <span className={`text-[15px]/[20px] box-border text-[#2F6E80] ${font} font-medium`}>Click to upload</span>
+              <span className={`text-[15px]/[20px] box-border text-[#354A5F] ${font} font-normal`}>or drag and drop multiple images</span>
+            </span>
+            <span className={`text-[13px]/[17px] box-border text-[#475E75] ${font} font-normal text-center`}>PNG, JPG, WebP or GIF up to {MAX_PHOTO_MB} MB each</span>
+          </button>
+          {rejected.length > 0 && <AdminNotice>Skipped {rejected.join("; ")}.</AdminNotice>}
+
+          {items.length > 0 && (
+            <div className="box-border w-full h-fit shrink-0 flex flex-col gap-[10px] justify-start items-start">
+              {items.map((item) => {
+                const label = { waiting: "Ready", uploading: "Uploading…", done: "Uploaded", failed: item.error ?? "Failed" }[item.status];
+                const color = { waiting: "text-[#475E75]", uploading: "text-[#2F6E80]", done: "text-[#188918]", failed: "text-[#D20A0A]" }[item.status];
+                return (
+                  <div key={item.key} className="box-border w-full h-fit shrink-0 flex flex-row gap-[14px] p-[12px] justify-start items-center [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[8px]">
+                    <div className="box-border w-[56px] shrink-0 h-[42px] bg-no-repeat bg-cover bg-center rounded-[4px]" style={{ backgroundImage: `url(${item.preview})` }} />
+                    <div className="box-border [flex:1_1_0] min-w-0 h-fit flex flex-col gap-[6px] justify-start items-start">
+                      <div className="box-border w-full h-fit shrink-0 flex flex-row flex-wrap gap-x-[12px] justify-between items-start">
+                        <span className={`text-[14px]/[18px] box-border max-w-full truncate text-[#000000] ${font} font-medium text-left`}>{item.file.name}</span>
+                        <span className={`text-[12px]/[16px] box-border ${color} ${font} font-normal text-left`}>
+                          {megabytes(item.file.size)} · {label}
+                        </span>
+                      </div>
+                      <div className="box-border w-full h-[6px] shrink-0 bg-[#EAECEE] rounded-[999px] overflow-hidden">
+                        <div
+                          className={`h-[6px] rounded-[999px] transition-all ${item.status === "done" ? "w-full bg-[#188918]" : item.status === "uploading" ? "w-2/3 bg-[#2F6E80] animate-pulse" : item.status === "failed" ? "w-full bg-[#D20A0A]" : "w-0"}`}
+                        />
+                      </div>
                     </div>
-                    <div className="box-border w-full h-[6px] shrink-0 bg-[#EAECEE] rounded-[999px] overflow-hidden">
-                      <div className={`h-[6px] rounded-[999px] ${done ? "bg-[#188918]" : "bg-[#2F6E80]"}`} style={{ width: `${upload.progress}%` }} />
-                    </div>
+                    <button
+                      type="button"
+                      aria-label={`Remove ${item.file.name}`}
+                      disabled={busy || item.status === "done"}
+                      onClick={() => setItems(items.filter((other) => other.key !== item.key))}
+                      className="box-border w-[32px] shrink-0 h-[32px] flex flex-row gap-0 justify-center items-center rounded-[8px] hover:bg-[#EAF3F5] cursor-pointer transition-colors disabled:opacity-40 disabled:cursor-default"
+                    >
+                      {item.status === "failed" ? <X size={16} className="text-[#475E75]" /> : <Trash2 size={16} className="text-[#475E75]" />}
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    aria-label={`Remove ${upload.name}`}
-                    onClick={() => setUploads(uploads.filter((item) => item.name !== upload.name))}
-                    className="box-border w-[32px] shrink-0 h-[32px] flex flex-row gap-0 justify-center items-center rounded-[8px] hover:bg-[#EAF3F5] cursor-pointer transition-colors"
-                  >
-                    {done ? <Trash2 size={16} className="text-[#475E75]" /> : <X size={16} className="text-[#475E75]" />}
-                  </button>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </AdminCard>
 
         <AdminCard title="Details" sub="Applied to all images in this upload">
-          <label className="box-border w-full h-fit shrink-0 flex flex-col gap-[8px] justify-start items-start">
-            <span className={labelClass}>Title *</span>
-            <div className={fieldBox}>
-              <input placeholder="e.g. SAP implementation workshop" className={controlClass} />
-            </div>
-          </label>
+          <AdminField label="Title *" name="title" placeholder="e.g. SAP implementation workshop" hint="Also read out by screen readers. Edit each photo later to give it its own title." />
           <div className="box-border w-full h-fit shrink-0 flex flex-row gap-[16px] justify-start items-start max-sm:flex-col">
-            <label className="box-border [flex:1_1_0] min-w-0 h-fit flex flex-col gap-[8px] justify-start items-start">
+            <label className="box-border [flex:1_1_0] min-w-0 max-sm:w-full h-fit flex flex-col gap-[8px] justify-start items-start">
               <span className={labelClass}>Category</span>
               <div className={`${fieldBox} justify-between`}>
-                <select defaultValue="" className={`${controlClass} appearance-none cursor-pointer`}>
-                  <option value="" disabled>
-                    Select category
-                  </option>
-                  {categories.map((item) => (
+                <select name="category" defaultValue={galleryCategories[0]} className={`${controlClass} appearance-none cursor-pointer`}>
+                  {galleryCategories.map((item) => (
                     <option key={item}>{item}</option>
                   ))}
                 </select>
                 <ChevronDown size={18} className="text-[#475E75] shrink-0 pointer-events-none" />
               </div>
             </label>
-            <label className="box-border [flex:1_1_0] min-w-0 h-fit flex flex-col gap-[8px] justify-start items-start">
+            <label className="box-border [flex:1_1_0] min-w-0 max-sm:w-full h-fit flex flex-col gap-[8px] justify-start items-start">
               <span className={labelClass}>Event date</span>
               <div className={fieldBox}>
-                <input type="date" aria-label="Event date" className={`${controlClass} [color-scheme:light]`} />
+                <input type="date" name="eventDate" aria-label="Event date" className={`${controlClass} [color-scheme:light]`} />
               </div>
             </label>
-          </div>
-          <label className="box-border w-full h-fit shrink-0 flex flex-col gap-[8px] justify-start items-start">
-            <div className="box-border w-full h-fit shrink-0 flex flex-row gap-0 justify-between items-start">
-              <span className={labelClass}>Description</span>
-            </div>
-            <div className="box-border w-full h-[96px] shrink-0 flex flex-row gap-0 p-[16px] justify-start items-start bg-[#FFFFFF] [outline:1px_solid_#475E75] [outline-offset:-0.5px] rounded-[8px] focus-within:[outline:2px_solid_#2F6E80] focus-within:[outline-offset:-1px]">
-              <textarea
-                placeholder="A short caption shown under the photo (optional)"
-                className={`box-border [flex:1_1_0] w-full h-full bg-transparent text-[16px]/[24px] text-[#223548] ${font} font-normal outline-none resize-none placeholder:text-[#8396A8]`}
-              />
-            </div>
-          </label>
-          <div className="box-border w-full h-fit shrink-0 flex flex-col gap-[8px] justify-start items-start">
-            <span className={labelClass}>Tags</span>
-            <div className="box-border w-full h-[48px] shrink-0 flex flex-row gap-[8px] p-[0px_8px] justify-start items-center bg-[#FFFFFF] [outline:1px_solid_#475E75] [outline-offset:-0.5px] rounded-[8px] focus-within:[outline:2px_solid_#2F6E80] focus-within:[outline-offset:-1px]">
-              {tags.map((tag) => (
-                <span key={tag} className="box-border w-fit shrink-0 h-fit flex flex-row gap-[6px] p-[4px_8px_4px_10px] justify-start items-center bg-[#EAF3F5] rounded-[4px]">
-                  <span className={`text-[13px]/[17px] box-border text-[#2F6E80] ${font} font-medium text-left [white-space:nowrap]`}>{tag}</span>
-                  <button type="button" aria-label={`Remove ${tag}`} onClick={() => setTags(tags.filter((item) => item !== tag))} className="cursor-pointer">
-                    <X size={12} className="text-[#2F6E80]" />
-                  </button>
-                </span>
-              ))}
-              <input
-                value={tagInput}
-                onChange={(event) => setTagInput(event.target.value)}
-                onKeyDown={addTag}
-                placeholder={tags.length === 0 ? "Add a tag and press Enter" : ""}
-                className={`box-border [flex:1_1_0] min-w-[120px] h-full bg-transparent text-[15px]/[20px] text-[#223548] ${font} font-normal outline-none placeholder:text-[#8396A8]`}
-              />
-            </div>
           </div>
         </AdminCard>
       </div>
@@ -156,23 +198,12 @@ export function UploadGalleryView() {
             </div>
             <AdminToggle checked={published} onChange={setPublished} label="Published" />
           </div>
-          <label className="box-border w-full h-fit shrink-0 flex flex-col gap-[8px] justify-start items-start">
-            <span className={labelClass}>Display order</span>
-            <div className={fieldBox}>
-              <input defaultValue="1" inputMode="numeric" className={controlClass} />
-            </div>
-            <span className={`text-[12px]/[15px] box-border text-[#475E75] ${font} font-normal text-left [white-space:nowrap]`}>Lower numbers appear first.</span>
-          </label>
-          <CheckRow label="Show on homepage" checked={homepage} onToggle={() => setHomepage(!homepage)} />
-          <CheckRow label="Allow visitors to download" checked={downloadable} onToggle={() => setDownloadable(!downloadable)} />
+          <AdminField label="Display order" name="order" type="number" value={String(nextOrder)} hint="Lower numbers appear first. Each next image counts up from here." />
         </AdminCard>
 
         <AdminCard title="Actions">
-          <button type="submit" className={`box-border w-full h-[48px] shrink-0 flex flex-row gap-[8px] p-[0px_24px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium cursor-pointer transition-colors`}>
-            Upload {uploads.length} {uploads.length === 1 ? "image" : "images"}
-          </button>
-          <button type="button" className={`box-border w-full h-[48px] shrink-0 flex flex-row gap-[8px] p-[0px_24px] justify-center items-center bg-[#FFFFFF] [outline:1px_solid_#475E75] [outline-offset:-0.5px] rounded-[8px] text-[16px]/[20px] text-[#223548] ${font} font-medium cursor-pointer hover:bg-[#EAF3F5] transition-colors`}>
-            Save as draft
+          <button type="submit" disabled={busy} className={`box-border w-full h-[48px] shrink-0 flex flex-row gap-[8px] p-[0px_24px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] disabled:opacity-60 disabled:cursor-wait rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium cursor-pointer transition-colors`}>
+            {busy ? "Uploading…" : `Upload ${remaining} ${remaining === 1 ? "image" : "images"}`}
           </button>
           <Link href="/admin/gallery" className={`box-border w-full text-[14px]/[18px] text-[#475E75] hover:text-[#000354] transition-colors ${font} font-medium text-center`}>
             Cancel
@@ -180,16 +211,5 @@ export function UploadGalleryView() {
         </AdminCard>
       </div>
     </form>
-  );
-}
-
-function CheckRow({ label, checked, onToggle }: { label: string; checked: boolean; onToggle: () => void }) {
-  return (
-    <button type="button" role="checkbox" aria-checked={checked} onClick={onToggle} className="box-border w-full h-fit shrink-0 flex flex-row gap-[10px] justify-start items-center cursor-pointer text-left">
-      <span className={`box-border w-[20px] shrink-0 h-[20px] flex flex-row gap-0 justify-center items-center rounded-[4px] ${checked ? "bg-[#2F6E80]" : "bg-[#FFFFFF] [outline:1px_solid_#475E75] [outline-offset:-0.5px]"}`}>
-        {checked && <Check size={14} className="text-[#FFFFFF]" />}
-      </span>
-      <span className={`text-[14px]/[18px] box-border text-[#223548] ${font} font-normal text-left [white-space:nowrap]`}>{label}</span>
-    </button>
   );
 }

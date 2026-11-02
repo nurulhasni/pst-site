@@ -5,8 +5,10 @@ import path from "node:path";
 // Images uploaded from the admin live outside the code folder, so a redeploy
 // never wipes them. They are served by app/uploads/[...path]/route.ts.
 // Set UPLOAD_DIR on the server to put them somewhere that gets backed up.
+// Uploads are runtime data, so the turbopackIgnore comments keep the build from
+// tracing (and bundling) whatever folder the path points at.
 export function uploadRoot(): string {
-  return path.resolve(process.env.UPLOAD_DIR || path.join(process.cwd(), "uploads"));
+  return path.resolve(/*turbopackIgnore: true*/ process.env.UPLOAD_DIR || path.join(/*turbopackIgnore: true*/ process.cwd(), "uploads"));
 }
 
 export const uploadFolders = ["clients", "gallery", "stories", "blog", "files"] as const;
@@ -39,9 +41,9 @@ export async function saveImage(file: File, folder: UploadFolder, maxBytes: numb
   if (!ext) throw new Error("Please upload a PNG, JPG, WebP or GIF image.");
 
   const name = `${Date.now()}-${randomUUID().slice(0, 8)}.${ext}`;
-  const dir = path.join(uploadRoot(), folder);
+  const dir = path.join(/*turbopackIgnore: true*/ uploadRoot(), folder);
   await mkdir(dir, { recursive: true });
-  await writeFile(path.join(dir, name), bytes);
+  await writeFile(path.join(/*turbopackIgnore: true*/ dir, name), bytes);
   return `/uploads/${folder}/${name}`;
 }
 
@@ -56,7 +58,7 @@ export async function deleteUpload(url: string): Promise<void> {
 // would step outside it.
 export function resolveUpload(relative: string): string | null {
   const root = uploadRoot();
-  const file = path.resolve(root, relative);
+  const file = path.resolve(/*turbopackIgnore: true*/ root, relative);
   if (!file.startsWith(root + path.sep)) return null;
   const folder = path.relative(root, file).split(path.sep)[0];
   if (!(uploadFolders as readonly string[]).includes(folder)) return null;

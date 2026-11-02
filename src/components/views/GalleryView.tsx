@@ -6,6 +6,7 @@ import { FloatingContact } from "@/components/sections/FloatingContact";
 import { PageHero } from "@/components/PageHero";
 import { CtaBanner } from "@/components/CtaBanner";
 import { useLanguage } from "@/components/LanguageProvider";
+import type { PublicPhoto } from "@/lib/galleryModel";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif]";
 
@@ -46,32 +47,30 @@ const copy = {
   },
 };
 
-const photos = [
-  "PSt.jpg",
-  "Gallery-2.png",
-  "Gallery-3.png",
-  "Gallery-4.png",
-  "Gallery-5.png",
-  "Gallery-7.png",
-  "Gallery-8.png",
-  "Gallery-9.png",
-  "Gallery-10.jpg",
-];
-
-function Tile({ photo, index, alt, className }: { photo: string; index: number; alt: string; className: string }) {
+function Tile({ photo, index, alt, className }: { photo: PublicPhoto; index: number; alt: string; className: string }) {
   return (
     <div
       className={`box-border min-w-0 bg-cover bg-center rounded-[12px] ${className}`}
-      style={{ backgroundImage: `url(/images/pst/gallery/${photo})` }}
+      style={{ backgroundImage: `url(${photo.image})` }}
       role="img"
-      aria-label={`${alt} ${index + 1}`}
+      title={photo.title || undefined}
+      aria-label={photo.title || `${alt} ${index + 1}`}
     />
   );
 }
 
-export function GalleryView() {
+// The first three photos keep the large-plus-two layout; the rest follow in rows of three
+function rowsOfThree(photos: PublicPhoto[]): PublicPhoto[][] {
+  const rows: PublicPhoto[][] = [];
+  for (let i = 0; i < photos.length; i += 3) rows.push(photos.slice(i, i + 3));
+  return rows;
+}
+
+export function GalleryView({ photos }: { photos: PublicPhoto[] }) {
   const { lang } = useLanguage();
   const c = copy[lang];
+  const [lead, ...side] = photos.slice(0, 3);
+  const rows = rowsOfThree(photos.slice(3));
 
   return (
     <main className="w-full overflow-x-hidden">
@@ -83,25 +82,27 @@ export function GalleryView() {
           <div className={`text-[48px]/[53px] text-[#000000] ${font} font-medium max-lg:text-[32px]/[35px]`}>{c.title}</div>
           <div className={`text-[18px]/[27px] max-w-[640px] text-[#354A5F] ${font}`}>{c.desc}</div>
         </div>
-        <div className="box-border w-full h-fit flex flex-col gap-[16px]">
-          <div className="box-border w-full h-[520px] flex flex-row gap-[16px] max-lg:h-auto max-lg:flex-col">
-            <Tile photo={photos[0]} index={0} alt={c.tileAlt} className="[flex:2_1_0] h-full max-lg:h-[260px]" />
-            <div className="box-border w-[400px] max-lg:w-full shrink-0 h-full flex flex-col gap-[16px]">
-              <Tile photo={photos[1]} index={1} alt={c.tileAlt} className="[flex:1_1_0] w-full max-lg:h-[220px]" />
-              <Tile photo={photos[2]} index={2} alt={c.tileAlt} className="[flex:1_1_0] w-full max-lg:h-[220px]" />
+        {lead && (
+          <div className="box-border w-full h-fit flex flex-col gap-[16px]">
+            <div className="box-border w-full h-[520px] flex flex-row gap-[16px] max-lg:h-auto max-lg:flex-col">
+              <Tile photo={lead} index={0} alt={c.tileAlt} className="[flex:2_1_0] h-full max-lg:h-[260px]" />
+              {side.length > 0 && (
+                <div className="box-border w-[400px] max-lg:w-full shrink-0 h-full flex flex-col gap-[16px]">
+                  {side.map((photo, index) => (
+                    <Tile key={photo.id} photo={photo} index={index + 1} alt={c.tileAlt} className="[flex:1_1_0] w-full max-lg:h-[220px]" />
+                  ))}
+                </div>
+              )}
             </div>
-          </div>
-          <div className="box-border w-full h-[300px] flex flex-row gap-[16px] max-lg:h-auto max-lg:flex-col">
-            {photos.slice(3, 6).map((photo, index) => (
-              <Tile key={photo} photo={photo} index={index + 3} alt={c.tileAlt} className="[flex:1_1_0] h-full max-lg:h-[220px]" />
+            {rows.map((row, rowIndex) => (
+              <div key={row[0].id} className="box-border w-full h-[300px] flex flex-row gap-[16px] max-lg:h-auto max-lg:flex-col">
+                {row.map((photo, index) => (
+                  <Tile key={photo.id} photo={photo} index={3 + rowIndex * 3 + index} alt={c.tileAlt} className="[flex:1_1_0] h-full max-lg:h-[220px]" />
+                ))}
+              </div>
             ))}
           </div>
-          <div className="box-border w-full h-[300px] flex flex-row gap-[16px] max-lg:h-auto max-lg:flex-col">
-            {photos.slice(6, 9).map((photo, index) => (
-              <Tile key={photo} photo={photo} index={index + 6} alt={c.tileAlt} className="[flex:1_1_0] h-full max-lg:h-[220px]" />
-            ))}
-          </div>
-        </div>
+        )}
       </section>
 
       <section className="box-border w-full h-fit flex flex-row flex-wrap gap-[96px] p-[112px_96px] justify-start items-center bg-[#000354] max-lg:p-[60px_20px] max-lg:gap-[40px]">

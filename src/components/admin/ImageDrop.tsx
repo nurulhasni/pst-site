@@ -17,6 +17,7 @@ export function ImageDrop({
   maxMB,
   current = "",
   contain = false,
+  removable = true,
   onChange,
 }: {
   name: string;
@@ -27,6 +28,8 @@ export function ImageDrop({
   current?: string;
   // Logos are shown whole; photos fill the preview
   contain?: boolean;
+  // False for images that must always exist, like a gallery photo
+  removable?: boolean;
   onChange?: (url: string) => void;
 }) {
   const input = useRef<HTMLInputElement>(null);
@@ -91,10 +94,12 @@ export function ImageDrop({
               <RefreshCw size={15} />
               Replace
             </button>
-            <button type="button" onClick={remove} className={`flex flex-row gap-[6px] items-center text-[14px]/[18px] text-[#D20A0A] ${font} font-medium cursor-pointer`}>
-              <Trash2 size={15} />
-              Remove
-            </button>
+            {removable && (
+              <button type="button" onClick={remove} className={`flex flex-row gap-[6px] items-center text-[14px]/[18px] text-[#D20A0A] ${font} font-medium cursor-pointer`}>
+                <Trash2 size={15} />
+                Remove
+              </button>
+            )}
           </div>
         </div>
       ) : (
