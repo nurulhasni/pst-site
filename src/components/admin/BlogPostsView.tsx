@@ -151,7 +151,7 @@ export function BlogPostsView() {
         </Link>
       </div>
 
-      <div className="box-border w-full h-fit shrink-0 flex flex-col gap-0 justify-start items-start bg-[#FFFFFF] [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[12px] overflow-hidden">
+      <div className="box-border w-full h-fit shrink-0 flex flex-col gap-0 justify-start items-start bg-[#FFFFFF] [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[12px] overflow-x-auto">
         <div className="w-full h-fit shrink-0 flex flex-row flex-wrap gap-[12px] p-[16px_20px] justify-start items-center [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#D5DADD]">
           <label className="box-border [flex:1_1_240px] min-w-[240px] max-w-[320px] h-[40px] flex flex-row gap-[10px] p-[0px_16px] justify-start items-center bg-[#F5F6F7] [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[8px]">
             <Search size={20} className="text-[#475E75] shrink-0" />
@@ -166,10 +166,10 @@ export function BlogPostsView() {
           <FilterSelect label="All authors" options={["All authors", "PST Team"]} />
         </div>
 
-        <div className="w-full h-fit shrink-0 flex flex-row gap-[16px] p-[12px_20px] justify-start items-start bg-[#F5F6F7] [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#D5DADD]">
-          <div className={`text-[12px]/[16px] box-border [flex:1_1_0] text-[#475E75] ${font} font-medium tracking-[1px] text-left`}>POST</div>
+        <div className="w-full min-w-[860px] h-fit shrink-0 flex flex-row gap-[16px] p-[12px_20px] justify-start items-start bg-[#F5F6F7] [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#D5DADD]">
+          <div className={`text-[12px]/[16px] box-border [flex:1_1_0] min-w-[260px] text-[#475E75] ${font} font-medium tracking-[1px] text-left`}>POST</div>
           <div className={`text-[12px]/[16px] box-border w-[130px] shrink-0 text-[#475E75] ${font} font-medium tracking-[1px] text-left`}>CATEGORY</div>
-          <div className={`text-[12px]/[16px] box-border w-[120px] shrink-0 text-[#475E75] ${font} font-medium tracking-[1px] text-left`}>AUTHOR</div>
+          <div className={`text-[12px]/[16px] box-border w-[120px] shrink-0 max-2xl:hidden text-[#475E75] ${font} font-medium tracking-[1px] text-left`}>AUTHOR</div>
           <div className={`text-[12px]/[16px] box-border w-[120px] shrink-0 text-[#475E75] ${font} font-medium tracking-[1px] text-left`}>STATUS</div>
           <div className={`text-[12px]/[16px] box-border w-[130px] shrink-0 text-[#475E75] ${font} font-medium tracking-[1px] text-left`}>DATE</div>
           <div className="box-border w-[112px] shrink-0 h-[16px]" />
@@ -178,12 +178,12 @@ export function BlogPostsView() {
         {visible.map((post) => {
           const style = statusStyle[post.status];
           return (
-            <div key={post.slug} className="w-full h-fit shrink-0 flex flex-row gap-[16px] p-[14px_20px] justify-start items-center [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#EAECEE]">
-              <div className="box-border [flex:1_1_0] min-w-0 h-fit flex flex-row gap-[14px] justify-start items-center">
+            <div key={post.slug} className="w-full min-w-[860px] h-fit shrink-0 flex flex-row gap-[16px] p-[14px_20px] justify-start items-center [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#EAECEE]">
+              <div className="box-border [flex:1_1_0] min-w-[260px] h-fit flex flex-row gap-[14px] justify-start items-center">
                 <div className="box-border w-[64px] shrink-0 h-[44px] bg-no-repeat bg-cover bg-center rounded-[4px]" style={{ backgroundImage: `url(${post.thumb})` }} />
                 <div className="box-border [flex:1_1_0] min-w-0 h-fit flex flex-col gap-[2px] justify-start items-start">
                   <div className="box-border w-full h-fit shrink-0 flex flex-row gap-[8px] justify-start items-center">
-                    <div className={`text-[15px]/[20px] box-border [flex:1_1_0] min-w-0 text-[#000000] ${font} font-medium text-left`}>{post.title}</div>
+                    <div className={`text-[15px]/[20px] box-border [flex:1_1_0] min-w-0 text-[#000000] ${font} font-medium text-left break-words`}>{post.title}</div>
                     {post.starred && <Star size={14} className="text-[#E76500] fill-[#E76500] shrink-0" />}
                     {post.gated && (
                       <div className="box-border w-fit shrink-0 h-fit flex flex-row gap-[4px] p-[2px_8px] justify-start items-center bg-[#EAF3F5] rounded-[999px]">
@@ -192,11 +192,11 @@ export function BlogPostsView() {
                       </div>
                     )}
                   </div>
-                  <div className={`text-[12px]/[16px] box-border text-[#475E75] ${font} font-normal text-left [white-space:nowrap]`}>{post.slug}</div>
+                  <div className={`text-[12px]/[16px] box-border text-[#475E75] ${font} font-normal text-left w-full truncate`}>{post.slug}</div>
                 </div>
               </div>
               <div className={`text-[14px]/[18px] box-border w-[130px] shrink-0 text-[#354A5F] ${font} font-normal text-left`}>{post.category}</div>
-              <div className={`text-[14px]/[18px] box-border w-[120px] shrink-0 text-[#354A5F] ${font} font-normal text-left`}>{post.author}</div>
+              <div className={`text-[14px]/[18px] box-border w-[120px] shrink-0 max-2xl:hidden text-[#354A5F] ${font} font-normal text-left`}>{post.author}</div>
               <div className="box-border w-[120px] shrink-0 h-fit flex flex-row gap-0 justify-start items-start">
                 <div className="box-border w-fit shrink-0 h-fit flex flex-row gap-[6px] p-[4px_10px] justify-start items-center rounded-[999px]" style={{ backgroundColor: style.bg }}>
                   <div className="box-border w-[6px] shrink-0 h-[6px] rounded-[50%]" style={{ backgroundColor: style.dot }} />

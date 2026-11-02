@@ -77,8 +77,8 @@ export function AboutIntro() {
         <div className="text-[16px]/[26px] box-border w-full text-[#354A5F] font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif] font-normal text-left">
           {t("about.body")}
         </div>
-        <div className="box-border w-full h-fit shrink-0 flex flex-row gap-[12px] justify-start items-start">
-          <div className="box-border [flex:1_1_0] h-fit flex flex-row gap-[10px] p-[14px_16px] justify-start items-center bg-[#EAF3F5] rounded-[8px] min-w-0">
+        <div className="box-border w-full h-fit shrink-0 flex flex-row flex-wrap gap-[12px] justify-start items-start">
+          <div className="box-border [flex:1_1_140px] h-fit flex flex-row gap-[10px] p-[14px_16px] justify-start items-center bg-[#EAF3F5] rounded-[8px] min-w-0">
             <Icon
               id="users-d5d360"
               className="box-border w-[20px] shrink-0 h-[20px]"
@@ -87,7 +87,7 @@ export function AboutIntro() {
               {t("about.people")}
             </div>
           </div>
-          <div className="box-border [flex:1_1_0] h-fit flex flex-row gap-[10px] p-[14px_16px] justify-start items-center bg-[#EAF3F5] rounded-[8px] min-w-0">
+          <div className="box-border [flex:1_1_140px] h-fit flex flex-row gap-[10px] p-[14px_16px] justify-start items-center bg-[#EAF3F5] rounded-[8px] min-w-0">
             <Icon
               id="package-71ff29"
               className="box-border w-[20px] shrink-0 h-[20px]"
@@ -96,7 +96,7 @@ export function AboutIntro() {
               {t("about.product")}
             </div>
           </div>
-          <div className="box-border [flex:1_1_0] h-fit flex flex-row gap-[10px] p-[14px_16px] justify-start items-center bg-[#EAF3F5] rounded-[8px] min-w-0">
+          <div className="box-border [flex:1_1_140px] h-fit flex flex-row gap-[10px] p-[14px_16px] justify-start items-center bg-[#EAF3F5] rounded-[8px] min-w-0">
             <Icon
               id="workflow-cbeff6"
               className="box-border w-[20px] shrink-0 h-[20px]"

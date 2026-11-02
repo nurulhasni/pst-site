@@ -79,7 +79,7 @@ export function ClientsView() {
         </Link>
       </div>
 
-      <div className="box-border w-full h-fit shrink-0 flex flex-col gap-0 justify-start items-start bg-[#FFFFFF] [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[12px] overflow-hidden">
+      <div className="box-border w-full h-fit shrink-0 flex flex-col gap-0 justify-start items-start bg-[#FFFFFF] [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[12px] overflow-x-auto">
         <div className="w-full h-fit shrink-0 flex flex-row flex-wrap gap-[12px] p-[16px_20px] justify-between items-center [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#D5DADD]">
           <label className="box-border w-[320px] max-w-full h-[40px] shrink-0 flex flex-row gap-[10px] p-[0px_16px] justify-start items-center bg-[#F5F6F7] [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[8px]">
             <Search size={20} className="text-[#475E75] shrink-0" />
@@ -93,9 +93,9 @@ export function ClientsView() {
           <span className={`text-[13px]/[17px] box-border text-[#475E75] ${font}font-normal text-left [white-space:nowrap]`}>Drag rows to change the order on the website</span>
         </div>
 
-        <div className="w-full h-fit shrink-0 flex flex-row gap-[16px] p-[12px_20px] justify-start items-start bg-[#F5F6F7] [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#D5DADD]">
+        <div className="w-full min-w-[940px] h-fit shrink-0 flex flex-row gap-[16px] p-[12px_20px] justify-start items-start bg-[#F5F6F7] [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#D5DADD]">
           <div className="box-border w-[16px] shrink-0 h-[16px]" />
-          <div className={`text-[12px]/[16px] box-border [flex:1_1_0] text-[#475E75] ${font}font-medium tracking-[1px] text-left`}>CLIENT</div>
+          <div className={`text-[12px]/[16px] box-border [flex:1_1_0] min-w-[240px] text-[#475E75] ${font}font-medium tracking-[1px] text-left`}>CLIENT</div>
           <div className={`text-[12px]/[16px] box-border w-[230px] shrink-0 text-[#475E75] ${font}font-medium tracking-[1px] text-left`}>INDUSTRY</div>
           <div className={`text-[12px]/[16px] box-border w-[130px] shrink-0 text-[#475E75] ${font}font-medium tracking-[1px] text-left`}>HOMEPAGE STRIP</div>
           <div className={`text-[12px]/[16px] box-border w-[100px] shrink-0 text-[#475E75] ${font}font-medium tracking-[1px] text-left`}>STATUS</div>
@@ -103,9 +103,9 @@ export function ClientsView() {
         </div>
 
         {visible.map(({ client, index }) => (
-          <div key={client.name} className="w-full h-fit shrink-0 flex flex-row gap-[16px] p-[12px_20px] justify-start items-center [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#EAECEE]">
+          <div key={client.name} className="w-full min-w-[940px] h-fit shrink-0 flex flex-row gap-[16px] p-[12px_20px] justify-start items-center [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#EAECEE]">
             <GripVertical size={16} className="text-[#A9B4BE] shrink-0" />
-            <div className="box-border [flex:1_1_0] min-w-0 h-fit flex flex-row gap-[14px] justify-start items-center">
+            <div className="box-border [flex:1_1_0] min-w-[240px] h-fit flex flex-row gap-[14px] justify-start items-center">
               <div className="box-border w-[72px] shrink-0 h-[48px] flex flex-row gap-0 p-[6px_8px] justify-start items-start [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[8px]">
                 <div className="box-border [flex:1_1_0] h-full bg-no-repeat bg-contain bg-center" style={{ backgroundImage: `url(/images/pst/clients/${client.logo}.png)` }} />
               </div>
