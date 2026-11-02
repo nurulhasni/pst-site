@@ -16,7 +16,7 @@ export function ImpactStatsView({ stats }: { stats: ImpactStat[] }) {
               {t("impact.eyebrow")}
             </div>
           </div>
-          <div className="text-[48px]/[53px] box-border text-[#000000] font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif] font-medium text-left [white-space:nowrap] max-lg:text-[32px]/[35px] max-lg:whitespace-normal">
+          <div className="text-[clamp(32px,3.4vw,48px)]/[1.1] box-border text-[#000000] font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif] font-medium text-left">
             {t("impact.title")}
           </div>
         </div>

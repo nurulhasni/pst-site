@@ -61,9 +61,9 @@ export default function AdminDashboardPage() {
     <AdminShell activeKey="dashboard" breadcrumb="Overview" title="Dashboard">
       <div className="box-border w-full h-fit shrink-0 flex flex-col gap-[24px] p-[32px] justify-start items-start max-lg:p-[20px]">
         <div className="box-border w-full h-fit shrink-0 flex flex-row flex-wrap gap-[16px] justify-between items-end">
-          <div className="box-border w-fit shrink-0 h-fit flex flex-col gap-[4px] justify-start items-start">
+          <div className="box-border w-fit max-w-full shrink-0 h-fit flex flex-col gap-[4px] justify-start items-start">
             <div className={`text-[26px]/[34px] box-border text-[#000000] ${font} font-medium text-left [white-space:nowrap]`}>Good morning, Admin</div>
-            <div className={`text-[14px]/[18px] box-border text-[#475E75] ${font} font-normal text-left [white-space:nowrap]`}>
+            <div className={`text-[14px]/[18px] box-border text-[#475E75] ${font} font-normal text-left`}>
               Thursday, 22 October 2026 · Here&apos;s what&apos;s happening on pst.co.id
             </div>
           </div>

@@ -39,31 +39,6 @@ const copy = {
     related: "Related articles",
     viewAll: "View all articles",
     readMore: "Read more",
-    leaveComment: "Leave a comment",
-    commentNote: "Your email will not be published. Comments are reviewed before they appear.",
-    name: "Name",
-    namePh: "Your name",
-    nameHelper: "We'll only use this to contact you about SAP.",
-    email: "Email",
-    emailPh: "your@email.com",
-    comment: "Comment",
-    commentPh: "Write your comment...",
-    post: "Post comment",
-    commentCount: "2 comments",
-    comments: [
-      {
-        initials: "RW",
-        name: "Rina Wijaya",
-        ago: "2 days ago",
-        text: "Great insights on digital transformation! The section on intelligent automation really resonated with our current initiatives.",
-      },
-      {
-        initials: "AF",
-        name: "Ahmad Fauzi",
-        ago: "5 days ago",
-        text: "Very well written. I appreciated the practical points on cloud-first ERP strategies. Looking forward to more content like this!",
-      },
-    ],
     authorDesc: "Insights from the consultants behind PST's SAP implementations, support and business process work.",
     onThisPageItems: [
       "The rise of intelligent automation",
@@ -84,31 +59,6 @@ const copy = {
     related: "Artikel terkait",
     viewAll: "Lihat semua artikel",
     readMore: "Baca selengkapnya",
-    leaveComment: "Tinggalkan komentar",
-    commentNote: "Email Anda tidak akan dipublikasikan. Komentar ditinjau sebelum ditampilkan.",
-    name: "Nama",
-    namePh: "Nama Anda",
-    nameHelper: "Kami hanya menggunakan ini untuk menghubungi Anda tentang SAP.",
-    email: "Email",
-    emailPh: "email@anda.com",
-    comment: "Komentar",
-    commentPh: "Tulis komentar Anda...",
-    post: "Kirim komentar",
-    commentCount: "2 komentar",
-    comments: [
-      {
-        initials: "RW",
-        name: "Rina Wijaya",
-        ago: "2 hari lalu",
-        text: "Wawasan yang luar biasa tentang transformasi digital! Bagian tentang otomasi cerdas sangat relevan dengan inisiatif kami saat ini.",
-      },
-      {
-        initials: "AF",
-        name: "Ahmad Fauzi",
-        ago: "5 hari lalu",
-        text: "Tulisannya sangat baik. Saya menghargai poin praktis tentang strategi ERP berbasis cloud. Nantikan konten seperti ini!",
-      },
-    ],
     authorDesc: "Wawasan dari para konsultan di balik implementasi SAP, dukungan, dan pekerjaan proses bisnis PST.",
     onThisPageItems: [
       "The rise of intelligent automation",
@@ -253,49 +203,6 @@ export function BlogDetailView({ post: rawPost, locked, related }: { post: Post;
           ))}
         </div>
       </section>
-
-      {!locked && (
-        <section className="box-border w-full h-fit flex flex-col gap-[40px] p-[96px] justify-start items-start max-lg:p-[60px_20px]">
-          <div className="box-border w-full max-w-[804px] h-fit flex flex-col gap-[16px]">
-            <div className={`text-[30px]/[39px] text-[#000000] ${font} font-medium`}>{c.leaveComment}</div>
-            <div className={`text-[14px]/[18px] text-[#475E75] ${font}`}>{c.commentNote}</div>
-          </div>
-          <div className="box-border w-full max-w-[804px] h-fit flex flex-col gap-[20px]">
-            <div className="box-border w-full flex flex-row gap-[16px] max-sm:flex-col">
-              <div className="box-border [flex:1_1_0] flex flex-col gap-[8px]">
-                <span className={`text-[14px]/[18px] text-[#223548] ${font} font-medium`}>{c.name}</span>
-                <span className={`h-[48px] p-[0px_16px] flex items-center bg-[#FFFFFF] [outline:1px_solid_#D5DADD] rounded-[8px] text-[16px]/[20px] text-[#8396A8] ${font}`}>{c.namePh}</span>
-                <span className={`text-[12px]/[15px] text-[#475E75] ${font}`}>{c.nameHelper}</span>
-              </div>
-              <div className="box-border [flex:1_1_0] flex flex-col gap-[8px]">
-                <span className={`text-[14px]/[18px] text-[#223548] ${font} font-medium`}>{c.email}</span>
-                <span className={`h-[48px] p-[0px_16px] flex items-center bg-[#FFFFFF] [outline:1px_solid_#D5DADD] rounded-[8px] text-[16px]/[20px] text-[#8396A8] ${font}`}>{c.emailPh}</span>
-                <span className={`text-[12px]/[15px] text-[#475E75] ${font}`}>{c.nameHelper}</span>
-              </div>
-            </div>
-            <div className="box-border w-full flex flex-col gap-[8px]">
-              <span className={`text-[14px]/[18px] text-[#223548] ${font} font-medium`}>{c.comment}</span>
-              <span className={`box-border w-full h-[120px] p-[12px_16px] flex items-start bg-[#FFFFFF] [outline:1px_solid_#D5DADD] rounded-[8px] text-[16px]/[21px] text-[#8396A8] ${font}`}>{c.commentPh}</span>
-            </div>
-            <span className={`box-border w-fit h-[48px] flex items-center p-[0px_24px] bg-[#000354] hover:bg-[#0B1470] rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium`}>{c.post}</span>
-          </div>
-          <div className="box-border w-full max-w-[804px] h-fit flex flex-col gap-[24px]">
-            <div className={`text-[20px]/[26px] text-[#000000] ${font} font-medium`}>{c.commentCount}</div>
-            {c.comments.map((comment) => (
-              <div key={comment.name} className="box-border w-full flex flex-row gap-[16px] items-start">
-                <div className={`box-border w-[40px] h-[40px] shrink-0 flex items-center justify-center bg-[#EAF3F5] rounded-[999px] text-[14px]/[18px] text-[#000354] ${font} font-medium`}>{comment.initials}</div>
-                <div className="box-border w-full flex flex-col gap-[6px]">
-                  <div className="flex flex-row gap-[10px] items-center">
-                    <span className={`text-[15px]/[20px] text-[#000000] ${font} font-medium`}>{comment.name}</span>
-                    <span className={`text-[13px]/[17px] text-[#475E75] ${font}`}>{comment.ago}</span>
-                  </div>
-                  <p className={`text-[14px]/[22px] text-[#354A5F] ${font}`}>{comment.text}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
 
       <Footer />
       <FloatingContact />

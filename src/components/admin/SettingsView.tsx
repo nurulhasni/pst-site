@@ -78,7 +78,7 @@ export function SettingsView() {
         ))}
       </nav>
 
-      <div className="box-border [flex:1_1_0] min-w-0 h-fit flex flex-col gap-[24px] justify-start items-start">
+      <div className="box-border [flex:1_1_0] min-w-0 max-lg:w-full h-fit flex flex-col gap-[24px] justify-start items-start">
         <AdminCard id="company" title="Company" sub="Shown in the header, footer and browser tab">
           <div className="box-border w-full h-fit shrink-0 flex flex-row gap-[16px] justify-start items-start max-sm:flex-col">
             <AdminField label="Company name" value="PT Prima Sistem Terpadu" name="companyName" className="[flex:1_1_0]" />
@@ -218,8 +218,8 @@ export function SettingsView() {
           </button>
         </AdminCard>
 
-        <div className="box-border w-full h-fit shrink-0 flex flex-row gap-0 p-[16px_24px] justify-between items-center bg-[#000354] rounded-[12px]">
-          <div className={`text-[14px]/[18px] box-border text-[#FFFFFF] ${font} font-medium text-left [white-space:nowrap]`}>
+        <div className="box-border w-full h-fit shrink-0 flex flex-row flex-wrap gap-[12px] p-[16px_24px] justify-between items-center bg-[#000354] rounded-[12px]">
+          <div className={`text-[14px]/[18px] box-border text-[#FFFFFF] ${font} font-medium text-left`}>
             {dirty ? "You have unsaved changes" : "All changes saved"}
           </div>
           <div className="box-border w-fit shrink-0 h-fit flex flex-row gap-[12px] justify-start items-center">

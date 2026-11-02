@@ -239,7 +239,7 @@ export function SubscribersView() {
       </div>
 
       <div className="box-border w-full h-fit shrink-0 flex flex-row flex-wrap gap-[20px] justify-start items-start">
-        <div className="box-border [flex:1_1_520px] min-w-0 h-fit flex flex-col gap-0 justify-start items-start bg-[#FFFFFF] [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[12px] overflow-hidden">
+        <div className="box-border [flex:1_1_620px] min-w-0 h-fit flex flex-col gap-0 justify-start items-start bg-[#FFFFFF] [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[12px] overflow-x-auto">
           <div className="w-full h-fit shrink-0 flex flex-row flex-wrap gap-[10px] p-[14px_16px] justify-start items-center [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#D5DADD]">
             <label className="box-border [flex:1_1_200px] min-w-[200px] h-[40px] flex flex-row gap-[10px] p-[0px_16px] justify-start items-center bg-[#F5F6F7] [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[8px]">
               <Search size={20} className="text-[#475E75] shrink-0" />
@@ -293,9 +293,9 @@ export function SubscribersView() {
             </div>
           )}
 
-          <div className="w-full h-fit shrink-0 flex flex-row gap-[14px] p-[10px_16px] justify-start items-center bg-[#F5F6F7] [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#D5DADD]">
+          <div className="w-full min-w-[610px] h-fit shrink-0 flex flex-row gap-[14px] p-[10px_16px] justify-start items-center bg-[#F5F6F7] [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#D5DADD]">
             <div className="box-border w-[18px] shrink-0 h-[18px]" />
-            <div className={`text-[12px]/[16px] box-border [flex:1_1_0] text-[#475E75] ${font} font-medium tracking-[1px] text-left`}>SUBSCRIBER</div>
+            <div className={`text-[12px]/[16px] box-border [flex:1_1_0] min-w-[200px] text-[#475E75] ${font} font-medium tracking-[1px] text-left`}>SUBSCRIBER</div>
             <div className={`text-[12px]/[16px] box-border w-[190px] shrink-0 text-[#475E75] ${font} font-medium tracking-[1px] text-left`}>ORGANIZATION</div>
             <div className={`text-[12px]/[16px] box-border w-[124px] shrink-0 text-[#475E75] ${font} font-medium tracking-[1px] text-left`}>STATUS</div>
           </div>
@@ -312,12 +312,12 @@ export function SubscribersView() {
                 onKeyDown={(event) => {
                   if (event.key === "Enter" || event.key === " ") setActiveId(subscriber.id);
                 }}
-                className={`w-full h-fit shrink-0 flex flex-row gap-[14px] p-[12px_16px] justify-start items-center cursor-pointer transition-colors [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#EAECEE] ${
+                className={`w-full min-w-[610px] h-fit shrink-0 flex flex-row gap-[14px] p-[12px_16px] justify-start items-center cursor-pointer transition-colors [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#EAECEE] ${
                   isActive ? "bg-[#EAF3F5] [border-width:0px_0px_0px_3px] [border-color:#2F6E80]" : "bg-[#FFFFFF] hover:bg-[#F5F6F7]"
                 }`}
               >
                 <Checkbox checked={selected.has(subscriber.id)} onToggle={() => toggleSelected(subscriber.id)} label={`Select ${subscriber.name}`} />
-                <div className="box-border [flex:1_1_0] min-w-0 h-fit flex flex-row gap-[12px] justify-start items-center">
+                <div className="box-border [flex:1_1_0] min-w-[200px] h-fit flex flex-row gap-[12px] justify-start items-center">
                   <div className="box-border w-[34px] shrink-0 h-[34px] flex flex-row gap-0 justify-center items-center bg-[#EAF3F5] rounded-[999px]">
                     <span className={`text-[12px]/[16px] box-border text-[#2F6E80] ${font} font-medium text-left [white-space:nowrap]`}>{subscriber.initials}</span>
                   </div>
