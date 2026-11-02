@@ -66,28 +66,28 @@ export function CareersView() {
         </Link>
       </div>
 
-      <div className="box-border w-full h-fit shrink-0 flex flex-col gap-0 justify-start items-start bg-[#FFFFFF] [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[12px] overflow-hidden">
-        <div className="w-full h-fit shrink-0 flex flex-row gap-[16px] p-[12px_20px] justify-start items-start bg-[#F5F6F7] [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#D5DADD]">
-          <div className={`text-[12px]/[16px] box-border [flex:1_1_0] text-[#475E75] ${font}font-medium tracking-[1px] text-left`}>POSITION</div>
+      <div className="box-border w-full h-fit shrink-0 flex flex-col gap-0 justify-start items-start bg-[#FFFFFF] [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[12px] overflow-x-auto">
+        <div className="w-full min-w-[840px] h-fit shrink-0 flex flex-row gap-[16px] p-[12px_20px] justify-start items-start bg-[#F5F6F7] [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#D5DADD]">
+          <div className={`text-[12px]/[16px] box-border [flex:1_1_0] min-w-[240px] text-[#475E75] ${font}font-medium tracking-[1px] text-left`}>POSITION</div>
           <div className={`text-[12px]/[16px] box-border w-[150px] shrink-0 text-[#475E75] ${font}font-medium tracking-[1px] text-left`}>TYPE</div>
-          <div className={`text-[12px]/[16px] box-border w-[220px] shrink-0 text-[#475E75] ${font}font-medium tracking-[1px] text-left`}>LOCATION</div>
+          <div className={`text-[12px]/[16px] box-border w-[220px] shrink-0 max-2xl:hidden text-[#475E75] ${font}font-medium tracking-[1px] text-left`}>LOCATION</div>
           <div className={`text-[12px]/[16px] box-border w-[110px] shrink-0 text-[#475E75] ${font}font-medium tracking-[1px] text-left`}>STATUS</div>
           <div className={`text-[12px]/[16px] box-border w-[120px] shrink-0 text-[#475E75] ${font}font-medium tracking-[1px] text-left`}>UPDATED</div>
           <div className="box-border w-[112px] shrink-0 h-[16px]" />
         </div>
         {visible.map((position) => (
-          <div key={position.title} className="w-full h-fit shrink-0 flex flex-row gap-[16px] p-[16px_20px] justify-start items-center [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#EAECEE]">
-            <div className="box-border [flex:1_1_0] min-w-0 h-fit flex flex-row gap-[14px] justify-start items-center">
+          <div key={position.title} className="w-full min-w-[840px] h-fit shrink-0 flex flex-row gap-[16px] p-[16px_20px] justify-start items-center [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#EAECEE]">
+            <div className="box-border [flex:1_1_0] min-w-[240px] h-fit flex flex-row gap-[14px] justify-start items-center">
               <div className="box-border w-[40px] shrink-0 h-[40px] flex flex-row gap-0 justify-center items-center bg-[#EAF3F5] rounded-[8px]">
                 <position.Icon size={20} className="text-[#2F6E80]" />
               </div>
               <div className="box-border [flex:1_1_0] min-w-0 h-fit flex flex-col gap-[2px] justify-start items-start">
                 <div className={`text-[11px]/[14px] box-border text-[#2F6E80] ${font}font-medium tracking-[1px] text-left [white-space:nowrap]`}>{position.category}</div>
-                <div className={`text-[15px]/[20px] box-border w-full text-[#000000] ${font}font-medium text-left`}>{position.title}</div>
+                <div className={`text-[15px]/[20px] box-border w-full text-[#000000] ${font}font-medium text-left break-words`}>{position.title}</div>
               </div>
             </div>
             <div className={`text-[14px]/[18px] box-border w-[150px] shrink-0 text-[#354A5F] ${font}font-normal text-left`}>{position.type}</div>
-            <div className={`text-[14px]/[18px] box-border w-[220px] shrink-0 text-[#354A5F] ${font}font-normal text-left`}>{position.location}</div>
+            <div className={`text-[14px]/[18px] box-border w-[220px] shrink-0 max-2xl:hidden text-[#354A5F] ${font}font-normal text-left`}>{position.location}</div>
             <div className="box-border w-[110px] shrink-0 h-fit flex flex-row gap-0 justify-start items-start">
               <div className="box-border w-fit shrink-0 h-fit flex flex-row gap-[6px] p-[4px_10px] justify-start items-center bg-[#F5FAE5] rounded-[999px]">
                 <div className="box-border w-[6px] shrink-0 h-[6px] bg-[#188918] rounded-[50%]" />

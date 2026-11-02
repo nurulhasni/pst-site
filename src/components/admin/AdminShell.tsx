@@ -20,7 +20,7 @@ export function AdminShell({
     <div className="box-border w-full min-h-screen flex flex-row gap-0 justify-start items-start bg-[#F5F6F7] max-lg:flex-col">
       <AdminSidebar activeKey={activeKey} />
 
-      <div className="box-border [flex:1_1_0] min-w-0 flex flex-col gap-0 justify-start items-start">
+      <div className="box-border [flex:1_1_0] min-w-0 flex flex-col max-lg:w-full gap-0 justify-start items-start">
         <header className="box-border w-full h-[76px] shrink-0 flex flex-row gap-[24px] p-[0px_32px] justify-start items-center bg-[#FFFFFF] [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#D5DADD] max-lg:p-[0px_20px]">
           <div className="box-border [flex:1_1_0] min-w-0 h-fit flex flex-col gap-[2px] justify-start items-start">
             <div className={`text-[12px]/[16px] box-border text-[#475E75] ${font} font-normal text-left [white-space:nowrap]`}>{breadcrumb}</div>
