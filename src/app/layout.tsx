@@ -3,6 +3,7 @@ import { Public_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/sections/Header";
 import { LanguageProvider } from "@/components/LanguageProvider";
+import { ScrollReveal } from "@/components/ScrollReveal";
 
 const publicSans = Public_Sans({
   variable: "--font-public-sans",
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <LanguageProvider>
           <Header />
           {children}
+          <ScrollReveal />
         </LanguageProvider>
       </body>
     </html>
