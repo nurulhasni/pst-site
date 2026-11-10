@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Quote } from "lucide-react";
 import { Footer } from "@/components/sections/Footer";
 import { FloatingContact } from "@/components/sections/FloatingContact";
@@ -47,30 +48,32 @@ const copy = {
   },
 };
 
-function Tile({ photo, index, alt, className }: { photo: PublicPhoto; index: number; alt: string; className: string }) {
+// next/image serves each photo resized for the screen and only loads it when it
+// scrolls into view. Staff may paste an outside image link into the Sheet; the
+// optimizer refuses hosts it doesn't know, so those are shown as they are.
+function Tile({ photo, index, alt, sizes, className }: { photo: PublicPhoto; index: number; alt: string; sizes: string; className: string }) {
   return (
-    <div
-      className={`box-border min-w-0 bg-cover bg-center rounded-[12px] ${className}`}
-      style={{ backgroundImage: `url(${photo.image})` }}
-      role="img"
-      title={photo.title || undefined}
-      aria-label={photo.title || `${alt} ${index + 1}`}
-    />
+    <div className={`box-border relative min-w-0 overflow-hidden rounded-[12px] bg-[#EAECEE] ${className}`}>
+      <Image
+        src={photo.image}
+        alt={photo.title || `${alt} ${index + 1}`}
+        title={photo.title || undefined}
+        fill
+        sizes={sizes}
+        unoptimized={!photo.image.startsWith("/")}
+        className="object-cover"
+      />
+    </div>
   );
-}
-
-// The first three photos keep the large-plus-two layout; the rest follow in rows of three
-function rowsOfThree(photos: PublicPhoto[]): PublicPhoto[][] {
-  const rows: PublicPhoto[][] = [];
-  for (let i = 0; i < photos.length; i += 3) rows.push(photos.slice(i, i + 3));
-  return rows;
 }
 
 export function GalleryView({ photos }: { photos: PublicPhoto[] }) {
   const { lang } = useLanguage();
   const c = copy[lang];
+  // The first three photos keep the large-plus-two layout; the rest sit in a
+  // fixed three-column grid, so a last row of one or two keeps the same size
   const [lead, ...side] = photos.slice(0, 3);
-  const rows = rowsOfThree(photos.slice(3));
+  const rest = photos.slice(3);
 
   return (
     <main className="w-full overflow-x-hidden">
@@ -85,33 +88,37 @@ export function GalleryView({ photos }: { photos: PublicPhoto[] }) {
         {lead && (
           <div className="box-border w-full h-fit flex flex-col gap-[16px]">
             <div className="box-border w-full h-[520px] flex flex-row gap-[16px] max-lg:h-auto max-lg:flex-col">
-              <Tile photo={lead} index={0} alt={c.tileAlt} className="[flex:2_1_0] h-full max-lg:h-[260px]" />
+              <Tile photo={lead} index={0} alt={c.tileAlt} sizes="(max-width: 1024px) 100vw, 60vw" className="[flex:2_1_0] h-full max-lg:h-[260px]" />
               {side.length > 0 && (
                 <div className="box-border w-[400px] max-lg:w-full shrink-0 h-full flex flex-col gap-[16px]">
                   {side.map((photo, index) => (
-                    <Tile key={photo.id} photo={photo} index={index + 1} alt={c.tileAlt} className="[flex:1_1_0] w-full max-lg:h-[220px]" />
+                    <Tile key={photo.id} photo={photo} index={index + 1} alt={c.tileAlt} sizes="(max-width: 1024px) 100vw, 400px" className="[flex:1_1_0] w-full max-lg:h-[220px]" />
                   ))}
                 </div>
               )}
             </div>
-            {rows.map((row, rowIndex) => (
-              <div key={row[0].id} className="box-border w-full h-[300px] flex flex-row gap-[16px] max-lg:h-auto max-lg:flex-col">
-                {row.map((photo, index) => (
-                  <Tile key={photo.id} photo={photo} index={3 + rowIndex * 3 + index} alt={c.tileAlt} className="[flex:1_1_0] h-full max-lg:h-[220px]" />
+            {rest.length > 0 && (
+              <div className="box-border w-full grid grid-cols-3 gap-[16px] max-lg:grid-cols-2 max-sm:grid-cols-1">
+                {rest.map((photo, index) => (
+                  <Tile
+                    key={photo.id}
+                    photo={photo}
+                    index={3 + index}
+                    alt={c.tileAlt}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="h-[300px] max-lg:h-[220px]"
+                  />
                 ))}
               </div>
-            ))}
+            )}
           </div>
         )}
       </section>
 
       <section className="box-border w-full h-fit flex flex-row flex-wrap gap-[96px] p-[112px_96px] justify-start items-center bg-[#000354] max-lg:p-[60px_20px] max-lg:gap-[40px]">
-        <div
-          className="box-border w-[420px] max-w-full h-[540px] shrink-0 bg-cover bg-center rounded-[12px] max-lg:h-[380px] max-lg:w-full"
-          style={{ backgroundImage: "url(/images/pst/gallery/LN0A5205_2.jpg)" }}
-          role="img"
-          aria-label={c.memberAlt}
-        />
+        <div className="box-border relative w-[420px] max-w-full h-[540px] shrink-0 overflow-hidden rounded-[12px] max-lg:h-[380px] max-lg:w-full">
+          <Image src="/images/pst/gallery/LN0A5205_2.jpg" alt={c.memberAlt} fill sizes="(max-width: 1024px) 100vw, 420px" className="object-cover" />
+        </div>
         <div className="box-border [flex:1_1_0] min-w-[300px] h-fit flex flex-col gap-[28px]">
           <Quote size={44} className="text-[#A6CBD3]" />
           <div className={`text-[13px]/[17px] text-[#A6CBD3] ${font} font-medium tracking-[1.4px]`}>{c.quoteEyebrow}</div>

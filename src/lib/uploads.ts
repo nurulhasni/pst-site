@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { mkdir, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
+import sharp from "sharp";
 
 // Images uploaded from the admin live outside the code folder, so a redeploy
 // never wipes them. They are served by app/uploads/[...path]/route.ts.
@@ -32,13 +33,41 @@ function sniffImage(bytes: Uint8Array): string | null {
   return null;
 }
 
-export async function saveImage(file: File, folder: UploadFolder, maxBytes: number): Promise<string> {
+// Camera and phone photos are often 3–8 MB and 4000+ px wide. Shrinking them to
+// a sensible size and saving as WebP keeps each one around a few hundred KB.
+// rotate() applies the EXIF orientation, and sharp drops the rest of the
+// metadata (including GPS location) by default.
+async function shrinkPhoto(bytes: Uint8Array, maxSide: number): Promise<Uint8Array> {
+  try {
+    const out = await sharp(bytes)
+      .rotate()
+      .resize({ width: maxSide, height: maxSide, fit: "inside", withoutEnlargement: true })
+      .webp({ quality: 82 })
+      .toBuffer();
+    return new Uint8Array(out);
+  } catch {
+    throw new Error("This image could not be read. Try saving it again as JPG or PNG.");
+  }
+}
+
+type SaveOptions = {
+  // Longest side in pixels. When set, still images are resized and saved as WebP.
+  maxSide?: number;
+};
+
+export async function saveImage(file: File, folder: UploadFolder, maxBytes: number, options: SaveOptions = {}): Promise<string> {
   if (file.size === 0) throw new Error("The selected file is empty.");
   if (file.size > maxBytes) throw new Error(`Images must be ${Math.round(maxBytes / 1024 / 1024)} MB or smaller.`);
 
-  const bytes = new Uint8Array(await file.arrayBuffer());
-  const ext = sniffImage(bytes);
+  let bytes: Uint8Array = new Uint8Array(await file.arrayBuffer());
+  let ext = sniffImage(bytes);
   if (!ext) throw new Error("Please upload a PNG, JPG, WebP or GIF image.");
+
+  // GIFs are left alone so animations keep working
+  if (options.maxSide && ext !== "gif") {
+    bytes = await shrinkPhoto(bytes, options.maxSide);
+    ext = "webp";
+  }
 
   const name = `${Date.now()}-${randomUUID().slice(0, 8)}.${ext}`;
   const dir = path.join(/*turbopackIgnore: true*/ uploadRoot(), folder);

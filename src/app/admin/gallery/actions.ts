@@ -6,7 +6,7 @@ import { datePattern, failure, file, order, text, type FormState } from "@/lib/a
 import { requireAdmin } from "@/lib/adminSession";
 import { jakartaToday } from "@/lib/dates";
 import { getPhoto } from "@/lib/gallery";
-import { MAX_PHOTO_MB, fallbackPhotos, galleryColumns, galleryTab, photoValues } from "@/lib/galleryModel";
+import { GALLERY_MAX_SIDE, MAX_PHOTO_MB, fallbackPhotos, galleryColumns, galleryTab, photoValues } from "@/lib/galleryModel";
 import { createRecord, deleteRecord, listRecords, updateRecord } from "@/lib/sheetStore";
 import { sheetTag } from "@/lib/sheets";
 import { deleteUpload, saveImage } from "@/lib/uploads";
@@ -35,7 +35,7 @@ export async function uploadPhoto(_prev: FormState, formData: FormData): Promise
 
   let image = "";
   try {
-    image = await saveImage(photo, "gallery", maxBytes);
+    image = await saveImage(photo, "gallery", maxBytes, { maxSide: GALLERY_MAX_SIDE });
     await createRecord(galleryTab, galleryColumns, photoValues({ ...info, image, updatedAt: jakartaToday() }));
   } catch (error) {
     if (image) await deleteUpload(image);
@@ -55,7 +55,7 @@ export async function savePhoto(_prev: FormState, formData: FormData): Promise<F
 
   let image = previous;
   try {
-    if (replacement) image = await saveImage(replacement, "gallery", maxBytes);
+    if (replacement) image = await saveImage(replacement, "gallery", maxBytes, { maxSide: GALLERY_MAX_SIDE });
     await updateRecord(galleryTab, galleryColumns, id, photoValues({ ...info, image, updatedAt: jakartaToday() }));
   } catch (error) {
     if (image !== previous) await deleteUpload(image);

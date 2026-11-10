@@ -9,6 +9,8 @@ export const galleryColumns = ["order", "status", "title", "category", "event_da
 
 export const galleryCategories = ["Events", "Projects", "Team", "Office"];
 export const MAX_PHOTO_MB = 8;
+// Uploaded photos are resized so their longest side is at most this many pixels
+export const GALLERY_MAX_SIDE = 2000;
 
 export type GalleryPhoto = {
   id: string;
