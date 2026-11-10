@@ -112,7 +112,7 @@ export function SettingsView() {
             <AdminField label="Career email" value="recruitment@pst.co.id" name="careerEmail" className="[flex:1_1_0]" />
           </div>
           <div className="box-border w-full h-fit shrink-0 flex flex-row gap-[16px] justify-start items-start max-sm:flex-col">
-            <AdminField label="Office hours (weekdays)" value="Mon – Fri: 09.00 – 18.00 WIB" name="hours" className="[flex:1_1_0]" />
+            <AdminField label="Office hours (weekdays)" value="Mon – Fri: 08.00 – 17.00 WIB" name="hours" className="[flex:1_1_0]" />
             <AdminField
               label="Google Maps link"
               placeholder="https://maps.google.com/..."
