@@ -6,6 +6,7 @@ import { FloatingContact } from "@/components/sections/FloatingContact";
 import { PageHero } from "@/components/PageHero";
 import { CtaBanner } from "@/components/CtaBanner";
 import { useLanguage } from "@/components/LanguageProvider";
+import { LogoPuzzle } from "@/components/logo-puzzle/LogoPuzzle";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif]";
 
@@ -62,7 +63,7 @@ const copy = {
       "Puzzle is a kind of game where each piece has a unique shape and is placed in a certain position to form a bigger picture. Each piece should fit in with the previous and the next pieces. PST chose a puzzle as its logo due to its similarity in nature to the business itself.",
     philosophy3:
       "Just like a puzzle, we can help you create the bigger picture so your company fits in with global challenges.",
-    logoAlt: "PST logo",
+    logoAlt: "PST logo: Strategy, People, Process and Product joined by the PST core",
     achievementEyebrow: "ACHIEVEMENT",
     achievementTitle: "Our experience",
     achievementDesc: "Depth built over 25+ years of SAP projects, measured across the practices our clients rely on most.",
@@ -128,7 +129,7 @@ const copy = {
       "Puzzle adalah permainan di mana setiap kepingnya memiliki bentuk unik dan ditempatkan pada posisi tertentu untuk membentuk gambaran yang lebih besar. Setiap keping harus cocok dengan keping sebelum dan sesudahnya. PST memilih puzzle sebagai logonya karena sifatnya yang serupa dengan bisnis itu sendiri.",
     philosophy3:
       "Layaknya puzzle, kami dapat membantu Anda membentuk gambaran yang lebih besar agar perusahaan Anda selaras dengan tantangan global.",
-    logoAlt: "Logo PST",
+    logoAlt: "Logo PST: Strategi, SDM, Proses, dan Produk disatukan oleh inti PST",
     achievementEyebrow: "PENCAPAIAN",
     achievementTitle: "Pengalaman kami",
     achievementDesc: "Kedalaman yang dibangun selama 25+ tahun proyek SAP, diukur dari praktik yang paling diandalkan klien kami.",
@@ -270,9 +271,10 @@ export function AboutView() {
         </div>
       </section>
 
-      <section className="box-border w-full h-fit flex flex-row flex-wrap gap-[96px] p-[96px] justify-start items-center bg-[#000354] max-lg:p-[60px_20px] max-lg:gap-[32px]">
+      {/* overflow-hidden: puzzle pieces fly in from outside their box, and must not grow the page while they do */}
+      <section className="box-border w-full h-fit flex flex-row flex-wrap gap-[96px] p-[96px] justify-start items-center bg-[#000354] overflow-hidden max-lg:p-[60px_20px] max-lg:gap-[32px]">
         <div className="box-border w-[520px] max-w-full shrink-0 h-[560px] flex items-center justify-center max-lg:h-[420px]">
-          <div role="img" aria-label={c.logoAlt} className="box-border w-full h-full bg-[url('/images/pst/pst-logo.png')] bg-no-repeat bg-contain bg-center" />
+          <LogoPuzzle lang={lang} label={c.logoAlt} />
         </div>
         <div className="box-border [flex:1_1_0] min-w-[300px] h-fit flex flex-col gap-[20px]">
           <div className={`text-[13px]/[17px] text-[#A6CBD3] ${font} font-medium tracking-[1.4px]`}>{c.philosophyEyebrow}</div>
