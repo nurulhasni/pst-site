@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ChartPie, ShieldCheck, type LucideIcon } from "lucide-react";
 import { Icon } from "@/components/Icon";
 import { useLanguage } from "@/components/LanguageProvider";
 import { localize } from "@/lib/sheetI18n";
@@ -12,6 +13,9 @@ const iconIds: Record<string, string> = {
   workflow: "workflow-cbeff6",
   compass: "compass-07d60a",
 };
+
+// Services added after the original icon set was drawn use lucide icons in the same colour
+const lucideIcons: Record<string, LucideIcon> = { chart: ChartPie, shield: ShieldCheck };
 
 export function ServicesView({ services }: { services: Service[] }) {
   const { t, lang } = useLanguage();
@@ -66,7 +70,7 @@ export function ServicesView({ services }: { services: Service[] }) {
         {rows.map((row, rowIndex) => (
           <div
             key={rowIndex}
-            className={`[box-sizing:content-box] max-lg:box-border w-[788px] shrink-0 flex flex-row gap-0 justify-start items-start max-lg:w-full max-lg:h-auto max-md:flex-col ${
+            className={`box-border w-full max-w-[788px] shrink-0 flex flex-row gap-0 justify-start items-start max-lg:w-full max-lg:h-auto max-md:flex-col ${
               rowIndex === 0
                 ? "[border-width:1px_0px_0px_0px] [border-style:solid] [border-color:#D5DADD] [margin:-0.5px_0px_0px_0px]"
                 : "[border-width:1px_0px_1px_0px] [border-style:solid] [border-color:#D5DADD] [margin:-0.5px_0px_-0.5px_0px]"
@@ -82,10 +86,17 @@ export function ServicesView({ services }: { services: Service[] }) {
                 }
               >
                 <div className="box-border w-[48px] h-[48px] shrink-0 flex flex-row gap-0 justify-center items-center bg-[#EAF3F5] rounded-[8px]">
-                  <Icon
-                    id={iconIds[service.icon] ?? iconIds.layers}
-                    className="box-border w-[24px] shrink-0 h-[24px]"
-                  />
+                  {lucideIcons[service.icon] ? (
+                    (() => {
+                      const Lucide = lucideIcons[service.icon];
+                      return <Lucide size={24} strokeWidth={1.75} className="text-[#2F6E80] shrink-0" />;
+                    })()
+                  ) : (
+                    <Icon
+                      id={iconIds[service.icon] ?? iconIds.layers}
+                      className="box-border w-[24px] shrink-0 h-[24px]"
+                    />
+                  )}
                 </div>
                 <div className="text-[24px]/[28px] box-border text-[#000000] font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif] font-medium text-left max-lg:whitespace-normal">
                   {localize(service.title, lang)}

@@ -11,7 +11,7 @@ type Position = { title: string; category: string; Icon: LucideIcon; type: strin
 const positions: Position[] = [
   { title: "Business Analyst (SAP S/4HANA) Consultant – Trainee", category: "FUNCTIONAL", Icon: BriefcaseBusiness, type: "Trainee", location: "Kemayoran HQ · client sites", status: "Open", updated: "Oct 20, 2026" },
   { title: "System Engineer / Database Administrator", category: "TECHNICAL", Icon: Server, type: "Full-time · Fresh grad", location: "Kemayoran HQ · client sites", status: "Open", updated: "Oct 20, 2026" },
-  { title: "Application Developer / Programmer", category: "ABAPER", Icon: Code, type: "Full-time · Fresh grad", location: "Kemayoran HQ · client sites", status: "Open", updated: "Oct 20, 2026" },
+  { title: "ABAP & SAP Fiori Developer", category: "ABAPER / FIORI", Icon: Code, type: "Full-time · Fresh grad", location: "Kemayoran HQ · client sites", status: "Open", updated: "Oct 20, 2026" },
 ];
 
 const faqs = [

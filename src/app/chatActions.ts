@@ -2,6 +2,7 @@
 
 import { headers } from "next/headers";
 import { getChatReply, type ChatTurn, type Lang } from "@/lib/chatAssistant";
+import { recordActivity } from "@/lib/activityLog";
 import { saveChatRows, type ChatRow } from "@/lib/chatLog";
 
 const sessionPattern = /^[A-Za-z0-9-]{8,64}$/;
@@ -85,6 +86,16 @@ export async function saveChatLead(input: {
 
   try {
     await saveChatRows([row({ session, lang: toLang(input.lang), page: clean(input.page, 200) }, { type: "lead", name, contact, company })]);
+    await recordActivity({
+      type: "chat_lead",
+      page: clean(input.page, 200),
+      lang: toLang(input.lang),
+      name,
+      email: emailPattern.test(contact) ? contact : "",
+      phone: emailPattern.test(contact) ? "" : contact,
+      company,
+      detail: "PST Assistant",
+    });
     return { ok: true };
   } catch (error) {
     console.error("[chat] could not save lead:", error);

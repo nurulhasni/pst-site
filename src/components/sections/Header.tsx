@@ -45,10 +45,10 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 w-full bg-[#FFFFFF] [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#D5DADD]">
-      <div className="box-border w-full h-[71px] flex flex-row gap-[48px] p-[0px_96px] justify-start items-center max-lg:p-[0px_20px] max-lg:justify-between">
+      <div className="box-border w-full h-[71px] flex flex-row gap-[48px] p-[0px_96px] justify-start items-center max-lg:p-[0px_20px] max-lg:gap-[12px] max-lg:justify-between">
         <Link href="/" className="box-border w-fit shrink-0 h-fit flex flex-row gap-[10px] justify-start items-center">
           <div className="box-border w-[44px] shrink-0 h-[44px] bg-[url('/images/pst/pst-logo.png')] bg-no-repeat bg-contain bg-center"></div>
-          <div className={`text-[14px]/[16px] box-border text-[#000354] ${font} font-bold text-left [white-space:nowrap]`}>
+          <div className={`text-[14px]/[16px] box-border text-[#000354] ${font} font-bold text-left [white-space:nowrap] max-[380px]:hidden`}>
             Prima Sistem
             <br />
             Terpadu
@@ -133,7 +133,7 @@ export function Header() {
             );
           })}
         </nav>
-        <div className="box-border w-fit shrink-0 h-fit flex flex-row gap-[24px] justify-start items-center max-lg:gap-[16px]">
+        <div className="box-border w-fit shrink-0 h-fit flex flex-row gap-[24px] justify-start items-center max-lg:gap-[16px] max-sm:gap-[10px]">
           <div className="box-border w-fit shrink-0 h-fit flex flex-row gap-[6px] justify-start items-center max-sm:hidden">
             <Icon id="globe-ba8fa5" className="box-border w-[18px] shrink-0 h-[18px]" />
             <button
@@ -160,9 +160,9 @@ export function Header() {
           </div>
           <Link
             href="/contact"
-            className="box-border w-fit shrink-0 h-[40px] flex flex-row gap-[8px] p-[0px_20px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] rounded-[8px] max-sm:p-[0px_14px]"
+            className="box-border w-fit shrink-0 h-[40px] flex flex-row gap-[8px] p-[0px_20px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] rounded-[8px] max-sm:p-[0px_12px]"
           >
-            <span className={`text-[15px]/[19px] box-border text-[#FFFFFF] ${font} font-medium text-left [white-space:nowrap]`}>{t("nav.quote")}</span>
+            <span className={`text-[15px]/[19px] max-sm:text-[14px]/[18px] box-border text-[#FFFFFF] ${font} font-medium text-left [white-space:nowrap]`}>{t("nav.quote")}</span>
           </Link>
           <button
             type="button"

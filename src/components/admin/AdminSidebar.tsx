@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {
+  Activity,
   Briefcase,
   Building2,
   FileText,
@@ -35,6 +36,7 @@ const contentItems: NavItem[] = [
 const audienceItems: NavItem[] = [
   { key: "subscribers", label: "Subscribers", Icon: Mail, href: "/admin/subscribers", badge: "3 new" },
   { key: "chats", label: "Chat History", Icon: MessagesSquare, href: "/admin/chats" },
+  { key: "activity", label: "Activity Log", Icon: Activity, href: "/admin/activity" },
 ];
 
 function NavRow({ item, active }: { item: NavItem; active: boolean }) {

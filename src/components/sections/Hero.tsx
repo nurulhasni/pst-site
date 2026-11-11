@@ -20,7 +20,9 @@ export function Hero() {
               {t("hero.badge")}
             </div>
           </div>
-          <div className="hero-rise [--d:110ms] text-[clamp(40px,4.4vw,64px)]/[1.05] box-border text-[#FFFFFF] font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif] font-bold text-left">
+          {/* Beside the photos the text column is the viewport minus about 895px (padding, gap, photos, scrollbar); the xl size keeps the
+              longest title line ("Implementasi SAP") on one line there, and 9.4vw does the same on phones */}
+          <div className="hero-rise [--d:110ms] text-[clamp(40px,4.4vw,64px)]/[1.05] xl:text-[length:clamp(40px,calc((100vw_-_895px)/9.2),64px)] max-sm:text-[length:9.4vw] box-border text-[#FFFFFF] font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif] font-bold text-left">
             {t("hero.title1")}
             <br />
             {t("hero.title2")}
