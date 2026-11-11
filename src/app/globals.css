@@ -82,3 +82,80 @@
 html[data-lang="id"] .\[white-space\:nowrap\] {
   white-space: normal;
 }
+
+/* Scroll reveal for page sections lives in components/ScrollReveal.tsx */
+
+/* --- Hero entrance --------------------------------------------------------- */
+
+@keyframes heroRise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes heroPhoto {
+  from {
+    opacity: 0;
+    transform: scale(1.08);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Text and cards rise in one after another; --d sets each one's delay */
+.hero-rise {
+  animation: heroRise 750ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms) both;
+}
+
+/* Photos settle from a slight zoom */
+.hero-photo {
+  animation: heroPhoto 1200ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms) both;
+}
+
+/* The two photo columns drift apart a little as the page scrolls. Browsers
+   without scroll-driven animations simply skip this. */
+@keyframes heroDriftUp {
+  to {
+    transform: translateY(-36px);
+  }
+}
+
+@keyframes heroDriftDown {
+  to {
+    transform: translateY(28px);
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  .hero-drift-up,
+  .hero-drift-down {
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: scroll(root);
+    animation-range: 0 640px;
+  }
+
+  .hero-drift-up {
+    animation-name: heroDriftUp;
+  }
+
+  .hero-drift-down {
+    animation-name: heroDriftDown;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise,
+  .hero-photo,
+  .hero-drift-up,
+  .hero-drift-down {
+    animation: none;
+  }
+}
