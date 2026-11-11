@@ -17,6 +17,9 @@ function details(formData: FormData) {
   const eventDate = text(formData, "eventDate");
   return {
     title: text(formData, "title"),
+    titleId: text(formData, "titleId"),
+    description: text(formData, "description"),
+    descriptionId: text(formData, "descriptionId"),
     category: text(formData, "category"),
     eventDate: datePattern.test(eventDate) ? eventDate : "",
     published: formData.get("published") === "on",

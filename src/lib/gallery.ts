@@ -1,5 +1,5 @@
 import { cacheLife, cacheTag } from "next/cache";
-import { fallbackPhotos, galleryTab, toPhoto, type GalleryPhoto, type PublicPhoto } from "@/lib/galleryModel";
+import { fallbackPhotos, galleryTab, toPhoto, toPublicPhoto, type GalleryPhoto, type PublicPhoto } from "@/lib/galleryModel";
 import { listRecords, type SheetRecord } from "@/lib/sheetStore";
 import { sheetTag } from "@/lib/sheets";
 
@@ -23,7 +23,7 @@ export async function getPublicPhotos(): Promise<PublicPhoto[]> {
   return (rows ? rows.map(toPhoto) : fallbackPhotos)
     .filter((p) => p.published && p.image)
     .sort(byOrder)
-    .map(({ id, title, image }) => ({ id, title, image }));
+    .map(toPublicPhoto);
 }
 
 export async function getGalleryAdminData() {

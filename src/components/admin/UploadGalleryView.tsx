@@ -167,6 +167,7 @@ export function UploadGalleryView({ nextOrder }: { nextOrder: number }) {
 
         <AdminCard title="Details" sub="Applied to all images in this upload">
           <AdminField label="Title *" name="title" placeholder="e.g. SAP implementation workshop" hint="Also read out by screen readers. Edit each photo later to give it its own title." />
+          <AdminField label="Description" name="description" multiline rows={3} hint="Optional. Shown under the photo when a visitor opens it." />
           <div className="box-border w-full h-fit shrink-0 flex flex-row gap-[16px] justify-start items-start max-sm:flex-col">
             <label className="box-border [flex:1_1_0] min-w-0 max-sm:w-full h-fit flex flex-col gap-[8px] justify-start items-start">
               <span className={labelClass}>Category</span>
@@ -186,6 +187,10 @@ export function UploadGalleryView({ nextOrder }: { nextOrder: number }) {
               </div>
             </label>
           </div>
+        </AdminCard>
+        <AdminCard title="Indonesian version" sub="Optional · empty fields use the English text">
+          <AdminField label="Title (ID)" name="titleId" placeholder="e.g. Workshop implementasi SAP" />
+          <AdminField label="Description (ID)" name="descriptionId" multiline rows={3} />
         </AdminCard>
       </div>
 

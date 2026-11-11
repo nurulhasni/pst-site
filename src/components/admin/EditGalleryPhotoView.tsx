@@ -63,6 +63,7 @@ export function EditGalleryPhotoView({ photo }: { photo: GalleryPhoto }) {
         </AdminCard>
         <AdminCard title="Details">
           <AdminField label="Title *" name="title" value={photo.title} />
+          <AdminField label="Description" name="description" value={photo.description} multiline rows={3} hint="Optional. Shown under the photo when a visitor opens it." />
           <div className="box-border w-full h-fit shrink-0 flex flex-row gap-[16px] justify-start items-start max-sm:flex-col">
             <label className="box-border [flex:1_1_0] min-w-0 max-sm:w-full h-fit flex flex-col gap-[8px] justify-start items-start">
               <span className={labelClass}>Category</span>
@@ -82,6 +83,10 @@ export function EditGalleryPhotoView({ photo }: { photo: GalleryPhoto }) {
               </div>
             </label>
           </div>
+        </AdminCard>
+        <AdminCard title="Indonesian version" sub="Optional · empty fields use the English text">
+          <AdminField label="Title (ID)" name="titleId" value={photo.titleId} />
+          <AdminField label="Description (ID)" name="descriptionId" value={photo.descriptionId} multiline rows={3} />
         </AdminCard>
       </div>
 
