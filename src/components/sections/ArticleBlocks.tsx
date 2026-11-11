@@ -42,7 +42,7 @@ export function ArticleBlocks({ blocks }: { blocks: Block[] }) {
                 role="img"
                 aria-label={block.caption}
                 className="box-border w-full h-[384px] bg-cover bg-center rounded-[12px]"
-                style={{ backgroundImage: `url(${figureImage})` }}
+                style={{ backgroundImage: `url(${block.image || figureImage})` }}
               />
               <figcaption className={`text-[14px]/[18px] text-[#475E75] ${font}`}>{block.caption}</figcaption>
             </figure>

@@ -6,6 +6,7 @@ import { FloatingContact } from "@/components/sections/FloatingContact";
 import { BlogBrowser } from "@/components/sections/BlogBrowser";
 import { PageHero } from "@/components/PageHero";
 import { useLanguage } from "@/components/LanguageProvider";
+import type { PostSummary } from "@/lib/blogModel";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif]";
 
@@ -30,14 +31,14 @@ const copy = {
   },
 };
 
-export function BlogPageView() {
+export function BlogPageView({ posts }: { posts: PostSummary[] }) {
   const { lang } = useLanguage();
   const c = copy[lang];
 
   return (
     <main className="w-full overflow-x-hidden">
       <PageHero current={c.current} title={c.title} description={c.description} />
-      <BlogBrowser />
+      <BlogBrowser posts={posts} />
       <section className="box-border w-full h-fit p-[96px_96px_120px_96px] max-lg:p-[60px_20px]">
         <div className="box-border w-full h-fit flex flex-row flex-wrap gap-[48px] p-[64px] justify-between items-center rounded-[12px] [background-image:radial-gradient(ellipse_30%_60%_at_90%_10%,_#A6CBD333_0%,_#A6CBD300_100%),_linear-gradient(90deg,_#08174A_0%,_#2B1C8F_100%)] max-lg:p-[32px_20px]">
           <div className="box-border w-fit max-w-[637px] h-fit flex flex-col gap-[16px]">

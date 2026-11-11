@@ -3,16 +3,15 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import { BlogDetailView } from "@/components/views/BlogDetailView";
-import { getPost, posts, unlockCookie, type Post } from "@/lib/blog";
+import { previewBlocks, unlockCookie } from "@/lib/blog";
+import { fallbackPosts } from "@/lib/blogModel";
+import { getPostSummaries, getPublicPost } from "@/lib/blogPosts";
 
-const relatedSlugs = [
-  "why-sap-s4hana-matters-for-modern-enterprises",
-  "the-future-of-cloud-erp-solutions",
-  "5-ways-to-optimize-your-business-processes",
-];
-
-export function generateStaticParams() {
-  return posts.map((post) => ({ slug: post.slug }));
+// Posts added in the admin after a build are rendered the first time they are opened
+export async function generateStaticParams() {
+  const posts = await getPostSummaries();
+  // The build needs at least one page to check, even when every post is a draft
+  return (posts.length ? posts : fallbackPosts.slice(0, 1)).map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({
@@ -21,25 +20,26 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
-  if (!post) return {};
+  const found = await getPublicPost(slug);
+  if (!found) return {};
+  const { post } = found;
   return {
-    title: `${post.title} — PT Prima Sistem Terpadu`,
-    description: post.excerpt,
+    title: post.metaTitle || `${post.title} — PT Prima Sistem Terpadu`,
+    description: post.metaDescription || post.excerpt,
   };
 }
 
 async function BlogDetailContent({ slug }: { slug: string }) {
-  const post = getPost(slug);
-  if (!post) notFound();
+  const found = await getPublicPost(slug);
+  if (!found) notFound();
+  const { post, related } = found;
 
   const unlocked = (await cookies()).get(unlockCookie)?.value === "1";
-  const related = relatedSlugs
-    .map((item) => getPost(item))
-    .filter((item): item is Post => Boolean(item) && item?.slug !== post.slug)
-    .map(({ slug: relatedSlug, title, category }) => ({ slug: relatedSlug, title, category }));
+  const locked = post.gated && !unlocked;
+  // A locked article only sends its opening to the browser
+  const shown = locked ? { ...post, body: post.body.slice(0, previewBlocks), bodyId: post.bodyId.slice(0, previewBlocks) } : post;
 
-  return <BlogDetailView post={post} locked={post.gated && !unlocked} related={related} />;
+  return <BlogDetailView post={shown} locked={locked} related={related} />;
 }
 
 export default async function BlogDetailPage({

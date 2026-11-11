@@ -3,33 +3,51 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
-import { categories, localPost, postImages, posts } from "@/lib/blog";
+import { blogCategories, localSummary, type PostSummary } from "@/lib/blogModel";
 import { useLanguage } from "@/components/LanguageProvider";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif]";
 
-export function BlogBrowser() {
+const PAGE_SIZE = 9;
+
+// `posts` arrive newest first, with the featured post in front
+export function BlogBrowser({ posts }: { posts: PostSummary[] }) {
   const { t, lang } = useLanguage();
   const [category, setCategory] = useState("All");
   const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
 
-  const [featured, ...rest] = posts.map((post) => localPost(post, lang));
+  const all = posts.map((post) => localSummary(post, lang));
+  const [featured, ...rest] = all;
+  // The usual categories in their usual order, then any others staff typed into the Sheet
+  const used = new Set(posts.map((post) => post.category).filter(Boolean));
+  const categories = ["All", ...blogCategories.filter((item) => used.has(item)), ...[...used].filter((item) => !blogCategories.includes(item))];
   const isFiltered = category !== "All" || query.trim() !== "";
-  const matches = rest.filter((post) => {
+  // A search or category filter looks through every post, the featured one included
+  const matches = all.filter((post) => {
     const inCategory = category === "All" || post.category === category;
     const inQuery = post.title.toLowerCase().includes(query.trim().toLowerCase());
     return inCategory && inQuery;
   });
+  const listed = isFiltered ? matches : rest;
+  const pages = Math.max(1, Math.ceil(listed.length / PAGE_SIZE));
+  const current = Math.min(page, pages);
+  const shown = listed.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE);
+  const pageButton = `box-border h-[40px] flex flex-row gap-[6px] items-center justify-center rounded-[8px] text-[14px]/[18px] ${font} font-medium cursor-pointer disabled:cursor-default disabled:opacity-50`;
+  const plainButton = "bg-[#FFFFFF] text-[#223548] hover:bg-[#EAF3F5] disabled:hover:bg-[#FFFFFF] [outline:1px_solid_#D5DADD] [outline-offset:-0.5px]";
 
   return (
     <div className="box-border w-full h-fit flex flex-col gap-[56px] p-[64px_96px_112px_96px] justify-start items-start max-lg:p-[40px_20px_60px_20px]">
-      <div className="box-border w-full h-[48px] flex flex-row flex-wrap gap-[16px] justify-between items-center">
-        <div className="box-border w-fit h-[34px] flex flex-row gap-[8px]">
+      <div className="box-border w-full h-fit min-h-[48px] flex flex-row flex-wrap gap-[16px] justify-between items-center">
+        <div className="box-border w-fit max-w-full h-fit flex flex-row flex-wrap gap-[8px]">
           {categories.map((item) => (
             <button
               key={item}
               type="button"
-              onClick={() => setCategory(item)}
+              onClick={() => {
+                setCategory(item);
+                setPage(1);
+              }}
               className={`box-border w-fit h-[34px] p-[0px_14px] flex items-center rounded-[999px] text-[14px]/[18px] ${font} font-medium ${
                 category === item
                   ? "bg-[#000354] hover:bg-[#0B1470] text-[#FFFFFF]"
@@ -45,21 +63,24 @@ export function BlogBrowser() {
           <input
             type="search"
             value={query}
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={(event) => {
+              setQuery(event.target.value);
+              setPage(1);
+            }}
             placeholder={t("blog.search")}
             className={`box-border w-full bg-transparent text-[16px]/[20px] text-[#000000] ${font} placeholder:text-[#8396A8] outline-none`}
           />
         </label>
       </div>
 
-      {!isFiltered && (
+      {!isFiltered && current === 1 && featured && (
         <Link
           href={`/blog/${featured.slug}`}
           className="group box-border w-full h-[440px] flex flex-row gap-[18px] bg-[#FFFFFF] rounded-[12px] overflow-hidden max-lg:h-auto max-lg:flex-col"
         >
           <div
             className="box-border w-[688px] max-w-[55%] h-full shrink-0 bg-cover bg-center max-lg:w-full max-lg:max-w-none max-lg:h-[260px]"
-            style={{ backgroundImage: `url(${postImages[featured.slug]})` }}
+            style={{ backgroundImage: `url(${featured.image})` }}
             role="img"
             aria-label={featured.title}
           />
@@ -86,11 +107,11 @@ export function BlogBrowser() {
       )}
 
       <div className="box-border w-full h-fit grid grid-cols-3 gap-x-[32px] gap-y-[56px] max-lg:grid-cols-1 max-xl:grid-cols-2">
-        {(isFiltered ? matches : rest).map((post) => (
+        {shown.map((post) => (
           <Link key={post.slug} href={`/blog/${post.slug}`} className="group box-border w-full h-fit flex flex-col gap-[16px] justify-start items-start">
             <div
               className="box-border w-full h-[220px] bg-cover bg-center rounded-[12px]"
-              style={{ backgroundImage: `url(${postImages[post.slug]})` }}
+              style={{ backgroundImage: `url(${post.image})` }}
               role="img"
               aria-label={post.title}
             />
@@ -112,26 +133,27 @@ export function BlogBrowser() {
         <div className={`text-[16px]/[24px] text-[#354A5F] ${font}`}>{t("blog.noMatch")}</div>
       )}
 
-      {!isFiltered && (
-        <div className="box-border w-full h-[40px] flex flex-row gap-[8px] justify-center items-center">
-          <span className={`box-border w-[80px] h-[40px] flex flex-row gap-[6px] items-center justify-center bg-[#FFFFFF] [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[8px] text-[14px]/[18px] text-[#223548] ${font} font-medium`}>
+      {pages > 1 && (
+        <div className="box-border w-full h-fit flex flex-row flex-wrap gap-[8px] justify-center items-center">
+          <button type="button" disabled={current === 1} onClick={() => setPage(current - 1)} className={`${pageButton} ${plainButton} w-[80px]`}>
             <ChevronLeft size={16} />
             {t("blog.prev")}
-          </span>
-          {["1", "2", "3"].map((page) => (
-            <span
-              key={page}
-              className={`box-border w-[36px] h-[40px] flex items-center justify-center rounded-[8px] text-[14px]/[18px] ${font} font-medium ${
-                page === "1" ? "bg-[#000354] text-[#FFFFFF]" : "bg-[#FFFFFF] text-[#223548] [outline:1px_solid_#D5DADD] [outline-offset:-0.5px]"
-              }`}
+          </button>
+          {Array.from({ length: pages }, (_, index) => index + 1).map((number) => (
+            <button
+              key={number}
+              type="button"
+              aria-current={number === current ? "page" : undefined}
+              onClick={() => setPage(number)}
+              className={`${pageButton} w-[36px] ${number === current ? "bg-[#000354] text-[#FFFFFF]" : plainButton}`}
             >
-              {page}
-            </span>
+              {number}
+            </button>
           ))}
-          <span className={`box-border w-[81px] h-[40px] flex flex-row gap-[6px] items-center justify-center bg-[#FFFFFF] [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[8px] text-[14px]/[18px] text-[#223548] ${font} font-medium`}>
+          <button type="button" disabled={current === pages} onClick={() => setPage(current + 1)} className={`${pageButton} ${plainButton} w-[81px]`}>
             {t("blog.next")}
             <ChevronRight size={16} />
-          </span>
+          </button>
         </div>
       )}
     </div>

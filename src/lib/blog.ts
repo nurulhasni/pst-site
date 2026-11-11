@@ -5,7 +5,7 @@ export type Block =
   | { type: "quote"; text: string }
   | { type: "ul"; items: string[] }
   | { type: "ol"; items: string[] }
-  | { type: "figure"; caption: string };
+  | { type: "figure"; caption: string; image?: string };
 
 export type Post = {
   slug: string;

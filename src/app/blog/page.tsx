@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { BlogPageView } from "@/components/views/BlogPageView";
+import { getPostSummaries } from "@/lib/blogPosts";
 
 export const metadata: Metadata = {
   title: "Blog — PT Prima Sistem Terpadu",
@@ -7,6 +8,6 @@ export const metadata: Metadata = {
     "Company news, SAP insights and expert perspectives on digital transformation.",
 };
 
-export default function BlogPage() {
-  return <BlogPageView />;
+export default async function BlogPage() {
+  return <BlogPageView posts={await getPostSummaries()} />;
 }

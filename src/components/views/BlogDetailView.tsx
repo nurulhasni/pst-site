@@ -7,24 +7,9 @@ import { FloatingContact } from "@/components/sections/FloatingContact";
 import { ArticleBody } from "@/components/sections/ArticleBody";
 import { Icon } from "@/components/Icon";
 import { useLanguage } from "@/components/LanguageProvider";
-import { coverImage, idBodies, localPost, relatedImages, type Post } from "@/lib/blog";
+import { localSummary, type PostSummary, type PublicPost } from "@/lib/blogModel";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif]";
-
-const relatedDescriptions: Record<string, { en: string; id: string }> = {
-  "why-sap-s4hana-matters-for-modern-enterprises": {
-    en: "The critical advantages of moving to SAP S/4HANA.",
-    id: "Keunggulan penting beralih ke SAP S/4HANA.",
-  },
-  "the-future-of-cloud-erp-solutions": {
-    en: "How cloud-based ERP is changing resource management.",
-    id: "Bagaimana ERP berbasis cloud mengubah pengelolaan sumber daya.",
-  },
-  "5-ways-to-optimize-your-business-processes": {
-    en: "Practical strategies to find bottlenecks and streamline operations.",
-    id: "Strategi praktis menemukan hambatan dan menyederhanakan operasional.",
-  },
-};
 
 const copy = {
   en: {
@@ -69,14 +54,13 @@ const copy = {
   },
 };
 
-type RelatedPost = Pick<Post, "slug" | "title" | "category">;
-
-export function BlogDetailView({ post: rawPost, locked, related }: { post: Post; locked: boolean; related: RelatedPost[] }) {
+export function BlogDetailView({ post: rawPost, locked, related }: { post: PublicPost; locked: boolean; related: PostSummary[] }) {
   const { lang, t } = useLanguage();
   const c = copy[lang];
-  const post = localPost(rawPost, lang);
-  const articlePost = { ...post, body: lang === "id" && idBodies[post.slug] ? idBodies[post.slug] : post.body };
-  const localRelated = related.map((item) => localPost(item, lang));
+  const post = localSummary(rawPost, lang);
+  // The Indonesian article when one was written, otherwise the English one
+  const articlePost = { ...post, body: lang === "id" && post.bodyId.length ? post.bodyId : post.body };
+  const localRelated = related.map((item) => localSummary(item, lang));
   const headline = post.slug === "digital-transformation-trends-this-year" ? post.title.replace(" trends", "\ntrends") : post.title;
   const toc = (articlePost.body ?? []).flatMap((block) => (block.type === "h2" ? [block.text] : []));
 
@@ -113,7 +97,7 @@ export function BlogDetailView({ post: rawPost, locked, related }: { post: Post;
       <section className="box-border w-full h-fit flex flex-col p-[56px_96px_0px_96px] justify-start items-start max-lg:p-[32px_20px_0px_20px]">
         <div
           className="box-border w-full h-[520px] bg-cover bg-center rounded-[12px] max-lg:h-[260px]"
-          style={{ backgroundImage: `url(${coverImage})` }}
+          style={{ backgroundImage: `url(${post.image})` }}
           role="img"
           aria-label={post.title}
         />
@@ -122,7 +106,7 @@ export function BlogDetailView({ post: rawPost, locked, related }: { post: Post;
       <section className="box-border w-full h-fit flex flex-row flex-wrap gap-[104px] p-[64px_96px_96px_96px] justify-start items-start max-lg:p-[40px_20px_60px_20px] max-lg:gap-[40px]">
         <div className="box-border [flex:1_1_0] min-w-[300px] max-w-[804px] h-fit flex flex-col gap-[24px]">
           <ArticleBody post={articlePost} locked={locked} />
-          {!locked && post.tags && (
+          {!locked && post.tags.length > 0 && (
             <div className="box-border w-full pt-[24px] flex flex-row flex-wrap gap-[8px]">
               {post.tags.map((tag) => (
                 <span key={tag} className={`box-border w-fit h-[29px] p-[6px_14px] flex items-center [border-width:1px] [border-style:solid] [border-color:#D5DADD] rounded-[999px] text-[13px]/[17px] text-[#354A5F] ${font} font-medium`}>
@@ -131,7 +115,7 @@ export function BlogDetailView({ post: rawPost, locked, related }: { post: Post;
               ))}
             </div>
           )}
-          {!locked && post.tags && (
+          {!locked && (
             <div className="box-border w-full h-fit flex flex-row gap-[20px] p-[28px] bg-[#F5F6F7] rounded-[12px] items-start">
               <div className="box-border w-[64px] h-[64px] shrink-0 rounded-[999px] bg-[#FFFFFF] bg-[url('/images/pst/pst-logo.png')] bg-no-repeat bg-contain bg-center" />
               <div className="box-border w-full flex flex-col gap-[4px]">
@@ -186,14 +170,14 @@ export function BlogDetailView({ post: rawPost, locked, related }: { post: Post;
             <Link key={item.slug} href={`/blog/${item.slug}`} className="group box-border w-full h-fit flex flex-col gap-[16px] justify-start items-start">
               <div
                 className="box-border w-full h-[220px] bg-cover bg-center rounded-[12px]"
-                style={{ backgroundImage: `url(${relatedImages[item.slug]})` }}
+                style={{ backgroundImage: `url(${item.image})` }}
                 role="img"
                 aria-label={item.title}
               />
               <div className="box-border w-full h-fit flex flex-col gap-[8px]">
-                <div className={`text-[12px]/[15px] text-[#2F6E80] ${font} font-medium tracking-[1.2px]`}>{item.category.toUpperCase()}</div>
+                <div className={`text-[12px]/[15px] text-[#2F6E80] ${font} font-medium tracking-[1.2px]`}>{t(`blog.cat.${item.category}`).toUpperCase()}</div>
                 <div className={`text-[22px]/[25px] text-[#000000] group-hover:text-[#2F6E80] transition-colors ${font} font-medium`}>{item.title}</div>
-                <div className={`text-[16px]/[24px] text-[#354A5F] ${font}`}>{relatedDescriptions[item.slug]?.[lang]}</div>
+                <div className={`text-[16px]/[24px] text-[#354A5F] ${font}`}>{item.excerpt}</div>
               </div>
               <div className={`flex flex-row gap-[4px] items-center text-[16px]/[20px] text-[#2F6E80] group-hover:text-[#000354] transition-colors ${font} font-medium`}>
                 {c.readMore}
