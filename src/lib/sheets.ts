@@ -99,30 +99,44 @@ const fallbackServices: Service[] = [
   {
     title: "SAP Solution",
     description:
-      "ERP implementation is more than just an implementation of software or automation of the current business processes.",
+      "SAP ERP implemented around the way your business really runs, with cost under control and a team that knows how to use it.",
     icon: "layers",
     url: "/service-detail#sap-solution",
   },
   {
     title: "SAP Support & Outsourcing",
     description:
-      "An authorised SAP Value Added Reseller (VAR), awarded the “Partner Center of Expertise” certification for SAP VAR-Delivered Support.",
+      "Day-to-day SAP support from an authorised SAP reseller whose support process passed SAP's Partner Center of Expertise audit.",
     icon: "headset",
     url: "/service-detail#sap-support",
   },
   {
     title: "Business Process Reengineering",
     description:
-      "The fast growth of technology has changed the face of the world, forcing business players to redefine the way they run their business.",
+      "We redesign slow, manual processes, so work that adds no value is removed before it gets locked into a system.",
     icon: "workflow",
     url: "/service-detail#business-process",
   },
   {
     title: "Strategic Information Planning",
     description:
-      "Confusion in setting the priority of business process initiatives derives from the complexity of the business processes themselves.",
+      "A clear IT blueprint: which initiatives come first, what each one costs and what it returns.",
     icon: "compass",
     url: "/service-detail#strategic-planning",
+  },
+  {
+    title: "SAP Analytics Cloud (SAC)",
+    description:
+      "Dashboards, planning and forecasts on live SAP data, so decisions come from one trusted source instead of scattered spreadsheets.",
+    icon: "chart",
+    url: "/service-detail#sap-analytics-cloud",
+  },
+  {
+    title: "Migration Compliance Audit",
+    description:
+      "An independent check of your SAP migration, so data, processes and controls arrive complete and ready for your auditors.",
+    icon: "shield",
+    url: "/service-detail#migration-audit",
   },
 ];
 

@@ -16,7 +16,7 @@ export function AboutIntro() {
   }
 
   return (
-    <div id="about" className="box-border w-full h-fit shrink-0 flex flex-row gap-[96px] p-[120px_96px] justify-start items-center relative [z-index:3] max-lg:p-[60px_20px_60px_20px] max-lg:flex-col max-lg:items-stretch max-lg:gap-[32px]">
+    <div id="about" className="box-border w-full h-fit shrink-0 flex flex-row gap-[96px] p-[120px_96px] justify-start items-center relative [z-index:3] max-lg:p-[60px_20px_60px_20px] max-xl:flex-col max-xl:items-stretch max-xl:gap-[48px] max-lg:gap-[32px]">
       <div className="box-border w-[560px] shrink-0 h-[560px] relative max-lg:w-full max-lg:h-auto max-lg:aspect-square max-lg:max-w-[560px]">
         <div className="box-border w-[520px] h-[520px] absolute left-0 top-0 max-lg:w-[calc(100%-24px)] max-lg:h-[calc(100%-24px)] bg-[#000354] rounded-[12px] overflow-hidden [z-index:0] max-lg:w-full max-lg:h-[320px]">
           {/* Preview only: #t=0.1 makes the browser show the first frame as the poster */}
@@ -69,7 +69,7 @@ export function AboutIntro() {
         <div className="text-[48px]/[53px] box-border w-full text-[#000000] font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif] font-medium text-left max-lg:text-[32px]/[35px]">
           {t("about.title")}
         </div>
-        <div className="[box-sizing:content-box] max-lg:box-border w-[590.5px] h-[76px] max-lg:h-auto shrink-0 flex flex-row gap-0 p-[4px_0px_4px_24px] justify-start items-start [border-width:0px_0px_0px_3px] [border-style:solid] [border-color:#2F6E80] [margin:0px_0px_0px_-1.5px] max-lg:w-full">
+        <div className="box-border w-full max-w-[614px] h-fit shrink-0 flex flex-row gap-0 p-[4px_0px_4px_24px] justify-start items-start [border-width:0px_0px_0px_3px] [border-style:solid] [border-color:#2F6E80] [margin:0px_0px_0px_-1.5px] max-lg:w-full">
           <div className="text-[24px]/[34px] box-border [flex:1_1_0] text-[#223548] font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif] font-normal text-left min-w-0">
             {t("about.quote")}
           </div>

@@ -1,16 +1,19 @@
 "use client";
 
 import Link from "next/link";
+import type { ReactNode } from "react";
 import {
   ArrowDownRight,
   Award,
   BadgeCheck,
+  ChartPie,
   ChevronRight,
   CircleCheck,
   Compass,
   GitBranch,
   Layers,
   LifeBuoy,
+  ShieldCheck,
   TrendingUp,
   Wallet,
   Workflow,
@@ -27,9 +30,9 @@ const copy = {
   en: {
     home: "Home",
     services: "Services",
-    current: "Core Level Services",
-    heroTitle: "Core level\nservices",
-    heroDesc: "We are an IT solution provider. From strategy and process design to SAP implementation and long-term support, here's how we work, in detail.",
+    current: "Service details",
+    heroTitle: "How each\nservice works",
+    heroDesc: "From strategy and process design to SAP implementation and long-term support: what each service involves and what you get from it.",
     certTitle: "Partner Center of Expertise",
     certDesc: "Certified for SAP VAR-Delivered Support",
     discuss: "Discuss this service",
@@ -46,27 +49,43 @@ const copy = {
       { title: "Partner Center of Expertise", text: "SAP VAR-Delivered Support audit" },
       { title: "Authorised SAP VAR", text: "Value Added Reseller of SAP" },
     ],
-    jump: ["SAP Solution", "Business Process Reengineering", "Strategic Information Planning", "SAP Support & Outsourcing"],
+    jump: ["SAP Solution", "Business Process Reengineering", "Strategic Information Planning", "SAP Analytics Cloud (SAC)", "Migration Compliance Audit", "SAP Support & Outsourcing"],
     s1: {
       title: "SAP Solution",
       lead: "Implementation driven by your business processes, not by the tool.",
       p1: "ERP implementation is more than just an implementation of software or automation of the current business processes. An ERP system is merely a tool to help you run the business. Its implementation should be driven by the business processes, instead of the tool.",
-      p2: "We realize that many ERP implementations are over budget and too big of an investment for the customer. Therefore, our sole concern is to ensure an SAP ERP implementation with:",
+      p2: "Many ERP implementations run over budget and become a heavier investment than planned. So we focus every SAP ERP implementation on three results:",
       p3: "PST has successfully helped many customers implement SAP ERP. Most of them had very limited knowledge of SAP at first, but every barrier and issue was solved through honest partnership between our consultants and the client.",
     },
     s2: {
       title: "Business Process Reengineering",
       lead: "Re-engineer conventional processes with IT as the enabler.",
-      p1: "The fast growth of technology has changed the face of the world, forcing business players to redefine the way they run their business. A lot of conventional business processes have been re-engineered by applying IT as an enabler.",
+      p1: "Many processes that used to be done by hand can now be simpler, faster or removed altogether. We review how your work flows today and redesign it with IT as the enabler.",
       quote: "Our experience lets us see the wisdom in applying the most beneficial, efficient and effective technology for our clients.",
       p2: "Beyond eliminating non-value-added processes, we help you see other possibilities that will increase your company's value.",
     },
     s3: {
       title: "Strategic Information Planning",
       lead: "An IT blueprint that sets clear priorities for every initiative.",
-      p1: "Confusion in setting the priority of business process initiatives derives from the complexity of the business processes themselves. We help you see the overall business process and set the priority of business initiatives based on the core competencies you have to build, related to your company vision, in delivering better value to your business partners.",
+      p1: "When every initiative looks urgent, it is hard to know where to start. We help you see the overall business process and set the priority of business initiatives based on the core competencies you have to build, related to your company vision, in delivering better value to your business partners.",
       p2: "Strategic information planning becomes an IT blueprint: a complete picture and guideline for stakeholders in prioritizing initiatives and making decisions.",
       receive: "WHAT YOU RECEIVE",
+    },
+    s5: {
+      title: "SAP Analytics Cloud (SAC)",
+      lead: "Reporting, planning and forecasting in one place, on the data your SAP system already holds.",
+      p1: "After go-live, many companies still build their reports by exporting data to Excel. Numbers differ between departments, and the month-end report arrives after the decisions have already been made.",
+      p2: "We set up SAP Analytics Cloud on top of your SAP data, so leaders see the same numbers at the same time and plan from them directly.",
+      receive: "WHAT YOU RECEIVE",
+      items: ["Management dashboards on live SAP data", "Budgeting, planning and forecasting in one tool", "A data model built around your KPIs", "Training so your team builds its own reports"],
+    },
+    s6: {
+      title: "Migration Compliance Audit",
+      lead: "Find the gaps in your migration before they reach your financial statements or your auditors.",
+      p1: "Moving to SAP S/4HANA or a new SAP system carries risks that do not show on go-live day: master data that is incomplete, balances that do not reconcile, user access that is too broad, and controls that did not survive the move.",
+      p2: "We review your migration against your business processes and internal controls, reconcile what was moved, and rank every finding by risk. It works for migrations we run and for those done by another partner.",
+      receive: "WHAT YOU RECEIVE",
+      items: ["Data completeness and balance reconciliation", "Review of user roles and access", "Check of key business process controls", "Findings report ranked by risk, with the fix for each"],
     },
     s4: {
       title: "SAP Support & Outsourcing",
@@ -81,9 +100,9 @@ const copy = {
   id: {
     home: "Beranda",
     services: "Layanan",
-    current: "Layanan Inti",
-    heroTitle: "Layanan\ninti",
-    heroDesc: "Kami adalah penyedia solusi TI. Dari strategi dan perancangan proses hingga implementasi SAP dan dukungan jangka panjang, inilah cara kami bekerja, secara rinci.",
+    current: "Detail layanan",
+    heroTitle: "Cara kerja\nsetiap layanan",
+    heroDesc: "Dari strategi dan perancangan proses hingga implementasi SAP dan dukungan jangka panjang: apa saja isi tiap layanan dan apa yang Anda dapatkan.",
     certTitle: "Partner Center of Expertise",
     certDesc: "Tersertifikasi untuk SAP VAR-Delivered Support",
     discuss: "Diskusikan layanan ini",
@@ -100,27 +119,43 @@ const copy = {
       { title: "Partner Center of Expertise", text: "Audit SAP VAR-Delivered Support" },
       { title: "SAP VAR resmi", text: "Value Added Reseller resmi SAP" },
     ],
-    jump: ["Solusi SAP", "Rekayasa Ulang Proses Bisnis", "Perencanaan Informasi Strategis", "Dukungan & Outsourcing SAP"],
+    jump: ["Solusi SAP", "Rekayasa Ulang Proses Bisnis", "Perencanaan Informasi Strategis", "SAP Analytics Cloud (SAC)", "Migration Compliance Audit", "Dukungan & Outsourcing SAP"],
     s1: {
       title: "Solusi SAP",
       lead: "Implementasi yang digerakkan oleh proses bisnis Anda, bukan oleh alatnya.",
       p1: "Implementasi ERP lebih dari sekadar implementasi perangkat lunak atau otomatisasi proses bisnis yang ada. Sistem ERP hanyalah alat untuk membantu Anda menjalankan bisnis. Implementasinya harus digerakkan oleh proses bisnis, bukan oleh alatnya.",
-      p2: "Kami menyadari banyak implementasi ERP yang melebihi anggaran dan menjadi investasi terlalu besar bagi pelanggan. Karena itu, fokus utama kami adalah memastikan implementasi SAP ERP dengan:",
+      p2: "Banyak implementasi ERP melebihi anggaran dan menjadi investasi yang lebih berat dari rencana. Karena itu, setiap implementasi SAP ERP kami fokuskan pada tiga hasil:",
       p3: "PST telah berhasil membantu banyak pelanggan mengimplementasikan SAP ERP. Sebagian besar awalnya memiliki pengetahuan SAP yang sangat terbatas, namun setiap hambatan dan masalah dapat diatasi melalui kemitraan yang jujur antara konsultan kami dan klien.",
     },
     s2: {
       title: "Rekayasa Ulang Proses Bisnis",
       lead: "Rekayasa ulang proses konvensional dengan TI sebagai pendorong.",
-      p1: "Pesatnya perkembangan teknologi telah mengubah wajah dunia, memaksa pelaku bisnis mendefinisikan ulang cara mereka menjalankan usaha. Banyak proses bisnis konvensional telah direkayasa ulang dengan menerapkan TI sebagai pendorongnya.",
+      p1: "Banyak proses yang dulu dikerjakan manual kini bisa dibuat lebih sederhana, lebih cepat, atau dihilangkan sama sekali. Kami meninjau alur kerja Anda saat ini dan merancangnya ulang dengan TI sebagai pendorongnya.",
       quote: "Pengalaman kami memungkinkan kami melihat kearifan dalam menerapkan teknologi yang paling bermanfaat, efisien, dan efektif bagi klien kami.",
       p2: "Selain menghilangkan proses yang tidak bernilai tambah, kami membantu Anda melihat peluang lain yang akan meningkatkan nilai perusahaan Anda.",
     },
     s3: {
       title: "Perencanaan Informasi Strategis",
       lead: "Blueprint TI yang menetapkan prioritas jelas untuk setiap inisiatif.",
-      p1: "Kebingungan dalam menentukan prioritas inisiatif proses bisnis berasal dari kompleksitas proses bisnis itu sendiri. Kami membantu Anda melihat proses bisnis secara keseluruhan dan menetapkan prioritas inisiatif bisnis berdasarkan kompetensi inti yang perlu Anda bangun, terkait visi perusahaan Anda, demi memberikan nilai lebih bagi mitra bisnis Anda.",
+      p1: "Saat semua inisiatif terasa mendesak, sulit menentukan harus mulai dari mana. Kami membantu Anda melihat proses bisnis secara keseluruhan dan menetapkan prioritas inisiatif bisnis berdasarkan kompetensi inti yang perlu Anda bangun, terkait visi perusahaan Anda, demi memberikan nilai lebih bagi mitra bisnis Anda.",
       p2: "Perencanaan informasi strategis menjadi blueprint TI: gambaran lengkap dan pedoman bagi pemangku kepentingan dalam memprioritaskan inisiatif dan mengambil keputusan.",
       receive: "YANG ANDA DAPATKAN",
+    },
+    s5: {
+      title: "SAP Analytics Cloud (SAC)",
+      lead: "Pelaporan, perencanaan, dan proyeksi di satu tempat, dari data yang sudah ada di sistem SAP Anda.",
+      p1: "Setelah go-live, banyak perusahaan masih menyusun laporan dengan mengekspor data ke Excel. Angka antar-departemen berbeda, dan laporan akhir bulan baru tiba setelah keputusan sudah diambil.",
+      p2: "Kami menyiapkan SAP Analytics Cloud di atas data SAP Anda, sehingga pimpinan melihat angka yang sama pada waktu yang sama dan langsung merencanakan dari sana.",
+      receive: "YANG ANDA TERIMA",
+      items: ["Dashboard manajemen dari data SAP terkini", "Anggaran, perencanaan, dan proyeksi dalam satu alat", "Model data yang disusun sesuai KPI Anda", "Pelatihan agar tim Anda membuat laporannya sendiri"],
+    },
+    s6: {
+      title: "Migration Compliance Audit",
+      lead: "Temukan celah dalam migrasi Anda sebelum sampai ke laporan keuangan atau ke auditor.",
+      p1: "Pindah ke SAP S/4HANA atau sistem SAP baru membawa risiko yang tidak terlihat di hari go-live: master data yang belum lengkap, saldo yang tidak cocok, hak akses pengguna yang terlalu luas, dan kontrol yang tidak ikut terbawa.",
+      p2: "Kami meninjau migrasi Anda terhadap proses bisnis dan kontrol internal, merekonsiliasi data yang dipindahkan, dan mengurutkan setiap temuan menurut risikonya. Layanan ini berlaku untuk migrasi yang kami kerjakan maupun yang dikerjakan mitra lain.",
+      receive: "YANG ANDA TERIMA",
+      items: ["Kelengkapan data dan rekonsiliasi saldo", "Tinjauan peran dan hak akses pengguna", "Pemeriksaan kontrol pada proses bisnis utama", "Laporan temuan yang diurutkan menurut risiko, beserta perbaikannya"],
     },
     s4: {
       title: "Dukungan & Outsourcing SAP",
@@ -152,6 +187,37 @@ function SectionMeta({ Icon, number, dark = false }: { Icon: LucideIcon; number:
   );
 }
 
+type ListCopy = { title: string; lead: string; p1: string; p2: string; receive: string; items: string[] };
+
+// A service with two paragraphs and a "what you receive" checklist, laid out like the other light sections
+function ListSection({ id, Icon, number, section, discuss }: { id: string; Icon: LucideIcon; number: string; section: ListCopy; discuss: ReactNode }) {
+  return (
+    <div id={id} className="scroll-mt-[72px] box-border w-full flex flex-row flex-wrap gap-[80px] py-[72px] justify-start items-start max-lg:gap-[32px]">
+      <div className="box-border w-[400px] max-w-full shrink-0 flex flex-col gap-[20px]">
+        <SectionMeta Icon={Icon} number={number} />
+        <h2 className={`text-[40px]/[44px] box-border w-full text-[#000000] ${font} font-medium`}>{section.title}</h2>
+        <p className={`text-[18px]/[27px] box-border w-full text-[#223548] ${font}`}>{section.lead}</p>
+        {discuss}
+      </div>
+      <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] flex flex-col gap-[24px]">
+        <p className={`text-[18px]/[29px] box-border w-full text-[#354A5F] ${font}`}>{section.p1}</p>
+        <p className={`text-[18px]/[29px] box-border w-full text-[#354A5F] ${font}`}>{section.p2}</p>
+        <div className="box-border w-full flex flex-col gap-[20px] p-[32px] [border-width:1px] [border-style:solid] [border-color:#D5DADD] rounded-[12px]">
+          <div className={`text-[13px]/[17px] text-[#2F6E80] tracking-[1.2px] ${font} font-medium`}>{section.receive}</div>
+          <div className="box-border w-full grid grid-cols-2 gap-[20px_24px] max-md:grid-cols-1">
+            {section.items.map((item) => (
+              <div key={item} className="box-border min-w-0 flex flex-row gap-[12px] items-center">
+                <CircleCheck size={20} className="text-[#2F6E80] shrink-0" />
+                <span className={`text-[17px]/[25px] text-[#223548] ${font}`}>{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function ServiceDetailView() {
   const { lang } = useLanguage();
   const c = copy[lang];
@@ -164,8 +230,8 @@ export function ServiceDetailView() {
 
   return (
     <main className="w-full overflow-x-hidden">
-      <section className="box-border w-full h-fit flex flex-row flex-wrap gap-[64px] p-[64px_96px_80px_96px] justify-between items-start bg-[#08174A] [background-image:linear-gradient(90deg,_#08174A_0%,_#2B1C8F_100%)] max-lg:flex-col max-lg:p-[40px_20px_48px_20px]">
-        <div className="box-border [flex:1_1_0] min-w-[300px] h-fit flex flex-col gap-[24px]">
+      <section className="box-border w-full h-fit flex flex-row flex-wrap gap-[64px] p-[64px_96px_80px_96px] justify-between items-start bg-[#08174A] [background-image:linear-gradient(90deg,_#08174A_0%,_#2B1C8F_100%)] max-lg:flex-col max-lg:flex-nowrap max-lg:items-stretch max-lg:p-[40px_20px_48px_20px]">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] h-fit flex flex-col gap-[24px]">
           <div className={`box-border w-fit h-fit flex flex-row gap-[8px] items-center text-[14px]/[18px] ${font}`}>
             <Link href="/" className="text-[#FFFFFFA6] hover:text-[#FFFFFF]">{c.home}</Link>
             <ChevronRight size={14} className="text-[#FFFFFF66]" />
@@ -188,7 +254,7 @@ export function ServiceDetailView() {
 
         <div className="box-border w-[420px] max-w-full shrink-0 h-fit flex flex-col p-[8px_24px] bg-[#FFFFFF0F] [outline:1px_solid_#FFFFFF33] [outline-offset:-0.5px] rounded-[12px]">
           {c.jump.map((label, index) => {
-            const id = ["sap-solution", "business-process", "strategic-planning", "sap-support"][index];
+            const id = ["sap-solution", "business-process", "strategic-planning", "sap-analytics-cloud", "migration-audit", "sap-support"][index];
             return (
               <a
                 key={id}
@@ -209,12 +275,12 @@ export function ServiceDetailView() {
       <section className="box-border w-full h-fit flex flex-col p-[40px_96px_96px_96px] justify-start items-start max-lg:p-[32px_20px_60px_20px]">
         <div id="sap-solution" className="scroll-mt-[72px] box-border w-full flex flex-row flex-wrap gap-[80px] py-[72px] justify-start items-start max-lg:gap-[32px]">
           <div className="box-border w-[400px] max-w-full shrink-0 flex flex-col gap-[20px]">
-            <SectionMeta Icon={Layers} number="01 / 04" />
+            <SectionMeta Icon={Layers} number="01 / 06" />
             <h2 className={`text-[40px]/[44px] box-border w-full text-[#000000] ${font} font-medium`}>{c.s1.title}</h2>
             <p className={`text-[18px]/[27px] box-border w-full text-[#223548] ${font}`}>{c.s1.lead}</p>
             {discussLink}
           </div>
-          <div className="box-border [flex:1_1_0] min-w-[300px] flex flex-col gap-[24px]">
+          <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] flex flex-col gap-[24px]">
             <p className={`text-[18px]/[29px] box-border w-full text-[#354A5F] ${font}`}>{c.s1.p1}</p>
             <p className={`text-[18px]/[29px] box-border w-full text-[#354A5F] ${font}`}>{c.s1.p2}</p>
             <div className="box-border w-full p-[28px_8px] flex flex-row flex-wrap bg-[#F5F6F7] rounded-[12px]">
@@ -238,12 +304,12 @@ export function ServiceDetailView() {
 
         <div id="business-process" className="scroll-mt-[72px] box-border w-full flex flex-row flex-wrap gap-[80px] py-[72px] justify-start items-start max-lg:gap-[32px]">
           <div className="box-border w-[400px] max-w-full shrink-0 flex flex-col gap-[20px]">
-            <SectionMeta Icon={GitBranch} number="02 / 04" />
+            <SectionMeta Icon={GitBranch} number="02 / 06" />
             <h2 className={`text-[40px]/[44px] box-border w-full text-[#000000] ${font} font-medium`}>{c.s2.title}</h2>
             <p className={`text-[18px]/[27px] box-border w-full text-[#223548] ${font}`}>{c.s2.lead}</p>
             {discussLink}
           </div>
-          <div className="box-border [flex:1_1_0] min-w-[300px] flex flex-col gap-[24px]">
+          <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] flex flex-col gap-[24px]">
             <p className={`text-[18px]/[29px] box-border w-full text-[#354A5F] ${font}`}>{c.s2.p1}</p>
             <blockquote className="box-border w-full flex flex-col gap-[12px] pt-[8px] pb-[8px] pl-[28px] [border-width:0px_0px_0px_3px] [border-style:solid] [border-color:#A6CBD3]">
               <p className={`text-[26px]/[35px] text-[#000000] ${font} font-medium`}>{c.s2.quote}</p>
@@ -254,12 +320,12 @@ export function ServiceDetailView() {
 
         <div id="strategic-planning" className="scroll-mt-[72px] box-border w-full flex flex-row flex-wrap gap-[80px] py-[72px] justify-start items-start max-lg:gap-[32px]">
           <div className="box-border w-[400px] max-w-full shrink-0 flex flex-col gap-[20px]">
-            <SectionMeta Icon={Compass} number="03 / 04" />
+            <SectionMeta Icon={Compass} number="03 / 06" />
             <h2 className={`text-[40px]/[44px] box-border w-full text-[#000000] ${font} font-medium`}>{c.s3.title}</h2>
             <p className={`text-[18px]/[27px] box-border w-full text-[#223548] ${font}`}>{c.s3.lead}</p>
             {discussLink}
           </div>
-          <div className="box-border [flex:1_1_0] min-w-[300px] flex flex-col gap-[24px]">
+          <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] flex flex-col gap-[24px]">
             <p className={`text-[18px]/[29px] box-border w-full text-[#354A5F] ${font}`}>{c.s3.p1}</p>
             <p className={`text-[18px]/[29px] box-border w-full text-[#354A5F] ${font}`}>{c.s3.p2}</p>
             <div className="box-border w-full flex flex-col gap-[20px] p-[32px] [border-width:1px] [border-style:solid] [border-color:#D5DADD] rounded-[12px]">
@@ -278,16 +344,19 @@ export function ServiceDetailView() {
           </div>
         </div>
 
+        <ListSection id="sap-analytics-cloud" Icon={ChartPie} number="04 / 06" section={c.s5} discuss={discussLink} />
+        <ListSection id="migration-audit" Icon={ShieldCheck} number="05 / 06" section={c.s6} discuss={discussLink} />
+
         <div
           id="sap-support"
           className="scroll-mt-[72px] box-border w-full flex flex-row flex-wrap gap-[80px] p-[64px] rounded-[12px] [background-image:linear-gradient(90deg,_#08174A_0%,_#2B1C8F_100%)] justify-start items-start max-lg:gap-[32px] max-lg:p-[32px]"
         >
           <div className="box-border w-[336px] max-w-full shrink-0 flex flex-col gap-[20px]">
-            <SectionMeta Icon={LifeBuoy} number="04 / 04" dark />
+            <SectionMeta Icon={LifeBuoy} number="06 / 06" dark />
             <h2 className={`text-[40px]/[44px] box-border w-full text-[#FFFFFF] ${font} font-medium`}>{c.s4.title}</h2>
             <p className={`text-[18px]/[27px] box-border w-full text-[#FFFFFFCC] ${font}`}>{c.s4.lead}</p>
           </div>
-          <div className="box-border [flex:1_1_0] min-w-[300px] flex flex-col gap-[32px]">
+          <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] flex flex-col gap-[32px]">
             <p className={`text-[20px]/[32px] box-border w-full text-[#FFFFFF] ${font}`}>{c.s4.p1}</p>
             <div className="box-border w-full flex flex-row flex-wrap gap-[16px]">
               {c.credentials.map((item, index) => {

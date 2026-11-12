@@ -120,7 +120,7 @@ export function BlogDetailView({ post: rawPost, locked, related }: { post: Post;
       </section>
 
       <section className="box-border w-full h-fit flex flex-row flex-wrap gap-[104px] p-[64px_96px_96px_96px] justify-start items-start max-lg:p-[40px_20px_60px_20px] max-lg:gap-[40px]">
-        <div className="box-border [flex:1_1_0] min-w-[300px] max-w-[804px] h-fit flex flex-col gap-[24px]">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] max-w-[804px] h-fit flex flex-col gap-[24px]">
           <ArticleBody post={articlePost} locked={locked} />
           {!locked && post.tags && (
             <div className="box-border w-full pt-[24px] flex flex-row flex-wrap gap-[8px]">

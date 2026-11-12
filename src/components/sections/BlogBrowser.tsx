@@ -23,8 +23,8 @@ export function BlogBrowser() {
 
   return (
     <div className="box-border w-full h-fit flex flex-col gap-[56px] p-[64px_96px_112px_96px] justify-start items-start max-lg:p-[40px_20px_60px_20px]">
-      <div className="box-border w-full h-[48px] flex flex-row flex-wrap gap-[16px] justify-between items-center">
-        <div className="box-border w-fit h-[34px] flex flex-row gap-[8px]">
+      <div className="box-border w-full h-fit min-h-[48px] flex flex-row flex-wrap gap-[16px] justify-between items-center">
+        <div className="box-border w-fit max-w-full h-fit flex flex-row flex-wrap gap-[8px]">
           {categories.map((item) => (
             <button
               key={item}

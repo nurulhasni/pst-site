@@ -10,6 +10,8 @@ const subjects = [
   { value: "SAP Support & Outsourcing", key: "contact.subj2" },
   { value: "Business Process Reengineering", key: "contact.subj3" },
   { value: "Strategic Information Planning", key: "contact.subj4" },
+  { value: "SAP Analytics Cloud (SAC)", key: "contact.subj6" },
+  { value: "Migration Compliance Audit", key: "contact.subj7" },
   { value: "General inquiry", key: "contact.subj5" },
 ];
 

@@ -47,12 +47,12 @@ const copy = {
       {
         label: "VISION",
         title: "World-class best practices for every industry",
-        text: "Apply suitable world-class best practices into all range of industries through rapid and efficient implementation of IT as a competitive tool for winning the global competition.",
+        text: "To apply suitable world-class best practices across all industries, through rapid and efficient IT implementation, as a competitive tool for winning in global competition.",
       },
       {
         label: "MISSION",
         title: "A valuable asset for the nation",
-        text: "To be a valuable asset for the nation in helping local companies save their IT project investment and prepare their human resource competencies in applicable IT.",
+        text: "To be a valuable asset for the nation by helping local companies save their IT project investments and build their people's skills in applied IT.",
       },
     ],
     philosophyEyebrow: "OUR PHILOSOPHY",
@@ -198,7 +198,7 @@ export function AboutView() {
       />
 
       <section className="box-border w-full h-fit flex flex-row flex-wrap gap-[96px] p-[120px_96px] justify-start items-center max-lg:p-[60px_20px] max-lg:gap-[48px]">
-        <div className="box-border [flex:1_1_0] min-w-[300px] h-fit flex flex-col gap-[24px]">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] h-fit flex flex-col gap-[24px]">
           <Eyebrow>{c.storyEyebrow}</Eyebrow>
           <div className={`text-[48px]/[53px] text-[#000000] ${font} font-medium max-lg:text-[32px]/[35px]`}>{c.storyTitle}</div>
           <p className={`text-[17px]/[28px] text-[#354A5F] ${font}`}>{c.storyP1}</p>
@@ -215,7 +215,7 @@ export function AboutView() {
             })}
           </div>
         </div>
-        <div className="box-border [flex:1_1_0] min-w-[300px] max-w-[560px] h-[520px] relative">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] max-w-[560px] h-[520px] relative">
           <div
             className="box-border w-full h-full bg-cover bg-center rounded-[12px]"
             style={{ backgroundImage: `url(${storyPhoto})` }}
@@ -254,7 +254,7 @@ export function AboutView() {
           <div className={`text-[48px]/[53px] text-[#000000] ${font} font-medium max-lg:text-[32px]/[35px]`}>{c.foundationTitle}</div>
           <div className={`text-[18px]/[27px] text-[#354A5F] ${font}`}>{c.foundationDesc}</div>
         </div>
-        <div className="box-border [flex:1_1_0] min-w-[300px] h-fit grid grid-cols-2 gap-[24px] max-lg:grid-cols-1">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] h-fit grid grid-cols-2 gap-[24px] max-lg:grid-cols-1">
           {c.statements.map((statement, index) => {
             const Icon = statementIcons[index];
             return (
@@ -276,7 +276,7 @@ export function AboutView() {
         <div className="box-border w-[520px] max-w-full shrink-0 h-[560px] flex items-center justify-center max-lg:h-[420px]">
           <LogoPuzzle lang={lang} label={c.logoAlt} />
         </div>
-        <div className="box-border [flex:1_1_0] min-w-[300px] h-fit flex flex-col gap-[20px]">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] h-fit flex flex-col gap-[20px]">
           <div className={`text-[13px]/[17px] text-[#A6CBD3] ${font} font-medium tracking-[1.4px]`}>{c.philosophyEyebrow}</div>
           <div className={`text-[48px]/[53px] text-[#FFFFFF] ${font} font-medium max-lg:text-[32px]/[35px]`}>{c.philosophyTitle}</div>
           <p className={`text-[18px]/[31px] text-[#FFFFFFCC] ${font}`}>{c.philosophy1}</p>
@@ -286,7 +286,7 @@ export function AboutView() {
       </section>
 
       <section className="box-border w-full h-fit flex flex-row flex-wrap gap-[64px] p-[120px_96px] justify-start items-center bg-[#F5F6F7] max-lg:p-[60px_20px] max-lg:gap-[32px]">
-        <div className="box-border [flex:1_1_0] min-w-[300px] h-fit flex flex-col gap-[24px]">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] h-fit flex flex-col gap-[24px]">
           <Eyebrow>{c.achievementEyebrow}</Eyebrow>
           <div className={`text-[48px]/[53px] text-[#000000] ${font} font-medium max-lg:text-[32px]/[35px]`}>{c.achievementTitle}</div>
           <div className={`text-[18px]/[27px] text-[#354A5F] ${font}`}>{c.achievementDesc}</div>
@@ -304,7 +304,7 @@ export function AboutView() {
             ))}
           </div>
         </div>
-        <div className="box-border [flex:1_1_0] min-w-[300px] max-w-[560px] h-[480px] relative">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] max-w-[560px] h-[480px] relative">
           <div
             className="box-border w-full h-full bg-cover bg-center rounded-[12px]"
             style={{ backgroundImage: `url(${experiencePhoto})` }}

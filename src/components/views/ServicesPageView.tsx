@@ -4,12 +4,14 @@ import {
   ArrowDownRight,
   Award,
   ChartLine,
+  ChartPie,
   Cloud,
   Compass,
   Handshake,
   Headset,
   Layers,
   Rocket,
+  ShieldCheck,
   TrendingDown,
   Users,
   Workflow,
@@ -28,37 +30,49 @@ const copy = {
   en: {
     current: "Services",
     heroTitle: "Comprehensive SAP\n& IT solutions",
-    heroDesc: "End-to-end technology services designed to modernize, optimize and transform your enterprise operations.",
+    heroDesc: "From the first blueprint to years of support: six services that get SAP live in your business and keep it working.",
     certTitle: "Partner Center of Expertise",
     certDesc: "Certified for SAP VAR-Delivered Support",
     offerEyebrow: "WHAT WE OFFER",
     offerTitle: "Our service portfolio",
-    offerDesc: "Four core services, one integrated team, from SAP implementation to long-term support and outsourcing.",
+    offerDesc: "Six services, one integrated team: from SAP implementation and analytics to migration audits and long-term support.",
     discuss: "Discuss this service",
     services: [
       {
         id: "sap-solution",
         title: "SAP Solution",
         description:
-          "ERP implementation is more than just an implementation of software or automation of the current business processes. An ERP system is merely a tool to help you run the business, so its implementation should be driven by the business processes, instead of the tool.",
+          "Your SAP ERP is built around your business processes, not the other way round. We keep scope and cost under control, and work side by side with your team until they can run the system themselves.",
       },
       {
         id: "sap-support",
         title: "SAP Support & Outsourcing",
         description:
-          "PST is an authorised Value Added Reseller (VAR) of SAP and was awarded the “Partner Center of Expertise” certification, a title granted for successfully completing the audit process for SAP VAR-Delivered Support.",
+          "Keep SAP running without building a large in-house team. PST is an authorised SAP Value Added Reseller (VAR), and our support process passed SAP's audit for the “Partner Center of Expertise” certification.",
       },
       {
         id: "business-process",
         title: "Business Process Reengineering",
         description:
-          "The fast growth of technology has changed the face of the world, forcing business players to redefine the way they run their business. Many conventional business processes have been re-engineered by applying IT as an enabler.",
+          "We redesign slow, manual processes with IT as the enabler, so work that adds no value is removed before it gets locked into a system. Along the way we point out opportunities to raise your company's value that are easy to miss from the inside.",
       },
       {
         id: "strategic-planning",
         title: "Strategic Information Planning",
         description:
-          "Confusion in setting the priority of business process initiatives derives from the complexity of the business processes themselves. We help you set a clear, prioritized plan for your information systems.",
+          "When every initiative looks urgent, it is hard to know where to start. We help you see the whole business process and rank your initiatives, then give you an IT blueprint with priorities, an investment estimate for each one and its expected return.",
+      },
+      {
+        id: "sap-analytics-cloud",
+        title: "SAP Analytics Cloud (SAC)",
+        description:
+          "After go-live, many companies still export data to Excel to build their reports, and every department ends up with different numbers. We set up SAP Analytics Cloud on your SAP data: dashboards leaders actually open, budgets and forecasts planned in the same tool, and reports your team can build on their own.",
+      },
+      {
+        id: "migration-audit",
+        title: "Migration Compliance Audit",
+        description:
+          "A migration to SAP S/4HANA or a new SAP system can look finished while gaps stay hidden: balances that do not reconcile, incomplete master data, user access that is too broad. We review the migration against your processes and internal controls, and give you a clear list of what to fix, ranked by risk. It works for migrations we run and for those done by another partner.",
       },
     ],
     whyEyebrow: "WHY CHOOSE US",
@@ -97,37 +111,49 @@ const copy = {
   id: {
     current: "Layanan",
     heroTitle: "Solusi SAP & TI\nyang menyeluruh",
-    heroDesc: "Layanan teknologi menyeluruh yang dirancang untuk memodernisasi, mengoptimalkan, dan mentransformasi operasional perusahaan Anda.",
+    heroDesc: "Dari blueprint pertama hingga dukungan bertahun-tahun: enam layanan yang membuat SAP berjalan di bisnis Anda dan terus bekerja.",
     certTitle: "Partner Center of Expertise",
     certDesc: "Tersertifikasi untuk SAP VAR-Delivered Support",
     offerEyebrow: "YANG KAMI TAWARKAN",
     offerTitle: "Portofolio layanan kami",
-    offerDesc: "Empat layanan inti, satu tim terintegrasi, dari implementasi SAP hingga dukungan jangka panjang dan outsourcing.",
+    offerDesc: "Enam layanan, satu tim terintegrasi: dari implementasi SAP dan analitik hingga audit migrasi dan dukungan jangka panjang.",
     discuss: "Diskusikan layanan ini",
     services: [
       {
         id: "sap-solution",
         title: "Solusi SAP",
         description:
-          "Implementasi ERP lebih dari sekadar implementasi perangkat lunak atau otomatisasi proses bisnis yang ada. Sistem ERP hanyalah alat untuk membantu Anda menjalankan bisnis, sehingga implementasinya harus digerakkan oleh proses bisnis, bukan oleh alatnya.",
+          "SAP ERP Anda dibangun mengikuti proses bisnis Anda, bukan sebaliknya. Kami menjaga lingkup dan biaya tetap terkendali, dan bekerja bersama tim Anda sampai mereka mampu menjalankan sistemnya sendiri.",
       },
       {
         id: "sap-support",
         title: "Dukungan & Outsourcing SAP",
         description:
-          "PST adalah Value Added Reseller (VAR) resmi SAP dan telah meraih sertifikasi “Partner Center of Expertise”, gelar yang diberikan atas keberhasilan menyelesaikan proses audit SAP VAR-Delivered Support.",
+          "Jaga SAP tetap berjalan tanpa harus membangun tim internal yang besar. PST adalah Value Added Reseller (VAR) resmi SAP, dan proses dukungan kami lolos audit SAP untuk sertifikasi “Partner Center of Expertise”.",
       },
       {
         id: "business-process",
         title: "Rekayasa Ulang Proses Bisnis",
         description:
-          "Pesatnya perkembangan teknologi telah mengubah wajah dunia, memaksa pelaku bisnis mendefinisikan ulang cara mereka menjalankan usaha. Banyak proses bisnis konvensional telah direkayasa ulang dengan TI sebagai pendorongnya.",
+          "Kami merancang ulang proses yang lambat dan manual dengan TI sebagai pendorongnya, sehingga pekerjaan yang tidak bernilai tambah hilang sebelum terkunci di dalam sistem. Sambil berjalan, kami menunjukkan peluang menaikkan nilai perusahaan yang sering terlewat dari dalam.",
       },
       {
         id: "strategic-planning",
         title: "Perencanaan Informasi Strategis",
         description:
-          "Kebingungan dalam menentukan prioritas inisiatif proses bisnis berasal dari kompleksitas proses bisnis itu sendiri. Kami membantu Anda menyusun rencana sistem informasi yang jelas dan terprioritas.",
+          "Saat semua inisiatif terasa mendesak, sulit menentukan harus mulai dari mana. Kami membantu Anda melihat proses bisnis secara utuh dan mengurutkan inisiatifnya, lalu menyerahkan blueprint TI berisi prioritas, perkiraan investasi tiap inisiatif, dan hasil yang diharapkan.",
+      },
+      {
+        id: "sap-analytics-cloud",
+        title: "SAP Analytics Cloud (SAC)",
+        description:
+          "Setelah go-live, banyak perusahaan masih mengekspor data ke Excel untuk menyusun laporan, dan setiap departemen akhirnya punya angka yang berbeda. Kami menyiapkan SAP Analytics Cloud di atas data SAP Anda: dashboard yang benar-benar dibuka pimpinan, anggaran dan proyeksi yang disusun di alat yang sama, dan laporan yang bisa dibuat sendiri oleh tim Anda.",
+      },
+      {
+        id: "migration-audit",
+        title: "Migration Compliance Audit",
+        description:
+          "Migrasi ke SAP S/4HANA atau sistem SAP baru bisa terlihat selesai padahal masih ada celah tersembunyi: saldo yang tidak cocok, master data yang belum lengkap, hak akses pengguna yang terlalu luas. Kami meninjau migrasi terhadap proses dan kontrol internal Anda, lalu menyerahkan daftar perbaikan yang jelas, diurutkan menurut risikonya. Layanan ini berlaku untuk migrasi yang kami kerjakan maupun yang dikerjakan mitra lain.",
       },
     ],
     whyEyebrow: "MENGAPA MEMILIH KAMI",
@@ -165,7 +191,7 @@ const copy = {
   },
 };
 
-const serviceIcons: LucideIcon[] = [Layers, Headset, Workflow, Compass];
+const serviceIcons: LucideIcon[] = [Layers, Headset, Workflow, Compass, ChartPie, ShieldCheck];
 const reasonIcons: LucideIcon[] = [Handshake, TrendingDown, Users];
 const riseIcons: LucideIcon[] = [Cloud, ChartLine, Users];
 
@@ -258,7 +284,7 @@ export function ServicesPageView() {
       </section>
 
       <section className="box-border w-full h-fit flex flex-row flex-wrap gap-[64px] p-[112px_96px] justify-start items-start max-lg:p-[60px_20px] max-lg:gap-[32px]">
-        <div className="box-border [flex:1_1_0] min-w-[300px] h-fit flex flex-col gap-[20px]">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] h-fit flex flex-col gap-[20px]">
           <div className="flex flex-row gap-[10px] items-center">
             <Rocket size={18} className="text-[#2F6E80]" />
             <div className={`text-[13px]/[17px] text-[#2F6E80] ${font} font-medium tracking-[1.4px]`}>{c.riseEyebrow}</div>
@@ -266,7 +292,7 @@ export function ServicesPageView() {
           <div className={`text-[40px]/[44px] text-[#000354] ${font} font-medium max-lg:text-[30px]/[33px]`}>{c.riseTitle}</div>
           <div className={`text-[17px]/[27px] text-[#354A5F] ${font}`}>{c.riseDesc}</div>
         </div>
-        <div className="box-border [flex:1_1_0] min-w-[300px] h-fit flex flex-col gap-[14px] p-[56px_64px] bg-[#EAF3F5] [background-image:radial-gradient(ellipse_35%_80%_at_95%_50%,_#A6CBD399_0%,_#A6CBD300_100%)] rounded-[12px] max-lg:p-[32px_24px]">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] h-fit flex flex-col gap-[14px] p-[56px_64px] bg-[#EAF3F5] [background-image:radial-gradient(ellipse_35%_80%_at_95%_50%,_#A6CBD399_0%,_#A6CBD300_100%)] rounded-[12px] max-lg:p-[32px_24px]">
           {c.riseItems.map((label, index) => {
             const Icon = riseIcons[index];
             return (

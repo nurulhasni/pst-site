@@ -17,7 +17,9 @@ import {
 import { Footer } from "@/components/sections/Footer";
 import { FloatingContact } from "@/components/sections/FloatingContact";
 import { PageHero } from "@/components/PageHero";
+import { useState } from "react";
 import { CtaBanner } from "@/components/CtaBanner";
+import { ApplyDialog } from "@/components/sections/ApplyDialog";
 import { useLanguage } from "@/components/LanguageProvider";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif]";
@@ -25,19 +27,19 @@ const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-s
 const copy = {
   en: {
     current: "Career",
-    heroTitle: "Don't stop your\nknowledge investment",
+    heroTitle: "Build your career\nas an SAP consultant",
     heroDesc:
-      "Several positions are open in Business Process and Resources Planning. Join the world-class SAP consultants through the following opportunities.",
+      "We are hiring for business process and resource planning roles. Fresh graduates are welcome: we train you on SAP and put you on real client projects across Indonesia.",
     openEyebrow: "OPEN POSITIONS",
     openings: [
       { category: "FUNCTIONAL", title: "Business Analyst (SAP S/4HANA) – Trainee" },
       { category: "TECHNICAL", title: "System Engineer / Database Administrator" },
-      { category: "ABAPER", title: "Application Developer / Programmer" },
+      { category: "ABAPER / FIORI", title: "ABAP & SAP Fiori Developer" },
     ],
     whyEyebrow: "WHY PST",
     whyTitle: "Grow with a learning organization",
     whyDesc:
-      "We take our employees' development seriously. You will work in a dynamic environment where you can grow both professionally and personally, and learning will always be part of your job.",
+      "You learn SAP through our internal curriculum, work on client projects across Indonesia with travel and accommodation paid, and follow a clear path from Trainee to Project Manager. Learning is part of the job, every day.",
     advantages: [
       "Total IT solution",
       "Learning organization",
@@ -95,11 +97,12 @@ const copy = {
         ],
       },
       {
-        title: "Application Developer / Programmer",
+        title: "ABAP & SAP Fiori Developer",
         level: "Fresh graduates welcome",
         responsibilities: [
           "Analyze and design application requirements and specifications",
-          "Develop, build, enhance and modify applications / programs",
+          "Develop, build, enhance and modify ABAP programs",
+          "Build and enhance SAP Fiori apps (SAPUI5 and OData services)",
           "Support running applications / programs",
           "Create and maintain application / program documentation",
         ],
@@ -108,6 +111,7 @@ const copy = {
           "Minimum D3 in Computer Science, IT, Information Systems, Computer Engineering, Mathematics & Natural Science (MIPA) or equivalent (min. GPA 3.20)",
           "Good analytical and structural thinking (logic)",
           "Excellent query and database skills; any programming language is an advantage",
+          "Knowledge of JavaScript, HTML or SAPUI5 is an advantage for the Fiori track",
           "Strong motivation, initiative, discipline and commitment",
           "Willing to be assigned to any project location",
         ],
@@ -120,25 +124,22 @@ const copy = {
       {
         question: "What does an SAP consultant do?",
         answer:
-          "Study and explore SAP functionalities with limited guidance, implement the SAP system at client sites according to their business process requirements, conduct SAP user training, work as a team on tight deadlines, and keep learning new things.",
+          "You study SAP functions largely on your own, implement SAP at client sites to match their business processes, train the client's users, and work as a team to tight deadlines. Learning new things is part of the job.",
       },
       {
-        question: "How is the work environment?",
+        question: "Do I need SAP experience?",
         answer:
-          "Our company always tries to build a conducive working environment to learn SAP independently aligns with the curriculum standards that have been implemented by the company. Employees can also share and exchange ideas about the SAP field. Reviews will be given periodically to assess the extent to which employees have mastered the given SAP module.",
+          "No. Fresh graduates are welcome. You learn SAP through our internal curriculum and regular reviews, then apply it on real client projects.",
       },
       {
-        question: "How does the work system work?",
+        question: "What is the work environment like?",
         answer:
-          "Employees will be assigned and placed at client locations throughout Indonesia during the project. The number of employees that assigned can be between 10 and 30 people; depends on the scope of the project to be worked on. The duration of placement ranges from 4-9 months. All transportation and accommodation costs for employees while on the project will be paid by the company. When not assigned, employees can work in our office located in Kemayoran, Central Jakarta.",
+          "You get room to learn SAP on your own, following the company's curriculum, and you can share ideas with colleagues working in the same field. Regular reviews show how far you have mastered your SAP module.",
       },
       {
-        question: "What are PST's advantages among competitors?",
-        answer: "Total IT Solution\nLearning Organization\nFlexible\nThink Global act Local\nYoung and Energetic Consultant",
-      },
-      {
-        question: "What is the career path of an SAP consultant?",
-        answer: "Trainee\nJunior Consultant\nAssociate Consultant\nSenior Consultant\nProject Manager",
+        question: "How does project work run?",
+        answer:
+          "During a project you are placed at the client's location, anywhere in Indonesia. A project team has 10 to 30 people depending on the scope, and a placement lasts 4 to 9 months. The company pays all transport and accommodation while you are on the project. Between projects you work from our office in Kemayoran, Central Jakarta.",
       },
     ],
     ctaTitle: "Ready to join our team?",
@@ -147,19 +148,19 @@ const copy = {
   },
   id: {
     current: "Karier",
-    heroTitle: "Jangan berhenti\nberinvestasi pada ilmu",
+    heroTitle: "Bangun karier Anda\nsebagai konsultan SAP",
     heroDesc:
-      "Beberapa posisi terbuka di bidang Business Process dan Resources Planning. Bergabunglah dengan konsultan SAP kelas dunia melalui kesempatan berikut.",
+      "Kami membuka posisi di bidang business process dan resource planning. Lulusan baru dipersilakan: kami melatih Anda tentang SAP dan menempatkan Anda di proyek klien yang nyata di seluruh Indonesia.",
     openEyebrow: "POSISI TERBUKA",
     openings: [
       { category: "FUNGSIONAL", title: "Business Analyst (SAP S/4HANA) – Trainee" },
       { category: "TEKNIS", title: "System Engineer / Database Administrator" },
-      { category: "ABAPER", title: "Application Developer / Programmer" },
+      { category: "ABAPER / FIORI", title: "ABAP & SAP Fiori Developer" },
     ],
     whyEyebrow: "MENGAPA PST",
     whyTitle: "Bertumbuh di organisasi pembelajar",
     whyDesc:
-      "Kami serius mengembangkan karyawan kami. Anda akan bekerja di lingkungan dinamis tempat Anda dapat bertumbuh secara profesional maupun pribadi, dan belajar akan selalu menjadi bagian dari pekerjaan Anda.",
+      "Anda mempelajari SAP melalui kurikulum internal, bekerja di proyek klien di seluruh Indonesia dengan biaya perjalanan dan akomodasi ditanggung, dan menapaki jenjang yang jelas dari Trainee hingga Project Manager. Belajar adalah bagian dari pekerjaan, setiap hari.",
     advantages: [
       "Solusi TI menyeluruh",
       "Organisasi pembelajar",
@@ -216,11 +217,12 @@ const copy = {
         ],
       },
       {
-        title: "Application Developer / Programmer",
+        title: "ABAP & SAP Fiori Developer",
         level: "Lulusan baru dipersilakan",
         responsibilities: [
           "Menganalisis dan merancang kebutuhan serta spesifikasi aplikasi",
-          "Mengembangkan, membangun, menyempurnakan, dan memodifikasi aplikasi / program",
+          "Mengembangkan, membangun, menyempurnakan, dan memodifikasi program ABAP",
+          "Membangun dan menyempurnakan aplikasi SAP Fiori (SAPUI5 dan layanan OData)",
           "Mendukung aplikasi / program yang berjalan",
           "Membuat dan memelihara dokumentasi aplikasi / program",
         ],
@@ -229,6 +231,7 @@ const copy = {
           "Minimal D3 Ilmu Komputer, TI, Sistem Informasi, Teknik Komputer, MIPA atau setara (IPK min. 3,20)",
           "Kemampuan berpikir analitis dan terstruktur (logika) yang baik",
           "Mahir query dan database; menguasai bahasa pemrograman apa pun menjadi nilai tambah",
+          "Menguasai JavaScript, HTML, atau SAPUI5 menjadi nilai tambah untuk jalur Fiori",
           "Motivasi, inisiatif, disiplin, dan komitmen yang kuat",
           "Bersedia ditempatkan di lokasi proyek mana pun",
         ],
@@ -241,12 +244,23 @@ const copy = {
       {
         question: "Apa yang dikerjakan konsultan SAP?",
         answer:
-          "Mempelajari dan mengeksplorasi fungsi SAP dengan bimbingan terbatas, mengimplementasikan sistem SAP di lokasi klien sesuai kebutuhan proses bisnisnya, melakukan pelatihan pengguna SAP, bekerja dalam tim dengan tenggat ketat, dan terus mempelajari hal baru.",
+          "Anda mempelajari fungsi SAP sebagian besar secara mandiri, mengimplementasikan SAP di lokasi klien sesuai proses bisnisnya, melatih pengguna di sisi klien, dan bekerja dalam tim dengan tenggat yang ketat. Mempelajari hal baru adalah bagian dari pekerjaan ini.",
       },
-      { question: "Bagaimana lingkungan kerjanya?" },
-      { question: "Bagaimana sistem kerjanya?" },
-      { question: "Apa keunggulan PST dibanding kompetitor?" },
-      { question: "Bagaimana jenjang karier konsultan SAP?" },
+      {
+        question: "Apakah saya perlu pengalaman SAP?",
+        answer:
+          "Tidak. Lulusan baru dipersilakan. Anda mempelajari SAP melalui kurikulum internal dan evaluasi berkala, lalu menerapkannya di proyek klien yang nyata.",
+      },
+      {
+        question: "Bagaimana lingkungan kerjanya?",
+        answer:
+          "Anda diberi ruang untuk mempelajari SAP secara mandiri mengikuti kurikulum perusahaan, dan dapat bertukar ide dengan rekan di bidang yang sama. Evaluasi berkala menunjukkan sejauh mana Anda menguasai modul SAP Anda.",
+      },
+      {
+        question: "Bagaimana sistem kerja di proyek?",
+        answer:
+          "Selama proyek, Anda ditempatkan di lokasi klien di seluruh Indonesia. Satu tim proyek berisi 10 sampai 30 orang tergantung lingkupnya, dan masa penempatan 4 sampai 9 bulan. Seluruh biaya transportasi dan akomodasi selama proyek ditanggung perusahaan. Di antara proyek, Anda bekerja dari kantor kami di Kemayoran, Jakarta Pusat.",
+      },
     ],
     ctaTitle: "Siap bergabung dengan tim kami?",
     ctaDesc: "Kirim CV Anda ke recruitment@pst.co.id dan mulai karier Anda sebagai konsultan SAP.",
@@ -265,6 +279,8 @@ function Eyebrow({ children }: { children: string }) {
 export function CareerView() {
   const { lang } = useLanguage();
   const c = copy[lang];
+  // The job the visitor is applying for; null while the form is closed
+  const [applyFor, setApplyFor] = useState<string | null>(null);
 
   return (
     <main className="w-full overflow-x-hidden">
@@ -335,7 +351,7 @@ export function CareerView() {
         {c.jobs.map((job, index) => {
           const Icon = jobIcons[index];
           return (
-            <article key={job.title} id={jobCategories[index].toLowerCase()} className="box-border w-full h-fit flex flex-row flex-wrap gap-[48px] p-[36px] justify-start items-start bg-[#FFFFFF] [border-width:1px] [border-style:solid] [border-color:#D5DADD] rounded-[12px]">
+            <article key={job.title} id={jobCategories[index].toLowerCase()} className="box-border w-full h-fit flex flex-row flex-wrap gap-[48px] p-[36px] max-sm:p-[24px] max-sm:gap-[32px] justify-start items-start bg-[#FFFFFF] [border-width:1px] [border-style:solid] [border-color:#D5DADD] rounded-[12px]">
               <div className="box-border w-[340px] max-w-full shrink-0 h-fit flex flex-col gap-[16px]">
                 <div className="box-border w-[48px] h-[48px] flex items-center justify-center bg-[#EAF3F5] rounded-[8px]">
                   <Icon size={24} className="text-[#2F6E80]" />
@@ -351,11 +367,11 @@ export function CareerView() {
                     <div className={`text-[13px]/[20px] text-[#354A5F] ${font}`}>{job.reflect}</div>
                   </div>
                 )}
-                <a href="mailto:recruitment@pst.co.id" className={`box-border w-fit h-[44px] flex items-center p-[0px_20px] bg-[#000354] hover:bg-[#0B1470] rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium`}>
+                <button type="button" onClick={() => setApplyFor(job.title)} className={`cursor-pointer box-border w-fit h-[44px] flex items-center p-[0px_20px] bg-[#000354] hover:bg-[#0B1470] rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium`}>
                   {c.applyNow}
-                </a>
+                </button>
               </div>
-              <div className="box-border [flex:1_1_0] min-w-[300px] h-fit grid grid-cols-2 gap-[32px] max-lg:grid-cols-1">
+              <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] h-fit grid grid-cols-2 gap-[32px] max-lg:grid-cols-1">
                 <div className="box-border w-full h-fit flex flex-col gap-[12px]">
                   <div className={`text-[12px]/[16px] text-[#475E75] ${font} font-medium tracking-[1.2px]`}>{c.responsibilities}</div>
                   {job.responsibilities.map((item) => (
@@ -381,12 +397,12 @@ export function CareerView() {
       </section>
 
       <section className="box-border w-full h-fit flex flex-row flex-wrap gap-[80px] p-[112px_96px] justify-start items-start max-lg:p-[60px_20px] max-lg:gap-[32px]">
-        <div className="box-border [flex:1_1_0] min-w-[300px] max-w-[380px] h-fit flex flex-col gap-[16px]">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] max-w-[380px] h-fit flex flex-col gap-[16px]">
           <Eyebrow>{c.faqEyebrow}</Eyebrow>
           <div className={`text-[44px]/[48px] text-[#000000] ${font} font-medium max-lg:text-[34px]/[38px]`}>{c.faqTitle}</div>
           <div className={`text-[16px]/[24px] text-[#354A5F] ${font}`}>{c.faqDesc}</div>
         </div>
-        <div className="box-border [flex:1_1_0] min-w-[300px] h-fit flex flex-col">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] h-fit flex flex-col">
           {c.faqs.map((faq, index) =>
             faq.answer ? (
               <details key={faq.question} open={index === 0} className="group box-border w-full p-[24px_0px] [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#D5DADD]">
@@ -408,7 +424,8 @@ export function CareerView() {
       </section>
 
       <section className="box-border w-full h-fit p-[0px_96px_120px_96px] max-lg:p-[0px_20px_60px_20px]">
-        <CtaBanner title={c.ctaTitle} description={c.ctaDesc} label={c.ctaLabel} href="mailto:recruitment@pst.co.id" />
+        <CtaBanner title={c.ctaTitle} description={c.ctaDesc} label={c.ctaLabel} onClick={() => setApplyFor("")} />
+        <ApplyDialog open={applyFor !== null} positions={c.jobs.map((job) => job.title)} position={applyFor ?? ""} onClose={() => setApplyFor(null)} />
       </section>
 
       <Footer />

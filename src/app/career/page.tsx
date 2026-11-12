@@ -4,7 +4,7 @@ import { CareerView } from "@/components/views/CareerView";
 export const metadata: Metadata = {
   title: "Career — PT Prima Sistem Terpadu",
   description:
-    "Several positions are open in Business Process and Resources Planning. Join the world-class SAP consultants at PST.",
+    "Start your career as an SAP consultant at PST. Fresh graduates are welcome: we train you on SAP and put you on real client projects across Indonesia.",
 };
 
 export default function CareerPage() {
