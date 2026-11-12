@@ -53,7 +53,7 @@ const copy = {
     s1: {
       title: "SAP Solution",
       lead: "Implementation driven by your business processes, not by the tool.",
-      p1: "ERP implementation is more than just an implementation of software or automation of the current business processes. An ERP system is merely a tool to help you run the business. Its implementation should be driven by the business processes, instead of the tool.",
+      p1: "ERP implementation is more than installing software or automating the processes you already have. An ERP system is a tool for running your business, so your business processes should lead the implementation.",
       p2: "Many ERP implementations run over budget and become a heavier investment than planned. So we focus every SAP ERP implementation on three results:",
       p3: "PST has successfully helped many customers implement SAP ERP. Most of them had very limited knowledge of SAP at first, but every barrier and issue was solved through honest partnership between our consultants and the client.",
     },
@@ -61,14 +61,14 @@ const copy = {
       title: "Business Process Reengineering",
       lead: "Re-engineer conventional processes with IT as the enabler.",
       p1: "Many processes that used to be done by hand can now be simpler, faster or removed altogether. We review how your work flows today and redesign it with IT as the enabler.",
-      quote: "Our experience lets us see the wisdom in applying the most beneficial, efficient and effective technology for our clients.",
+      quote: "Experience tells us which technology will be most useful and efficient for each client.",
       p2: "Beyond eliminating non-value-added processes, we help you see other possibilities that will increase your company's value.",
     },
     s3: {
       title: "Strategic Information Planning",
       lead: "An IT blueprint that sets clear priorities for every initiative.",
-      p1: "When every initiative looks urgent, it is hard to know where to start. We help you see the overall business process and set the priority of business initiatives based on the core competencies you have to build, related to your company vision, in delivering better value to your business partners.",
-      p2: "Strategic information planning becomes an IT blueprint: a complete picture and guideline for stakeholders in prioritizing initiatives and making decisions.",
+      p1: "When every initiative looks urgent, it is hard to know where to start. We help you see your business processes as a whole, then rank initiatives by the core capabilities you need to build. Those capabilities follow from your company vision and the value you want to give your business partners.",
+      p2: "The result is an IT blueprint, a complete picture your leadership can use to prioritize initiatives and make decisions.",
       receive: "WHAT YOU RECEIVE",
     },
     s5: {
@@ -90,7 +90,7 @@ const copy = {
     s4: {
       title: "SAP Support & Outsourcing",
       lead: "Certified, SAP-audited support for systems that run your business every day.",
-      p1: "PST has been an authorised Value Added Reseller (VAR) of SAP and was awarded the “Partner Center of Expertise” certification, a title granted for the successful completion of the audit process for SAP VAR-Delivered Support.",
+      p1: "PST has been an authorised Value Added Reseller (VAR) of SAP and holds the “Partner Center of Expertise” certification. SAP grants it after a partner's support process passes the SAP VAR-Delivered Support audit.",
       cta: "Talk to our support team",
     },
     ctaTitle: "Achieve your business objective",
@@ -123,22 +123,22 @@ const copy = {
     s1: {
       title: "Solusi SAP",
       lead: "Implementasi yang digerakkan oleh proses bisnis Anda, bukan oleh alatnya.",
-      p1: "Implementasi ERP lebih dari sekadar implementasi perangkat lunak atau otomatisasi proses bisnis yang ada. Sistem ERP hanyalah alat untuk membantu Anda menjalankan bisnis. Implementasinya harus digerakkan oleh proses bisnis, bukan oleh alatnya.",
+      p1: "Implementasi ERP bukan cuma memasang perangkat lunak atau mengotomatisasi proses yang sudah ada. ERP adalah alat untuk menjalankan bisnis, jadi proses bisnis Anda yang harus memimpin implementasinya.",
       p2: "Banyak implementasi ERP melebihi anggaran dan menjadi investasi yang lebih berat dari rencana. Karena itu, setiap implementasi SAP ERP kami fokuskan pada tiga hasil:",
-      p3: "PST telah berhasil membantu banyak pelanggan mengimplementasikan SAP ERP. Sebagian besar awalnya memiliki pengetahuan SAP yang sangat terbatas, namun setiap hambatan dan masalah dapat diatasi melalui kemitraan yang jujur antara konsultan kami dan klien.",
+      p3: "PST sudah membantu banyak perusahaan mengimplementasikan SAP ERP. Sebagian besar awalnya hampir tidak mengenal SAP, tetapi setiap hambatan bisa diatasi karena konsultan kami dan tim klien bekerja secara terbuka.",
     },
     s2: {
       title: "Rekayasa Ulang Proses Bisnis",
       lead: "Rekayasa ulang proses konvensional dengan TI sebagai pendorong.",
       p1: "Banyak proses yang dulu dikerjakan manual kini bisa dibuat lebih sederhana, lebih cepat, atau dihilangkan sama sekali. Kami meninjau alur kerja Anda saat ini dan merancangnya ulang dengan TI sebagai pendorongnya.",
-      quote: "Pengalaman kami memungkinkan kami melihat kearifan dalam menerapkan teknologi yang paling bermanfaat, efisien, dan efektif bagi klien kami.",
+      quote: "Pengalaman membuat kami tahu teknologi mana yang paling bermanfaat dan efisien untuk setiap klien.",
       p2: "Selain menghilangkan proses yang tidak bernilai tambah, kami membantu Anda melihat peluang lain yang akan meningkatkan nilai perusahaan Anda.",
     },
     s3: {
       title: "Perencanaan Informasi Strategis",
       lead: "Blueprint TI yang menetapkan prioritas jelas untuk setiap inisiatif.",
-      p1: "Saat semua inisiatif terasa mendesak, sulit menentukan harus mulai dari mana. Kami membantu Anda melihat proses bisnis secara keseluruhan dan menetapkan prioritas inisiatif bisnis berdasarkan kompetensi inti yang perlu Anda bangun, terkait visi perusahaan Anda, demi memberikan nilai lebih bagi mitra bisnis Anda.",
-      p2: "Perencanaan informasi strategis menjadi blueprint TI: gambaran lengkap dan pedoman bagi pemangku kepentingan dalam memprioritaskan inisiatif dan mengambil keputusan.",
+      p1: "Saat semua inisiatif terasa mendesak, sulit menentukan harus mulai dari mana. Kami membantu Anda melihat proses bisnis secara utuh, lalu mengurutkan inisiatif berdasarkan kemampuan inti yang perlu dibangun. Kemampuan itu mengikuti visi perusahaan Anda dan nilai yang ingin Anda berikan kepada mitra bisnis.",
+      p2: "Hasilnya adalah blueprint TI, yaitu gambaran lengkap yang dipakai pimpinan untuk memprioritaskan inisiatif dan mengambil keputusan.",
       receive: "YANG ANDA DAPATKAN",
     },
     s5: {
@@ -160,7 +160,7 @@ const copy = {
     s4: {
       title: "Dukungan & Outsourcing SAP",
       lead: "Dukungan tersertifikasi dan diaudit SAP untuk sistem yang menjalankan bisnis Anda setiap hari.",
-      p1: "PST adalah Value Added Reseller (VAR) resmi SAP dan telah meraih sertifikasi “Partner Center of Expertise”, gelar yang diberikan atas keberhasilan menyelesaikan proses audit SAP VAR-Delivered Support.",
+      p1: "PST adalah Value Added Reseller (VAR) resmi SAP dan memegang sertifikasi “Partner Center of Expertise”. SAP memberikan sertifikasi ini setelah proses dukungan mitranya lolos audit SAP VAR-Delivered Support.",
       cta: "Hubungi tim dukungan kami",
     },
     ctaTitle: "Raih tujuan bisnis Anda",

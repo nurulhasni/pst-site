@@ -30,12 +30,12 @@ const copy = {
   en: {
     current: "Services",
     heroTitle: "Comprehensive SAP\n& IT solutions",
-    heroDesc: "From the first blueprint to years of support: six services that get SAP live in your business and keep it working.",
+    heroDesc: "Six services that get SAP running in your business and keep it running, from the first blueprint to years of support.",
     certTitle: "Partner Center of Expertise",
     certDesc: "Certified for SAP VAR-Delivered Support",
     offerEyebrow: "WHAT WE OFFER",
     offerTitle: "Our service portfolio",
-    offerDesc: "Six services, one integrated team: from SAP implementation and analytics to migration audits and long-term support.",
+    offerDesc: "Six services delivered by one team, from SAP implementation and analytics to migration audits and long-term support.",
     discuss: "Discuss this service",
     services: [
       {
@@ -76,47 +76,47 @@ const copy = {
       },
     ],
     whyEyebrow: "WHY CHOOSE US",
-    whyTitle: "We understand what you need and what fits you best",
+    whyTitle: "We understand your needs and the solution that fits",
     reasons: [
       {
         title: "Full commitment and honest partnership",
         description:
-          "We believe success is achieved through commitment and collaboration. Our team works together with you to solve the problem. We don't just do business, we build long-lasting, sustainable partnerships with our clients.",
+          "Our team works alongside yours until the problem is solved, and the relationship doesn't end when the project does.",
       },
       {
         title: "Lower TCO and faster ROI",
         description:
-          "Implementing ERP can be a big investment. We help you analyse and identify the factors relevant to your business, and provide the solution best suited to your needs and requirements.",
+          "An ERP implementation is a big investment. We help you weigh the factors that matter most to your business, then recommend the solution that fits your needs.",
       },
       {
         title: "Wide-ranging team and experience",
         description:
-          "Our people come from different backgrounds and industries, such as automotive, FMCG, machinery and other manufacturing, giving us a wider perspective on our clients' challenges.",
+          "Our people come from different backgrounds and industries, such as automotive, FMCG, machinery and other manufacturing, so we can look at your challenges from many angles.",
       },
     ],
     riseEyebrow: "RISE WITH SAP",
     riseTitle: "Driving business innovation together",
     riseDesc:
-      "Ready to move to the cloud? PST guides your RISE with SAP journey, from assessing your current landscape to running your new SAP S/4HANA Cloud system.",
-    riseItems: ["Move to SAP S/4HANA Cloud", "Gain business process insights", "Guided by PST from assessment to go-live"],
+      "Ready to move to the cloud? PST guides your RISE with SAP journey, from assessing the systems you run today to getting your new SAP S/4HANA Cloud system live.",
+    riseItems: ["Move to SAP S/4HANA Cloud", "See which business processes need fixing", "Guided by PST from assessment to go-live"],
     riseCta: "Talk to our team",
     clientsEyebrow: "OUR CLIENTS",
     clientsTitle: "Proven across Indonesia's key industries",
     clientsDesc:
       "Our services run inside companies in heavy equipment, maritime, mining, finance and consumer goods. Here are some of them.",
     ctaTitle: "Not sure what you need?",
-    ctaDesc: "Our experts can assess your current systems and recommend the best path forward.",
+    ctaDesc: "Our consultants can assess your current systems and suggest the next step.",
     ctaLabel: "Find your solution",
   },
   id: {
     current: "Layanan",
     heroTitle: "Solusi SAP & TI\nyang menyeluruh",
-    heroDesc: "Dari blueprint pertama hingga dukungan bertahun-tahun: enam layanan yang membuat SAP berjalan di bisnis Anda dan terus bekerja.",
+    heroDesc: "Enam layanan untuk membuat SAP berjalan di bisnis Anda dan tetap berjalan, dari blueprint pertama sampai dukungan bertahun-tahun.",
     certTitle: "Partner Center of Expertise",
     certDesc: "Tersertifikasi untuk SAP VAR-Delivered Support",
     offerEyebrow: "YANG KAMI TAWARKAN",
     offerTitle: "Portofolio layanan kami",
-    offerDesc: "Enam layanan, satu tim terintegrasi: dari implementasi SAP dan analitik hingga audit migrasi dan dukungan jangka panjang.",
+    offerDesc: "Enam layanan yang dikerjakan satu tim, mulai dari implementasi SAP dan analitik sampai audit migrasi dan dukungan jangka panjang.",
     discuss: "Diskusikan layanan ini",
     services: [
       {
@@ -157,36 +157,36 @@ const copy = {
       },
     ],
     whyEyebrow: "MENGAPA MEMILIH KAMI",
-    whyTitle: "Kami memahami kebutuhan Anda dan apa yang paling sesuai",
+    whyTitle: "Kami paham kebutuhan Anda dan solusi yang paling cocok",
     reasons: [
       {
         title: "Komitmen penuh dan kemitraan yang jujur",
         description:
-          "Kami percaya kesuksesan diraih melalui komitmen dan kolaborasi. Tim kami bekerja bersama Anda menyelesaikan masalah. Kami tidak sekadar berbisnis, kami membangun kemitraan jangka panjang yang berkelanjutan dengan klien.",
+          "Kami ikut turun menyelesaikan masalah bersama tim Anda sampai tuntas, dan hubungan kami tidak berhenti saat proyek selesai.",
       },
       {
         title: "TCO lebih rendah, ROI lebih cepat",
         description:
-          "Implementasi ERP bisa menjadi investasi besar. Kami membantu Anda menganalisis dan mengidentifikasi faktor yang relevan bagi bisnis Anda, serta memberikan solusi yang paling sesuai dengan kebutuhan Anda.",
+          "Implementasi ERP adalah investasi besar. Kami membantu Anda menimbang faktor yang paling berpengaruh bagi bisnis Anda, lalu merekomendasikan solusi yang sesuai kebutuhan.",
       },
       {
         title: "Tim dan pengalaman yang beragam",
         description:
-          "Tim kami berasal dari beragam latar belakang dan industri, seperti otomotif, FMCG, permesinan, dan manufaktur lainnya, sehingga kami memiliki perspektif yang lebih luas atas tantangan klien.",
+          "Tim kami berasal dari beragam latar belakang dan industri, seperti otomotif, FMCG, permesinan, dan manufaktur lainnya, sehingga kami bisa melihat tantangan Anda dari banyak sudut.",
       },
     ],
     riseEyebrow: "RISE WITH SAP",
     riseTitle: "Mendorong inovasi bisnis bersama",
     riseDesc:
-      "Siap beralih ke cloud? PST mendampingi perjalanan RISE with SAP Anda, dari asesmen lanskap saat ini hingga menjalankan sistem SAP S/4HANA Cloud yang baru.",
-    riseItems: ["Beralih ke SAP S/4HANA Cloud", "Dapatkan wawasan proses bisnis", "Didampingi PST dari asesmen hingga go-live"],
+      "Siap beralih ke cloud? PST mendampingi RISE with SAP Anda, dari menilai sistem yang Anda pakai sekarang sampai SAP S/4HANA Cloud yang baru berjalan.",
+    riseItems: ["Beralih ke SAP S/4HANA Cloud", "Lihat bagian proses bisnis yang bisa diperbaiki", "Didampingi PST dari asesmen hingga go-live"],
     riseCta: "Bicara dengan tim kami",
     clientsEyebrow: "KLIEN KAMI",
     clientsTitle: "Terbukti di berbagai industri utama Indonesia",
     clientsDesc:
       "Layanan kami berjalan di perusahaan alat berat, maritim, pertambangan, keuangan, dan barang konsumen. Berikut beberapa di antaranya.",
     ctaTitle: "Belum yakin apa yang Anda butuhkan?",
-    ctaDesc: "Para ahli kami dapat menilai sistem Anda saat ini dan merekomendasikan langkah terbaik ke depan.",
+    ctaDesc: "Konsultan kami bisa menilai sistem Anda sekarang dan menyarankan langkah berikutnya.",
     ctaLabel: "Temukan solusi Anda",
   },
 };
