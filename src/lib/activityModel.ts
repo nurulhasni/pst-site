@@ -11,6 +11,7 @@ export const activityTypes = [
   "apply_click",
   "email_click",
   "phone_click",
+  "certificate_download",
 ] as const;
 
 export type ActivityType = (typeof activityTypes)[number];
@@ -28,6 +29,7 @@ export const activityLabels: Record<ActivityType, string> = {
   apply_click: "Clicked Apply",
   email_click: "Clicked an email address",
   phone_click: "Clicked a phone number",
+  certificate_download: "Downloaded an SAP certificate",
 };
 
 export type ActivityRow = {

@@ -51,20 +51,6 @@ export function ServicesView({ services }: { services: Service[] }) {
             </div>
           </Link>
         </div>
-        <div className="box-border w-fit h-fit shrink-0 flex flex-row gap-[10px] p-[10px_16px_10px_12px] justify-start items-center bg-[#EAF3F5] [outline:1px_solid_#A6CBD3] [outline-offset:-0.5px] rounded-[8px]">
-          <Icon
-            id="award-2e8fb7"
-            className="box-border w-[22px] shrink-0 h-[22px]"
-          />
-          <div className="box-border w-fit shrink-0 h-fit flex flex-col gap-[1px] justify-start items-start">
-            <div className="text-[14px]/[18px] box-border text-[#000354] font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif] font-medium text-left [white-space:nowrap]">
-              {t("services.badgeTitle")}
-            </div>
-            <div className="text-[12px]/[16px] box-border text-[#354A5F] font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif] font-normal text-left [white-space:nowrap]">
-              {t("services.badgeDesc")}
-            </div>
-          </div>
-        </div>
       </div>
       <div className="box-border [flex:1_1_0] h-fit flex flex-col gap-0 justify-start items-start min-w-0">
         {rows.map((row, rowIndex) => (

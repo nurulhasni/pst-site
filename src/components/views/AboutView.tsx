@@ -15,11 +15,11 @@ const copy = {
     current: "About Us",
     heroTitle: "About Prima\nSistem Terpadu",
     heroDesc:
-      "PT Prima Sistem Terpadu (PST) is a local IT consulting company providing total solutions through information technology implementation. Established in 1999, PST partners with SAP Indonesia as an SAP ERP Silver Partner.",
+      "PT Prima Sistem Terpadu (PST) is a local IT consulting company providing total solutions through information technology implementation. Established in 1999, PST partners with SAP Indonesia as an SAP Silver Partner.",
     companySub: "IT consulting · Indonesia",
     factEst: "Established",
     factPartner: "Partnership",
-    factPartnerVal: "SAP ERP Silver Partner",
+    factPartnerVal: "SAP Silver Partner",
     factCert: "Certification",
     factCertVal: "Partner Center of Expertise",
     storyEyebrow: "OUR STORY",
@@ -38,7 +38,7 @@ const copy = {
     stats: [
       { num: "25+", label: "Years of experience", desc: "Serving Indonesia since 1999" },
       { num: "15+", label: "Enterprise clients", desc: "Indonesian enterprises" },
-      { num: "300+", label: "Projects delivered", desc: "Implementations & rollouts" },
+      { num: "50+", label: "Projects delivered", desc: "Implementations & rollouts" },
     ],
     foundationEyebrow: "OUR FOUNDATION",
     foundationTitle: "Vision & mission",
@@ -81,11 +81,11 @@ const copy = {
     current: "Tentang Kami",
     heroTitle: "Tentang Prima\nSistem Terpadu",
     heroDesc:
-      "PT Prima Sistem Terpadu (PST) adalah perusahaan konsultan TI lokal yang menyediakan solusi menyeluruh melalui implementasi teknologi informasi. Berdiri sejak 1999, PST bermitra dengan SAP Indonesia sebagai SAP ERP Silver Partner.",
+      "PT Prima Sistem Terpadu (PST) adalah perusahaan konsultan TI lokal yang menyediakan solusi menyeluruh melalui implementasi teknologi informasi. Berdiri sejak 1999, PST bermitra dengan SAP Indonesia sebagai SAP Silver Partner.",
     companySub: "Konsultan TI · Indonesia",
     factEst: "Berdiri",
     factPartner: "Kemitraan",
-    factPartnerVal: "SAP ERP Silver Partner",
+    factPartnerVal: "SAP Silver Partner",
     factCert: "Sertifikasi",
     factCertVal: "Partner Center of Expertise",
     storyEyebrow: "KISAH KAMI",
@@ -104,7 +104,7 @@ const copy = {
     stats: [
       { num: "25+", label: "Tahun pengalaman", desc: "Melayani Indonesia sejak 1999" },
       { num: "15+", label: "Klien korporasi", desc: "Perusahaan Indonesia" },
-      { num: "300+", label: "Proyek terselesaikan", desc: "Implementasi & rollout" },
+      { num: "50+", label: "Proyek terselesaikan", desc: "Implementasi & rollout" },
     ],
     foundationEyebrow: "LANDASAN KAMI",
     foundationTitle: "Visi & misi",
@@ -313,7 +313,7 @@ export function AboutView() {
           />
           <div className="box-border w-[280px] h-fit absolute right-[-24px] bottom-[-24px] flex flex-col gap-[6px] p-[24px] bg-[#FFFFFF] rounded-[12px] [box-shadow:0px_10px_30px_#22364940] max-lg:right-[16px]">
             <div className={`text-[16px]/[21px] text-[#000354] ${font} font-medium`}>Partner Center of Expertise</div>
-            <div className={`text-[13px]/[17px] text-[#354A5F] ${font}`}>SAP ERP Silver Partner · VAR-Delivered Support</div>
+            <div className={`text-[13px]/[17px] text-[#354A5F] ${font}`}>SAP Silver Partner · VAR-Delivered Support</div>
           </div>
         </div>
       </section>

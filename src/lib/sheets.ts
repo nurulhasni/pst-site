@@ -145,7 +145,7 @@ export type ImpactStat = { value: string; label: string; note: string };
 const fallbackImpactStats: ImpactStat[] = [
   { value: "25+", label: "Years of experience", note: "Serving Indonesia since 1999" },
   { value: "15+", label: "Enterprise clients", note: "Indonesian enterprises" },
-  { value: "300+", label: "Projects delivered", note: "Implementations & rollouts" },
+  { value: "50+", label: "Projects delivered", note: "Implementations & rollouts" },
 ];
 
 export type CustomerStory = {

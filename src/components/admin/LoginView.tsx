@@ -39,7 +39,7 @@ export function LoginView() {
         <div className="box-border w-fit h-fit shrink-0 flex flex-row gap-[8px] p-[8px_14px] justify-start items-center bg-[#FFFFFF14] [outline:1px_solid_#FFFFFF33] [outline-offset:-0.5px] rounded-[999px]">
           <BadgeCheck size={16} className="text-[#A6CBD3] shrink-0" />
           <div className={`text-[13px]/[17px] box-border text-[#FFFFFF] ${font} font-medium text-left [white-space:nowrap]`}>
-            SAP ERP Silver Partner · Est. 1999
+            SAP Silver Partner · Est. 1999
           </div>
         </div>
       </div>

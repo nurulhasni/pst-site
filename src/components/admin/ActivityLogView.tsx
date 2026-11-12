@@ -27,6 +27,7 @@ const badgeColors: Record<ActivityType, string> = {
   apply_click: "bg-[#F5F6F7] text-[#354A5F]",
   email_click: "bg-[#F5F6F7] text-[#354A5F]",
   phone_click: "bg-[#F5F6F7] text-[#354A5F]",
+  certificate_download: "bg-[#E6F0FA] text-[#1D4F91]",
 };
 
 function Stat({ label, value, Icon }: { label: string; value: number; Icon: typeof Activity }) {
@@ -83,7 +84,7 @@ export function ActivityLogView({ rows, storage, weekAgo }: { rows: ActivityRow[
     <div className="box-border w-full flex flex-col gap-[24px] p-[32px] max-lg:p-[20px]">
       <div className="box-border w-full flex flex-row flex-wrap gap-[16px]">
         <Stat label="Activity in the last 7 days" value={thisWeek.length} Icon={Activity} />
-        <Stat label="Profile downloads (7 days)" value={thisWeek.filter((r) => r.type === "profile_download").length} Icon={FileDown} />
+        <Stat label="Profile & certificate downloads (7 days)" value={thisWeek.filter((r) => r.type === "profile_download" || r.type === "certificate_download").length} Icon={FileDown} />
         <Stat label="Forms sent (7 days)" value={thisWeek.filter((r) => !isClick(r.type)).length} Icon={Send} />
         <Stat label="Job applications (7 days)" value={thisWeek.filter((r) => r.type === "job_application").length} Icon={FileText} />
         <Stat label="WhatsApp, email & phone clicks (7 days)" value={thisWeek.filter((r) => isClick(r.type) && r.type !== "apply_click").length} Icon={MessageCircle} />

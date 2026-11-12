@@ -129,6 +129,15 @@ export type ProfileState = {
   email: string;
 };
 
+// Documents a visitor can download after leaving their details. The key goes
+// into the "Downloads" Sheet tab; the label into the Activity Log.
+const downloadDocs = {
+  "company-profile": { type: "profile_download", label: "Company profile (PDF)" },
+  "pcoe-certificate": { type: "certificate_download", label: "SAP Partner Center of Expertise certificate (PDF)" },
+  "partneredge-certificate": { type: "certificate_download", label: "SAP PartnerEdge Silver Partner certificate (PDF)" },
+} as const;
+export type DownloadDoc = keyof typeof downloadDocs;
+
 export async function requestProfile(
   _prev: ProfileState,
   formData: FormData,
@@ -137,6 +146,9 @@ export async function requestProfile(
   const name = field("name");
   const organization = field("organization");
   const email = field("email");
+  const docKey = (field("document") || "company-profile") as DownloadDoc;
+  const doc = downloadDocs[docKey];
+  if (!doc) return { status: "error", code: "server", name: "", email: "" };
 
   if (!name || !organization || !email) {
     return { status: "error", code: "missing", name: "", email: "" };
@@ -146,18 +158,18 @@ export async function requestProfile(
   }
 
   const logged = await recordActivity({
-    type: "profile_download",
+    type: doc.type,
     page: await currentPage(),
     name,
     email,
     company: organization,
-    detail: "Company profile (PDF)",
+    detail: doc.label,
   });
 
   let sheetSaved = !sheetsConfigured();
   if (sheetsConfigured()) {
     try {
-      await appendRow("Downloads", [new Date().toISOString(), name, organization, email, "company-profile"]);
+      await appendRow("Downloads", [new Date().toISOString(), name, organization, email, docKey]);
       sheetSaved = true;
     } catch {
       sheetSaved = false;
