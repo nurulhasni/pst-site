@@ -214,6 +214,28 @@ export function Header() {
               </Link>
             ),
           )}
+          {/* Below sm the header hides the EN / ID switch, so the menu carries it */}
+          <div className="hidden max-sm:flex flex-row justify-between items-center pt-[16px]">
+            <div className="flex flex-row gap-[8px] items-center">
+              <Icon id="globe-ba8fa5" className="box-border w-[18px] shrink-0 h-[18px]" />
+              <span className={`text-[14px]/[18px] text-[#475E75] ${font}`}>{t("nav.language")}</span>
+            </div>
+            <div className="flex flex-row p-[3px] gap-[2px] rounded-[8px] bg-[#EAF3F5]">
+              {(["en", "id"] as const).map((code) => (
+                <button
+                  key={code}
+                  type="button"
+                  onClick={() => setLang(code)}
+                  aria-pressed={lang === code}
+                  className={`min-w-[52px] h-[36px] px-[12px] rounded-[6px] text-[14px]/[18px] ${font} cursor-pointer ${
+                    lang === code ? "bg-[#000354] text-[#FFFFFF] font-medium" : "text-[#475E75] hover:text-[#000354]"
+                  }`}
+                >
+                  {code.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </div>
         </nav>
       )}
     </header>

@@ -42,7 +42,7 @@ const idCopy: Record<string, string> = {
     "Pesatnya perkembangan teknologi telah mengubah wajah dunia, memaksa pelaku bisnis mendefinisikan ulang cara mereka menjalankan usaha.",
   "Strategic Information Planning": "Perencanaan Informasi Strategis",
   "Confusion in setting the priority of business process initiatives derives from the complexity of the business processes themselves.":
-    "Kebingungan dalam menentukan prioritas inisiatif proses bisnis berasal dari kompleksitas proses bisnis itu sendiri.",
+    "Prioritas inisiatif sulit ditentukan karena proses bisnisnya sendiri rumit.",
   "Years of experience": "Tahun pengalaman",
   "Serving Indonesia since 1999": "Melayani Indonesia sejak 1999",
   "Enterprise clients": "Klien korporasi",

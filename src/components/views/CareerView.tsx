@@ -37,7 +37,7 @@ const copy = {
       { category: "ABAPER / FIORI", title: "ABAP & SAP Fiori Developer" },
     ],
     whyEyebrow: "WHY PST",
-    whyTitle: "Grow with a learning organization",
+    whyTitle: "Learn on the job, on real projects",
     whyDesc:
       "You learn SAP through our internal curriculum, work on client projects across Indonesia with travel and accommodation paid, and follow a clear path from Trainee to Project Manager. Learning is part of the job, every day.",
     advantages: [
@@ -150,7 +150,7 @@ const copy = {
     current: "Karier",
     heroTitle: "Bangun karier Anda\nsebagai konsultan SAP",
     heroDesc:
-      "Kami membuka posisi di bidang business process dan resource planning. Lulusan baru dipersilakan: kami melatih Anda tentang SAP dan menempatkan Anda di proyek klien yang nyata di seluruh Indonesia.",
+      "Kami membuka posisi di bidang business process dan resource planning. Fresh graduate juga bisa melamar. Kami melatih Anda tentang SAP dan menempatkan Anda di proyek klien yang nyata di seluruh Indonesia.",
     openEyebrow: "POSISI TERBUKA",
     openings: [
       { category: "FUNGSIONAL", title: "Business Analyst (SAP S/4HANA) – Trainee" },
@@ -158,7 +158,7 @@ const copy = {
       { category: "ABAPER / FIORI", title: "ABAP & SAP Fiori Developer" },
     ],
     whyEyebrow: "MENGAPA PST",
-    whyTitle: "Bertumbuh di organisasi pembelajar",
+    whyTitle: "Belajar sambil bekerja di proyek nyata",
     whyDesc:
       "Anda mempelajari SAP melalui kurikulum internal, bekerja di proyek klien di seluruh Indonesia dengan biaya perjalanan dan akomodasi ditanggung, dan menapaki jenjang yang jelas dari Trainee hingga Project Manager. Belajar adalah bagian dari pekerjaan, setiap hari.",
     advantages: [
@@ -173,12 +173,12 @@ const copy = {
     jobsEyebrow: "POSISI TERBUKA",
     jobsTitle: "Lowongan saat ini",
     jobsDesc:
-      "Lulusan baru dipersilakan. Semua posisi mensyaratkan kesediaan ditempatkan di lokasi proyek mana pun.",
+      "Fresh graduate juga bisa melamar. Semua posisi mensyaratkan kesediaan ditempatkan di lokasi proyek mana pun.",
     reflectLabel: "Sebelum wawancara, renungkan:",
     applyNow: "Lamar sekarang",
     responsibilities: "TANGGUNG JAWAB",
     qualifications: "KUALIFIKASI",
-    freshGrad: "Lulusan baru dipersilakan",
+    freshGrad: "Terbuka untuk fresh graduate",
     jobs: [
       {
         title: "Business Analyst (SAP S/4HANA) Consultant – Trainee",
@@ -201,7 +201,7 @@ const copy = {
       },
       {
         title: "System Engineer / Database Administrator",
-        level: "Lulusan baru dipersilakan",
+        level: "Terbuka untuk fresh graduate",
         responsibilities: [
           "Instalasi / upgrade / migrasi sistem aplikasi",
           "Menyetel dan mengelola performa aplikasi",
@@ -218,7 +218,7 @@ const copy = {
       },
       {
         title: "ABAP & SAP Fiori Developer",
-        level: "Lulusan baru dipersilakan",
+        level: "Terbuka untuk fresh graduate",
         responsibilities: [
           "Menganalisis dan merancang kebutuhan serta spesifikasi aplikasi",
           "Mengembangkan, membangun, menyempurnakan, dan memodifikasi program ABAP",
@@ -249,7 +249,7 @@ const copy = {
       {
         question: "Apakah saya perlu pengalaman SAP?",
         answer:
-          "Tidak. Lulusan baru dipersilakan. Anda mempelajari SAP melalui kurikulum internal dan evaluasi berkala, lalu menerapkannya di proyek klien yang nyata.",
+          "Tidak. Fresh graduate juga bisa melamar. Anda mempelajari SAP melalui kurikulum internal dan evaluasi berkala, lalu menerapkannya di proyek klien yang nyata.",
       },
       {
         question: "Bagaimana lingkungan kerjanya?",
