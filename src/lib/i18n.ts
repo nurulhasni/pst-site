@@ -29,7 +29,7 @@ export const dictionaries: Record<Lang, Record<string, string>> = {
     "hero.title1": "SAP implementations",
     "hero.title2": "that actually",
     "hero.title3": "go live.",
-    "hero.desc": "Many ERP projects stall or never get used, and we are often called in to fix them. Since 1999, PST has protected your SAP investment from blueprint until your team truly runs on it.",
+    "hero.desc": "Many ERP projects fail, never run properly, or don't fit how the business works, and we are often trusted to put them right. PST takes your SAP investment from blueprint all the way to real use across your company.",
     "hero.explore": "Explore services",
     "hero.stat1": "enterprises running on SAP with PST",
     "hero.stat2": "years of SAP delivery",
@@ -231,7 +231,7 @@ export const dictionaries: Record<Lang, Record<string, string>> = {
     // ⁠ keeps "benar-benar" from breaking across two lines at the hyphen
     "hero.title2": "yang benar-⁠benar",
     "hero.title3": "berjalan.",
-    "hero.desc": "Banyak proyek ERP mandek atau tidak pernah dipakai, dan kami sering dipanggil untuk membereskannya. Sejak 1999, PST menjaga investasi SAP Anda dari blueprint sampai benar-benar digunakan tim Anda.",
+    "hero.desc": "Banyak proyek ERP gagal, tidak berjalan, atau tidak sesuai kebutuhan bisnis, dan kami sering dipercaya untuk membenahinya. PST memastikan investasi SAP Anda dari blueprint sampai benar-benar digunakan di perusahaan.",
     "hero.explore": "Lihat layanan",
     "hero.stat1": "perusahaan menjalankan SAP bersama PST",
     "hero.stat2": "tahun pengalaman SAP",
