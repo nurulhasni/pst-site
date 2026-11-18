@@ -4,7 +4,6 @@ import { useState, type FormEvent } from "react";
 import {
   Building,
   Download,
-  Ellipsis,
   FileText,
   Lock,
   MessageCircle,
@@ -14,7 +13,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { BrandIcon, type BrandName } from "@/components/admin/BrandIcons";
-import { AdminCard, AdminField, AdminToggle, AdminTableHead } from "@/components/admin/AdminUi";
+import { AdminCard, AdminField, AdminToggle } from "@/components/admin/AdminUi";
+import { AdminUsersCard, ChangePasswordCard, type AdminUserSummary } from "@/components/admin/AccountSettings";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif]";
 
@@ -51,7 +51,17 @@ const logoRow = (name: string, hint: string) => (
   </div>
 );
 
-export function SettingsView() {
+export function SettingsView({
+  adminUsers,
+  sheetReadable,
+  currentEmail,
+  canChangePassword,
+}: {
+  adminUsers: AdminUserSummary[];
+  sheetReadable: boolean;
+  currentEmail: string;
+  canChangePassword: boolean;
+}) {
   const [whatsappOn, setWhatsappOn] = useState(true);
   const [assistantOn, setAssistantOn] = useState(true);
   const [dirty, setDirty] = useState(true);
@@ -62,7 +72,7 @@ export function SettingsView() {
   }
 
   return (
-    <form onSubmit={handleSubmit} onChange={() => setDirty(true)} className="box-border w-full h-fit shrink-0 flex flex-row gap-[24px] p-[32px] justify-start items-start max-lg:flex-col max-lg:p-[20px]">
+    <div className="box-border w-full h-fit shrink-0 flex flex-row gap-[24px] p-[32px] justify-start items-start max-lg:flex-col max-lg:p-[20px]">
       <nav className="box-border w-[220px] max-lg:w-full shrink-0 h-fit flex flex-col gap-[2px] p-[8px] justify-start items-start bg-[#FFFFFF] [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[12px]">
         {sections.map((section, index) => (
           <a
@@ -79,6 +89,9 @@ export function SettingsView() {
       </nav>
 
       <div className="box-border [flex:1_1_0] min-w-0 max-lg:w-full h-fit flex flex-col gap-[24px] justify-start items-start">
+        {/* Site settings share one Save bar; the account cards below have their
+            own forms, so they sit outside this one (forms can't nest) */}
+        <form onSubmit={handleSubmit} onChange={() => setDirty(true)} className="box-border w-full h-fit shrink-0 flex flex-col gap-[24px] justify-start items-start">
         <AdminCard id="company" title="Company" sub="Shown in the header, footer and browser tab">
           <div className="box-border w-full h-fit shrink-0 flex flex-row gap-[16px] justify-start items-start max-sm:flex-col">
             <AdminField label="Company name" value="PT Prima Sistem Terpadu" name="companyName" className="[flex:1_1_0]" />
@@ -182,42 +195,6 @@ export function SettingsView() {
           </div>
         </AdminCard>
 
-        <AdminCard id="admin-users" title="Admin users" sub="People who can sign in to this admin">
-          <div className="box-border w-full h-fit shrink-0 flex flex-col gap-0 justify-start items-start [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[8px] overflow-hidden">
-            <AdminTableHead
-              columns={[
-                { label: "USER", flex: true },
-                { label: "ROLE", width: "w-[120px]" },
-                { label: "LAST SIGN-IN", width: "w-[150px]" },
-                { label: "", width: "w-[40px]" },
-              ]}
-            />
-            <div className="w-full h-fit shrink-0 flex flex-row gap-[16px] p-[12px_16px] justify-start items-center [border-width:1px_0px_0px_0px] [border-style:solid] [border-color:#D5DADD]">
-              <div className="box-border [flex:1_1_0] min-w-0 h-fit flex flex-row gap-[12px] justify-start items-center">
-                <div className="box-border w-[36px] shrink-0 h-[36px] flex flex-row gap-0 justify-center items-center bg-[#A6CBD3] rounded-[999px]">
-                  <div className={`text-[13px]/[17px] box-border text-[#000354] ${font} font-medium text-left [white-space:nowrap]`}>AD</div>
-                </div>
-                <div className="box-border w-fit shrink-0 h-fit flex flex-col gap-[2px] justify-start items-start">
-                  <div className={`text-[14px]/[18px] box-border text-[#000000] ${font} font-medium text-left [white-space:nowrap]`}>Admin User</div>
-                  <div className={`text-[12px]/[16px] box-border text-[#475E75] ${font} font-normal text-left [white-space:nowrap]`}>admin@pst.co.id</div>
-                </div>
-              </div>
-              <div className="box-border w-[120px] shrink-0 h-fit flex flex-row gap-0 justify-start items-start">
-                <div className="box-border w-fit shrink-0 h-fit flex flex-row gap-0 p-[3px_10px] justify-start items-start bg-[#000354] rounded-[999px]">
-                  <div className={`text-[12px]/[16px] box-border text-[#FFFFFF] ${font} font-medium text-left [white-space:nowrap]`}>Owner</div>
-                </div>
-              </div>
-              <div className={`text-[14px]/[18px] box-border w-[150px] shrink-0 text-[#354A5F] ${font} font-normal text-left`}>Today, 08:42</div>
-              <div className="box-border w-[40px] shrink-0 h-fit flex flex-row gap-0 justify-end items-start">
-                <Ellipsis size={18} className="text-[#475E75]" />
-              </div>
-            </div>
-          </div>
-          <button type="button" className={`box-border w-fit h-[40px] shrink-0 flex flex-row gap-[8px] p-[0px_24px] justify-center items-center bg-[#FFFFFF] [outline:1px_solid_#475E75] [outline-offset:-0.5px] rounded-[8px] text-[14px]/[18px] text-[#223548] ${font} font-medium cursor-pointer hover:bg-[#EAF3F5] transition-colors`}>
-            + Invite user
-          </button>
-        </AdminCard>
-
         <div className="box-border w-full h-fit shrink-0 flex flex-row flex-wrap gap-[12px] p-[16px_24px] justify-between items-center bg-[#000354] rounded-[12px]">
           <div className={`text-[14px]/[18px] box-border text-[#FFFFFF] ${font} font-medium text-left`}>
             {dirty ? "You have unsaved changes" : "All changes saved"}
@@ -231,7 +208,11 @@ export function SettingsView() {
             </button>
           </div>
         </div>
+        </form>
+
+        <AdminUsersCard users={adminUsers} sheetReadable={sheetReadable} currentEmail={currentEmail} />
+        <ChangePasswordCard canChange={canChangePassword} />
       </div>
-    </form>
+    </div>
   );
 }

@@ -2,7 +2,8 @@
 
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { sessionCookie, signSession, verifyCredentials } from "@/lib/adminAuth";
+import { sessionCookie, signSession } from "@/lib/adminAuth";
+import { recordLogin, verifyLogin } from "@/lib/adminUsers";
 
 export type LoginState = { message: string; email: string };
 
@@ -28,13 +29,14 @@ export async function login(_prev: LoginState, formData: FormData): Promise<Logi
 
   if (!email || !password) return { message: "Please enter your email and password.", email };
 
-  if (!verifyCredentials(email, password)) {
+  if (!(await verifyLogin(email, password))) {
     const count = record && record.until > Date.now() ? record.count + 1 : 1;
     failures.set(ip, { count, until: Date.now() + lockMs });
     return { message: "Incorrect email or password.", email };
   }
 
   failures.delete(ip);
+  await recordLogin(email);
   (await cookies()).set(sessionCookie, signSession(email, remember ? rememberSeconds : sessionSeconds), {
     httpOnly: true,
     sameSite: "lax",

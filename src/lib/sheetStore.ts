@@ -23,6 +23,17 @@ type Backend = {
 
 const api = "https://sheets.googleapis.com/v4/spreadsheets";
 
+// Tabs that may live in a spreadsheet of their own, named by an env variable.
+// When that variable is empty the tab stays in the main GOOGLE_SHEET_ID file.
+const ownSpreadsheet: Record<string, string> = {
+  "Admin Users": "GOOGLE_SHEET_ADMIN_USERS",
+};
+
+function spreadsheetFor(tab: string): string | undefined {
+  const variable = ownSpreadsheet[tab];
+  return (variable && process.env[variable]) || process.env.GOOGLE_SHEET_ID;
+}
+
 function columnLetter(n: number): string {
   let letters = "";
   for (let i = n; i > 0; i = Math.floor((i - 1) / 26)) {
@@ -46,7 +57,7 @@ async function google(url: string, init: RequestInit = {}): Promise<Response> {
 
 const googleBackend: Backend = {
   async read(tab) {
-    const id = process.env.GOOGLE_SHEET_ID;
+    const id = spreadsheetFor(tab);
     const res = await google(`${api}/${id}/values/${range(tab, "A1", "ZZ")}`);
     // Google answers 400 for a tab that doesn't exist yet
     if (res.status === 400) return null;
@@ -56,7 +67,7 @@ const googleBackend: Backend = {
     return { header, rows };
   },
   async create(tab, header) {
-    const id = process.env.GOOGLE_SHEET_ID;
+    const id = spreadsheetFor(tab);
     const res = await google(`${api}/${id}:batchUpdate`, {
       method: "POST",
       body: JSON.stringify({ requests: [{ addSheet: { properties: { title: tab } } }] }),
@@ -68,7 +79,7 @@ const googleBackend: Backend = {
     await writeRow(tab, 1, header);
   },
   async append(tab, row) {
-    const id = process.env.GOOGLE_SHEET_ID;
+    const id = spreadsheetFor(tab);
     const res = await google(
       `${api}/${id}/values/${range(tab, "A1")}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`,
       { method: "POST", body: JSON.stringify({ values: [row] }) },
@@ -79,7 +90,7 @@ const googleBackend: Backend = {
     await writeRow(tab, index + 2, row);
   },
   async remove(tab, index) {
-    const id = process.env.GOOGLE_SHEET_ID;
+    const id = spreadsheetFor(tab);
     const meta = await google(`${api}/${id}?fields=sheets.properties(sheetId,title)`);
     if (!meta.ok) throw new Error("Could not read the Google Sheet's tabs");
     const { sheets = [] } = (await meta.json()) as {
@@ -105,7 +116,7 @@ const googleBackend: Backend = {
 };
 
 async function writeRow(tab: string, rowNumber: number, row: string[]): Promise<void> {
-  const id = process.env.GOOGLE_SHEET_ID;
+  const id = spreadsheetFor(tab);
   const res = await google(
     `${api}/${id}/values/${range(tab, `A${rowNumber}`, `${columnLetter(row.length)}${rowNumber}`)}?valueInputOption=RAW`,
     { method: "PUT", body: JSON.stringify({ values: [row] }) },
