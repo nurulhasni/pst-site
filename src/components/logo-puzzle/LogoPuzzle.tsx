@@ -7,11 +7,12 @@ import { bezier, easeInCubic, easeOutCubic, interpolate, spring } from "./timing
 
 // Logo philosophy animation, drawn as SVG and animated in the browser.
 //
-// Story: the PST core appears first. People, Process and Product arrive as
-// outlined fragments, curve into their slots and lock in; each time, a line of
-// light runs along the seam from the core, which is the glue that holds them.
-// Strategy comes last as the keystone. Once it locks, the whole puzzle turns
-// to face it and a compass ring appears: strategy is the point of orientation.
+// Story: the PST core appears first. Strategy arrives first and sets the
+// direction, then People, Process and Product follow as outlined fragments,
+// curve into their slots and lock in; each time, a line of light runs along
+// the seam from the core, which is the glue that holds them. Once the last
+// piece locks, the whole puzzle turns to face Strategy and a compass ring
+// appears: strategy is the point of orientation.
 //
 // It plays once when it scrolls into view, then stays assembled with a soft
 // glow on Strategy. It replays the next time it comes back into view. With
@@ -21,7 +22,7 @@ export type Lang = "en" | "id";
 
 const labels: Record<Lang, Record<PieceKey, string>> = {
   en: { strategy: "Strategy", people: "People", process: "Process", product: "Product" },
-  id: { strategy: "Strategi", people: "SDM", process: "Proses", product: "Produk" },
+  id: { strategy: "Strategi", people: "Manusia", process: "Proses", product: "Produk" },
 };
 
 const FPS = 30;
@@ -56,7 +57,21 @@ type Piece = {
 // its face stays clear for the PST lettering.
 const coreEdges: Edges = { top: 1, right: 1, bottom: 1, left: 1 };
 
+// Order of arrival: Strategy first, then People, Process, Product. The last
+// lock stays at frame 162, so the finale keeps its original timing.
 const pieces: Piece[] = [
+  {
+    key: "strategy",
+    Icon: Compass,
+    slot: { x: 0, y: -S },
+    edges: { top: 1, right: 1, bottom: -1, left: 1 },
+    fill: "#FFFFFF",
+    ink: navy,
+    start: 20,
+    lock: 72,
+    spin: 200,
+    seam: { side: "top", kind: 1 },
+  },
   {
     key: "people",
     Icon: Users,
@@ -64,8 +79,8 @@ const pieces: Piece[] = [
     edges: { top: -1, right: -1, bottom: -1, left: 1 },
     fill: "#2F6E80",
     ink: "#FFFFFF",
-    start: 24,
-    lock: 66,
+    start: 64,
+    lock: 108,
     spin: -140,
     seam: { side: "left", kind: 1 },
   },
@@ -76,8 +91,8 @@ const pieces: Piece[] = [
     edges: { top: -1, right: 1, bottom: -1, left: -1 },
     fill: "#2B4C9B",
     ink: "#FFFFFF",
-    start: 48,
-    lock: 90,
+    start: 92,
+    lock: 136,
     spin: 125,
     seam: { side: "right", kind: 1 },
   },
@@ -88,26 +103,16 @@ const pieces: Piece[] = [
     edges: { top: -1, right: -1, bottom: 1, left: -1 },
     fill: "#3B3FA0",
     ink: "#FFFFFF",
-    start: 72,
-    lock: 114,
+    start: 120,
+    lock: 162,
     spin: -105,
     seam: { side: "bottom", kind: 1 },
   },
-  {
-    key: "strategy",
-    Icon: Compass,
-    slot: { x: 0, y: -S },
-    edges: { top: 1, right: 1, bottom: -1, left: 1 },
-    fill: "#FFFFFF",
-    ink: navy,
-    start: 112,
-    lock: 162,
-    spin: 200,
-    seam: { side: "top", kind: 1 },
-  },
 ];
 
-const strategy = pieces[3];
+const strategy = pieces.find((p) => p.key === "strategy")!;
+// The frame the last piece locks: the turn and compass ring start from here
+const allLocked = Math.max(...pieces.map((p) => p.lock));
 const ease = bezier(0.22, 0.8, 0.24, 1);
 const coreD = piecePath(S, coreEdges);
 const pieceD = Object.fromEntries(pieces.map((p) => [p.key, piecePath(S, p.edges)])) as Record<PieceKey, string>;
@@ -220,8 +225,8 @@ function Scene({ frame, lang, ids }: { frame: number; lang: Lang; ids: Ids }) {
   }, 0);
   const coreScale = (0.6 + 0.4 * coreIn) * (1 + pulse);
 
-  // The whole puzzle starts tilted and turns to face Strategy once it locks
-  const align = spring(frame - strategy.lock, FPS, { damping: 18, stiffness: 60 });
+  // The whole puzzle starts tilted and turns to face Strategy once every piece is in
+  const align = spring(frame - allLocked, FPS, { damping: 18, stiffness: 60 });
   const tilt = -22 * (1 - align);
 
   // Strategy keeps a gentle glow once everything is in place. After DONE the
@@ -234,7 +239,7 @@ function Scene({ frame, lang, ids }: { frame: number; lang: Lang; ids: Ids }) {
   return (
     <>
       <circle cx={C} cy={C} r={520} fill={`url(#${ids.halo})`} opacity={backdrop} />
-      <CompassRing frame={frame} start={strategy.lock + 10} ids={ids} />
+      <CompassRing frame={frame} start={allLocked + 10} ids={ids} />
 
       <g transform={`translate(${C} ${C}) rotate(${tilt})`}>
         {/* Halo behind Strategy, the point of orientation */}

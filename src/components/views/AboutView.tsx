@@ -126,10 +126,10 @@ const copy = {
     philosophy1:
       "Banyak perusahaan berinvestasi besar pada lisensi SAP, lalu hanya memakai sebagian kecilnya, sering kali sebatas modul finansial. Penjualan, pengadaan, produksi, dan gudang tetap berjalan di spreadsheet dan sistem terpisah. Investasinya sudah ada, nilainya belum.",
     philosophy2:
-      "Itulah arti puzzle di logo kami. Strategi, SDM, Proses, dan Produk adalah keping yang sudah dimiliki setiap perusahaan. Yang sering hilang adalah perekatnya, yaitu bagian yang membuat setiap keping saling mengunci. PST adalah perekat itu, di tengah logo kami dan di tengah proyek Anda.",
+      "Itulah arti puzzle di logo kami. Strategi, Manusia, Proses, dan Produk adalah keping yang sudah dimiliki setiap perusahaan. Yang sering hilang adalah perekatnya, yaitu bagian yang membuat setiap keping saling mengunci. PST adalah perekat itu, di tengah logo kami dan di tengah proyek Anda.",
     philosophy3:
       "Kami merekatkan strategi bisnis Anda ke seluruh proses di SAP, agar investasi yang sudah Anda keluarkan bernilai penuh.",
-    logoAlt: "Logo PST: Strategi, SDM, Proses, dan Produk disatukan oleh inti PST",
+    logoAlt: "Logo PST: Strategi, Manusia, Proses, dan Produk disatukan oleh inti PST",
     achievementEyebrow: "PENCAPAIAN",
     achievementTitle: "Pengalaman kami",
     achievementDesc: "Keahlian yang kami bangun selama lebih dari 25 tahun mengerjakan proyek SAP.",
