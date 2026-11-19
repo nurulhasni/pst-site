@@ -39,12 +39,38 @@ const fallbackInsights: Insight[] = [
   },
 ];
 
+// Each feature has its own spreadsheet file, named by an env variable.
+// A tab whose variable is empty falls back to the GOOGLE_SHEET_ID file.
+const spreadsheetVariable: Record<string, string> = {
+  Clients: "GOOGLE_SHEET_CLIENTS",
+  Services: "GOOGLE_SHEET_SERVICES",
+  "Impact Stats": "GOOGLE_SHEET_IMPACT_STATS",
+  Blog: "GOOGLE_SHEET_BLOG",
+  Insights: "GOOGLE_SHEET_BLOG",
+  "Customer Stories": "GOOGLE_SHEET_CUSTOMER_STORIES",
+  Gallery: "GOOGLE_SHEET_GALLERY",
+  Careers: "GOOGLE_SHEET_CAREERS",
+  "Career FAQ": "GOOGLE_SHEET_CAREERS",
+  Applications: "GOOGLE_SHEET_APPLICATIONS",
+  Contacts: "GOOGLE_SHEET_LEADS",
+  Downloads: "GOOGLE_SHEET_LEADS",
+  Subscribers: "GOOGLE_SHEET_LEADS",
+  "Chat Log": "GOOGLE_SHEET_CHAT_LOG",
+  "Activity Log": "GOOGLE_SHEET_ACTIVITY_LOG",
+  "Admin Users": "GOOGLE_SHEET_ADMIN_USERS",
+};
+
+export function spreadsheetFor(tab: string): string | undefined {
+  const variable = spreadsheetVariable[tab];
+  return (variable && process.env[variable]) || process.env.GOOGLE_SHEET_ID || undefined;
+}
+
+export function spreadsheetSetting(tab: string): string {
+  return spreadsheetVariable[tab] ?? "GOOGLE_SHEET_ID";
+}
+
 export function serviceAccountReady(): boolean {
-  return Boolean(
-    process.env.GOOGLE_SHEET_ID &&
-      process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL &&
-      process.env.GOOGLE_PRIVATE_KEY,
-  );
+  return Boolean(process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL && process.env.GOOGLE_PRIVATE_KEY);
 }
 
 // Cache tag for everything read from one tab; admin saves call updateTag with it.
@@ -53,7 +79,7 @@ export function sheetTag(tab: string): string {
 }
 
 async function readTab(tab: string): Promise<Record<string, string>[] | null> {
-  const id = process.env.GOOGLE_SHEET_ID;
+  const id = spreadsheetFor(tab);
   const key = process.env.GOOGLE_API_KEY;
   if (!id) return null;
 
@@ -223,8 +249,8 @@ export async function getAccessToken(): Promise<string> {
 }
 
 export async function appendRow(tab: string, row: string[]): Promise<void> {
-  const id = process.env.GOOGLE_SHEET_ID;
-  if (!id) throw new Error("GOOGLE_SHEET_ID is not configured");
+  const id = spreadsheetFor(tab);
+  if (!id) throw new Error(`No spreadsheet for the "${tab}" tab. Set ${spreadsheetSetting(tab)} in .env`);
 
   const token = await getAccessToken();
   const res = await fetch(

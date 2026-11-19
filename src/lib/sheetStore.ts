@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { getAccessToken, serviceAccountReady } from "@/lib/sheets";
+import { getAccessToken, serviceAccountReady, spreadsheetFor as configuredSpreadsheet, spreadsheetSetting } from "@/lib/sheets";
 
 // Read-write access to Sheet tabs for the admin pages. Each tab is a table
 // whose first row holds the column names and whose "id" column identifies a
@@ -23,15 +23,11 @@ type Backend = {
 
 const api = "https://sheets.googleapis.com/v4/spreadsheets";
 
-// Tabs that may live in a spreadsheet of their own, named by an env variable.
-// When that variable is empty the tab stays in the main GOOGLE_SHEET_ID file.
-const ownSpreadsheet: Record<string, string> = {
-  "Admin Users": "GOOGLE_SHEET_ADMIN_USERS",
-};
-
-function spreadsheetFor(tab: string): string | undefined {
-  const variable = ownSpreadsheet[tab];
-  return (variable && process.env[variable]) || process.env.GOOGLE_SHEET_ID;
+// Which spreadsheet file holds a tab is set per feature in sheets.ts.
+function spreadsheetFor(tab: string): string {
+  const id = configuredSpreadsheet(tab);
+  if (!id) throw new Error(`No spreadsheet for the "${tab}" tab. Set ${spreadsheetSetting(tab)} in .env`);
+  return id;
 }
 
 function columnLetter(n: number): string {
@@ -175,7 +171,7 @@ const devBackend: Backend = {
 function backend(): Backend {
   if (serviceAccountReady()) return googleBackend;
   if (process.env.NODE_ENV !== "production") return devBackend;
-  throw new Error("Google Sheets is not configured. Set GOOGLE_SHEET_ID and the service account in .env");
+  throw new Error("Google Sheets is not configured. Set the service account and spreadsheet IDs in .env");
 }
 
 const key = (column: string) => column.trim().toLowerCase();
