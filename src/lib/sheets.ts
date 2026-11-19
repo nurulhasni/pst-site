@@ -43,6 +43,7 @@ const fallbackInsights: Insight[] = [
 // A tab whose variable is empty falls back to the GOOGLE_SHEET_ID file.
 const spreadsheetVariable: Record<string, string> = {
   Clients: "GOOGLE_SHEET_CLIENTS",
+  Industries: "GOOGLE_SHEET_CLIENTS",
   Services: "GOOGLE_SHEET_SERVICES",
   "Impact Stats": "GOOGLE_SHEET_IMPACT_STATS",
   Blog: "GOOGLE_SHEET_BLOG",

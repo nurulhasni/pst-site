@@ -1,41 +1,35 @@
 "use client";
 
 import { useState } from "react";
-import { Factory, Landmark, LayoutGrid, Pickaxe, Ship, ShoppingBasket, type LucideIcon } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
-import { industries, type PublicClient } from "@/lib/clientModel";
+import { IndustryIcon } from "@/components/IndustryIcon";
+import { industryLabel, industryShortLabel, type Industry, type PublicClient } from "@/lib/clientModel";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif]";
 
-const industryIcons: Record<string, LucideIcon> = {
-  heavy: Factory,
-  maritime: Ship,
-  mining: Pickaxe,
-  finance: Landmark,
-  consumer: ShoppingBasket,
-  other: LayoutGrid,
-};
+type Group = { name: string; industry?: Industry; clients: PublicClient[] };
 
-type Group = { name: string; key?: string; clients: PublicClient[] };
+const same = (a: string, b: string) => a.trim().toLowerCase() === b.trim().toLowerCase();
 
-// Known industries keep their usual order; anything typed differently in the
-// Sheet gets its own group after them instead of disappearing.
-function groupByIndustry(clients: PublicClient[]): Group[] {
+// Industries keep the admin's order; a name typed in the Sheet that isn't in
+// the Industries tab gets its own group after them instead of disappearing.
+function groupByIndustry(clients: PublicClient[], industries: Industry[]): Group[] {
   const known = industries.map((industry) => ({
-    ...industry,
-    clients: clients.filter((c) => c.industry === industry.name),
+    name: industry.name,
+    industry,
+    clients: clients.filter((c) => same(c.industry, industry.name)),
   }));
-  const extraNames = [...new Set(clients.map((c) => c.industry).filter((name) => !industries.some((i) => i.name === name)))];
+  const extraNames = [...new Set(clients.map((c) => c.industry).filter((name) => !industries.some((i) => same(i.name, name))))];
   const extra = extraNames.map((name) => ({ name, clients: clients.filter((c) => c.industry === name) }));
   return [...known, ...extra].filter((group) => group.clients.length);
 }
 
-export function ClientIndustries({ clients }: { clients: PublicClient[] }) {
-  const { t } = useLanguage();
+export function ClientIndustries({ clients, industries }: { clients: PublicClient[]; industries: Industry[] }) {
+  const { t, lang } = useLanguage();
   const [selected, setSelected] = useState<string | null>(null);
-  const groups = groupByIndustry(clients);
-  const label = (group: Group) => (group.key ? t(`ci.name.${group.key}`) : group.name);
-  const filterLabel = (group: Group) => (group.key ? t(`ci.${group.key}`) : group.name);
+  const groups = groupByIndustry(clients, industries);
+  const label = (group: Group) => (group.industry ? industryLabel(group.industry, lang) : group.name);
+  const filterLabel = (group: Group) => (group.industry ? industryShortLabel(group.industry, lang) : group.name);
   const visible = selected ? groups.filter((group) => group.name === selected) : groups;
 
   return (
@@ -63,7 +57,6 @@ export function ClientIndustries({ clients }: { clients: PublicClient[] }) {
       </div>
       <div className="box-border w-full h-fit flex flex-col">
         {visible.map((group) => {
-          const Icon = (group.key && industryIcons[group.key]) || LayoutGrid;
           return (
             <div
               key={group.name}
@@ -71,7 +64,7 @@ export function ClientIndustries({ clients }: { clients: PublicClient[] }) {
             >
               <div className="box-border w-[300px] max-lg:w-full shrink-0 flex flex-row gap-[16px] items-center">
                 <div className="box-border w-[48px] h-[48px] shrink-0 flex items-center justify-center bg-[#EAF3F5] rounded-[8px]">
-                  <Icon size={22} className="text-[#2F6E80]" />
+                  <IndustryIcon icon={group.industry?.icon ?? "grid"} size={22} className="text-[#2F6E80]" />
                 </div>
                 <div className="box-border w-full flex flex-col gap-[4px]">
                   <div className={`text-[18px]/[22px] text-[#000000] ${font} font-medium`}>{label(group)}</div>

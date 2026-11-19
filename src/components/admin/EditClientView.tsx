@@ -6,7 +6,7 @@ import { ChevronDown, Info, RefreshCw, Trash2, Upload } from "lucide-react";
 import { AdminCard, AdminCheckbox, AdminField, AdminNotice, AdminToggle } from "@/components/admin/AdminUi";
 import { deleteClient, saveClient } from "@/app/admin/clients/actions";
 import type { FormState } from "@/lib/adminForms";
-import { industries, type Client } from "@/lib/clientModel";
+import type { Client, Industry } from "@/lib/clientModel";
 import { useHydrated } from "@/lib/useHydrated";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif] ";
@@ -19,7 +19,7 @@ const linkButton = `box-border w-fit shrink-0 h-fit flex flex-row gap-[6px] just
 const DESCRIPTION_MAX = 160;
 const MAX_LOGO_MB = 2;
 
-export function EditClientView({ client }: { client?: Client }) {
+export function EditClientView({ client, industries }: { client?: Client; industries: Industry[] }) {
   const [description, setDescription] = useState(client?.description ?? "");
   const [active, setActive] = useState(client?.active ?? true);
   const [inStrip, setInStrip] = useState(client?.homepageStrip ?? true);
@@ -96,7 +96,7 @@ export function EditClientView({ client }: { client?: Client }) {
             <label className="box-border [flex:1_1_0] min-w-0 max-sm:w-full h-fit flex flex-col gap-[8px] justify-start items-start">
               <span className={labelClass}>Industry *</span>
               <div className={fieldBox}>
-                <select name="industry" disabled={!ready} defaultValue={client?.industry ?? industries[0].name} className={selectClass}>
+                <select name="industry" disabled={!ready} defaultValue={client?.industry ?? industries[0]?.name} className={selectClass}>
                   {client && !industries.some((i) => i.name === client.industry) && <option>{client.industry}</option>}
                   {industries.map((item) => (
                     <option key={item.name}>{item.name}</option>
@@ -104,6 +104,12 @@ export function EditClientView({ client }: { client?: Client }) {
                 </select>
                 <ChevronDown size={18} className="text-[#475E75] shrink-0 pointer-events-none" />
               </div>
+              <span className={`text-[12px]/[15px] text-[#475E75] ${font}font-normal`}>
+                Missing one?{" "}
+                <Link href="/admin/clients/industries" className="text-[#2F6E80] hover:text-[#000354] underline">
+                  Manage industries
+                </Link>
+              </span>
             </label>
             <AdminField label="Website" placeholder="https://" name="website" value={client?.website} className="[flex:1_1_0] min-w-0 max-sm:w-full" />
           </div>

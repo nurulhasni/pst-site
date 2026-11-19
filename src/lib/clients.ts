@@ -1,5 +1,15 @@
 import { cacheLife, cacheTag } from "next/cache";
-import { clientsTab, fallbackClients, toClient, type Client, type PublicClient } from "@/lib/clientModel";
+import {
+  clientsTab,
+  fallbackClients,
+  fallbackIndustries,
+  industriesTab,
+  toClient,
+  toIndustry,
+  type Client,
+  type Industry,
+  type PublicClient,
+} from "@/lib/clientModel";
 import { listRecords, type SheetRecord } from "@/lib/sheetStore";
 import { sheetTag } from "@/lib/sheets";
 
@@ -33,6 +43,30 @@ export async function getPublicClients(): Promise<PublicClient[]> {
       homepageStrip,
       servicesPage,
     }));
+}
+
+const industryOrder = (a: Industry, b: Industry) => a.order - b.order;
+
+function industriesFrom(rows: Awaited<ReturnType<typeof listRecords>>): Industry[] {
+  return (rows ? rows.map(toIndustry).filter((i) => i.name) : fallbackIndustries).sort(industryOrder);
+}
+
+// For the Services page; the built-in list until the tab is imported
+export async function getPublicIndustries(): Promise<Industry[]> {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag(sheetTag(industriesTab));
+
+  try {
+    return industriesFrom(await listRecords(industriesTab));
+  } catch {
+    return industriesFrom(null);
+  }
+}
+
+export async function getIndustryAdminData() {
+  const rows = await listRecords(industriesTab);
+  return { industries: industriesFrom(rows), imported: rows !== null };
 }
 
 export async function getClientAdminData() {

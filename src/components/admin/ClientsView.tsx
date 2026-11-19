@@ -6,24 +6,14 @@ import { Pencil, Search, Trash2 } from "lucide-react";
 import { AdminNotice } from "@/components/admin/AdminUi";
 import { deleteClient, importClients, setClientInStrip } from "@/app/admin/clients/actions";
 import type { FormState } from "@/lib/adminForms";
-import { industries, type Client } from "@/lib/clientModel";
+import { industryShortLabel, type Client, type Industry } from "@/lib/clientModel";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif] ";
 
 const iconButton = "box-border w-[32px] shrink-0 h-[32px] flex flex-row gap-0 justify-center items-center rounded-[8px] hover:bg-[#EAF3F5] cursor-pointer transition-colors";
 const primaryButton = `box-border w-fit shrink-0 h-[40px] flex flex-row gap-[8px] p-[0px_20px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] disabled:opacity-60 disabled:cursor-wait rounded-[8px] text-[14px]/[18px] text-[#FFFFFF] ${font}font-medium cursor-pointer transition-colors`;
 
-// Short filter labels for the known industries; others show their full name
-const shortLabels: Record<string, string> = {
-  heavy: "Heavy Equipment",
-  maritime: "Maritime",
-  mining: "Mining",
-  finance: "Finance",
-  consumer: "Consumer",
-  other: "Other",
-};
-
-export function ClientsView({ clients, imported }: { clients: Client[]; imported: boolean }) {
+export function ClientsView({ clients, imported, industries }: { clients: Client[]; imported: boolean; industries: Industry[] }) {
   const [filter, setFilter] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [confirming, setConfirming] = useState<string | null>(null);
@@ -40,7 +30,10 @@ export function ClientsView({ clients, imported }: { clients: Client[]; imported
     { label: "All", industry: null as string | null, count: clients.length },
     ...industryNames
       .map((name) => ({
-        label: shortLabels[industries.find((i) => i.name === name)?.key ?? ""] ?? name,
+        label: (() => {
+          const known = industries.find((i) => i.name === name);
+          return known ? industryShortLabel(known, "en") : name;
+        })(),
         industry: name as string | null,
         count: clients.filter((c) => c.industry === name).length,
       }))
@@ -107,11 +100,16 @@ export function ClientsView({ clients, imported }: { clients: Client[]; imported
             );
           })}
         </div>
-        {imported && (
-          <Link href="/admin/clients/edit" className={`box-border w-fit shrink-0 h-[44px] flex flex-row gap-[8px] p-[0px_24px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] rounded-[8px] text-[15px]/[19px] text-[#FFFFFF] ${font}font-medium transition-colors`}>
-            + Add client
+        <div className="box-border w-fit shrink-0 h-fit flex flex-row flex-wrap gap-[12px] items-center">
+          <Link href="/admin/clients/industries" className={`box-border w-fit shrink-0 h-[44px] flex flex-row gap-[8px] p-[0px_20px] justify-center items-center bg-[#FFFFFF] hover:bg-[#EAF3F5] [outline:1px_solid_#475E75] [outline-offset:-0.5px] rounded-[8px] text-[15px]/[19px] text-[#223548] ${font}font-medium transition-colors`}>
+            Manage industries
           </Link>
-        )}
+          {imported && (
+            <Link href="/admin/clients/edit" className={`box-border w-fit shrink-0 h-[44px] flex flex-row gap-[8px] p-[0px_24px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] rounded-[8px] text-[15px]/[19px] text-[#FFFFFF] ${font}font-medium transition-colors`}>
+              + Add client
+            </Link>
+          )}
+        </div>
       </div>
 
       <div className="box-border w-full h-fit shrink-0 flex flex-col gap-0 justify-start items-start bg-[#FFFFFF] [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[12px] overflow-x-auto">

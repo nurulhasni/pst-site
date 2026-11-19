@@ -5,7 +5,7 @@ import { AdminLoading } from "@/components/admin/AdminUi";
 import { ClientsView } from "@/components/admin/ClientsView";
 import { requireAdmin } from "@/lib/adminSession";
 import { fallbackClients } from "@/lib/clientModel";
-import { getClientAdminData } from "@/lib/clients";
+import { getClientAdminData, getIndustryAdminData } from "@/lib/clients";
 
 export const metadata: Metadata = {
   title: "Clients — Content Admin",
@@ -14,9 +14,9 @@ export const metadata: Metadata = {
 
 async function ClientsData() {
   await requireAdmin();
-  const { clients, imported } = await getClientAdminData();
+  const [{ clients, imported }, { industries }] = await Promise.all([getClientAdminData(), getIndustryAdminData()]);
   // Before the first import, show what the site displays today
-  return <ClientsView clients={imported ? clients : fallbackClients} imported={imported} />;
+  return <ClientsView clients={imported ? clients : fallbackClients} imported={imported} industries={industries} />;
 }
 
 export default function AdminClientsPage() {

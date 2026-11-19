@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ServicesPageView } from "@/components/views/ServicesPageView";
-import { getPublicClients } from "@/lib/clients";
+import { getPublicClients, getPublicIndustries } from "@/lib/clients";
 
 export const metadata: Metadata = {
   title: "Services — PT Prima Sistem Terpadu",
@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ServicesPage() {
-  const clients = (await getPublicClients()).filter((c) => c.servicesPage);
-  return <ServicesPageView clients={clients} />;
+  const [allClients, industries] = await Promise.all([getPublicClients(), getPublicIndustries()]);
+  const clients = allClients.filter((c) => c.servicesPage);
+  return <ServicesPageView clients={clients} industries={industries} />;
 }

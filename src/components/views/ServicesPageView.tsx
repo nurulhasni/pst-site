@@ -21,7 +21,7 @@ import { PageHero } from "@/components/PageHero";
 import { CtaBanner } from "@/components/CtaBanner";
 import { ClientIndustries } from "@/components/sections/ClientIndustries";
 import { useLanguage } from "@/components/LanguageProvider";
-import type { PublicClient } from "@/lib/clientModel";
+import type { Industry, PublicClient } from "@/lib/clientModel";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif]";
 
@@ -170,7 +170,7 @@ const serviceIcons: LucideIcon[] = [Layers, Headset, Workflow, Compass];
 const reasonIcons: LucideIcon[] = [Handshake, TrendingDown, Users];
 const riseIcons: LucideIcon[] = [Cloud, ChartLine, Users];
 
-export function ServicesPageView({ clients }: { clients: PublicClient[] }) {
+export function ServicesPageView({ clients, industries }: { clients: PublicClient[]; industries: Industry[] }) {
   const { lang } = useLanguage();
   const c = copy[lang];
 
@@ -289,7 +289,7 @@ export function ServicesPageView({ clients }: { clients: PublicClient[] }) {
           <div className={`text-[48px]/[53px] text-[#000000] ${font} font-medium max-lg:text-[32px]/[35px]`}>{c.clientsTitle}</div>
           <div className={`text-[18px]/[27px] text-[#354A5F] ${font}`}>{c.clientsDesc}</div>
         </div>
-        <ClientIndustries clients={clients} />
+        <ClientIndustries clients={clients} industries={industries} />
       </section>
 
       <section className="box-border w-full h-fit p-[96px] pb-[120px] max-lg:p-[60px_20px]">

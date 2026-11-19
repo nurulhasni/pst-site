@@ -23,16 +23,102 @@ export const clientColumns = [
   "updated_at",
 ];
 
-// The Services page groups clients by these; the key picks the translated name
-export const industries = [
-  { name: "Heavy Equipment & Manufacturing", key: "heavy" },
-  { name: "Maritime & Transportation", key: "maritime" },
-  { name: "Mining, Energy & Construction", key: "mining" },
-  { name: "Finance, Technology & Education", key: "finance" },
-  { name: "Consumer Goods", key: "consumer" },
-  { name: "Other Industries", key: "other" },
-];
 export const otherIndustry = "Other Industries";
+
+// The Services page groups clients by industry. Industries live in their own
+// tab next to Clients; a client's "industry" cell holds the English name so
+// staff can read and type it in the Sheet. Renaming an industry in the admin
+// renames it on every client too.
+export const industriesTab = "Industries";
+export const industryColumns = ["order", "name", "name_id", "short", "short_id", "icon", "updated_at"];
+
+// Icon keys staff can pick; the public page and admin map them to drawings
+export const industryIconKeys = [
+  "factory",
+  "ship",
+  "pickaxe",
+  "landmark",
+  "basket",
+  "grid",
+  "truck",
+  "zap",
+  "building",
+  "health",
+  "education",
+  "cpu",
+  "plane",
+  "utensils",
+  "sprout",
+  "shopping",
+] as const;
+export type IndustryIcon = (typeof industryIconKeys)[number];
+
+export type Industry = {
+  id: string;
+  order: number;
+  name: string;
+  nameId: string;
+  short: string;
+  shortId: string;
+  icon: IndustryIcon;
+  updatedAt: string;
+};
+
+const toIcon = (value = ""): IndustryIcon => {
+  const key = value.trim().toLowerCase();
+  return (industryIconKeys as readonly string[]).includes(key) ? (key as IndustryIcon) : "grid";
+};
+
+export function toIndustry(r: SheetRecord): Industry {
+  return {
+    id: r.id,
+    order: toOrder(r.order),
+    name: (r.name ?? "").trim(),
+    nameId: r.name_id ?? "",
+    short: r.short ?? "",
+    shortId: r.short_id ?? "",
+    icon: toIcon(r.icon),
+    updatedAt: r.updated_at ?? "",
+  };
+}
+
+export function industryValues(i: Omit<Industry, "id">): Record<string, string> {
+  return {
+    order: String(i.order),
+    name: i.name,
+    name_id: i.nameId,
+    short: i.short,
+    short_id: i.shortId,
+    icon: i.icon,
+    updated_at: i.updatedAt,
+  };
+}
+
+// Labels in the visitor's language; empty Indonesian or short names fall back
+export const industryLabel = (i: Industry, lang: string) => (lang === "id" && i.nameId) || i.name;
+export const industryShortLabel = (i: Industry, lang: string) =>
+  (lang === "id" ? i.shortId || i.nameId : i.short) || i.short || i.name;
+
+const industrySeed = (order: number, name: string, nameId: string, short: string, shortId: string, icon: IndustryIcon): Industry => ({
+  id: `seed-industry-${order}`,
+  order,
+  name,
+  nameId,
+  short,
+  shortId,
+  icon,
+  updatedAt: "",
+});
+
+// The industries the site showed before they moved to the Sheet
+export const fallbackIndustries: Industry[] = [
+  industrySeed(1, "Heavy Equipment & Manufacturing", "Alat Berat & Manufaktur", "Heavy Equipment", "Alat Berat", "factory"),
+  industrySeed(2, "Maritime & Transportation", "Maritim & Transportasi", "Maritime", "Maritim", "ship"),
+  industrySeed(3, "Mining, Energy & Construction", "Pertambangan, Energi & Konstruksi", "Mining", "Pertambangan", "pickaxe"),
+  industrySeed(4, "Finance, Technology & Education", "Keuangan, Teknologi & Pendidikan", "Finance", "Keuangan", "landmark"),
+  industrySeed(5, "Consumer Goods", "Barang Konsumsi", "Consumer Goods", "Barang Konsumsi", "basket"),
+  industrySeed(6, otherIndustry, "Industri Lainnya", "Other Industries", "Industri Lainnya", "grid"),
+];
 
 export type Client = {
   id: string;
