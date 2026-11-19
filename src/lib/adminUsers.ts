@@ -21,13 +21,20 @@ export type AdminUser = {
   source: "sheet" | "env";
 };
 
+// The hash tool prints a "salt:hash" line for the Sheet and an
+// "email:salt:hash" line for .env; accept either in the Sheet.
+const sheetHash = (value: string | undefined): string => {
+  const parts = (value ?? "").replace(/\s+/g, "").split(":");
+  return parts.length === 3 && parts[0].includes("@") ? `${parts[1]}:${parts[2]}` : parts.join(":");
+};
+
 const toUser = (r: SheetRecord): AdminUser => ({
   id: r.id,
   email: (r.email ?? "").trim().toLowerCase(),
   name: r.name ?? "",
   // Only an explicit Active lets someone in, so a typo locks rather than opens
   active: (r.status ?? "").trim().toLowerCase() === "active",
-  passwordHash: r.password_hash ?? "",
+  passwordHash: sheetHash(r.password_hash),
   passwordChangedAt: r.password_changed_at ?? "",
   lastLogin: r.last_login ?? "",
   source: "sheet",
@@ -76,8 +83,26 @@ async function sheetUser(email: string): Promise<AdminUser | undefined> {
 // Sheet has no row for that email.
 export async function verifyLogin(email: string, password: string): Promise<boolean> {
   const user = await sheetUser(email);
-  if (user) return user.active && passwordMatches(password, user.passwordHash);
-  return passwordMatches(password, envAdminPassword(email));
+  let ok: boolean;
+  let reason = "";
+  if (user) {
+    ok = passwordMatches(password, user.passwordHash);
+    if (!/^[0-9a-f]{32}:[0-9a-f]{128}$/i.test(user.passwordHash)) {
+      reason = "password_hash in the Admin Users tab is not a full salt:hash line (paste it again from npm run hash-password)";
+    } else if (!ok) {
+      reason = "wrong password";
+    } else if (!user.active) {
+      reason = 'status is not "Active" in the Admin Users tab';
+    }
+    ok = ok && user.active;
+  } else {
+    ok = passwordMatches(password, envAdminPassword(email));
+    if (!ok) reason = envAdminPassword(email) ? "wrong password (.env account)" : "no row in the Admin Users tab and not in ADMIN_USERS";
+  }
+  // The login page shows one generic message so it can't be used to find out
+  // which emails have accounts; IT sees the real reason in the server log.
+  if (!ok) console.warn(`[admin login] ${email.trim().toLowerCase()} refused: ${reason || "unknown"}`);
+  return ok;
 }
 
 export async function recordLogin(email: string): Promise<void> {

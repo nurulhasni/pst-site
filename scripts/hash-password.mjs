@@ -22,13 +22,13 @@ if (password.length < 12) {
 const salt = randomBytes(16).toString("hex");
 const hash = scryptSync(password, Buffer.from(salt, "hex"), 64).toString("hex");
 console.log(`
-For the Admin Users tab in the Sheet, paste this into the password_hash column
-of ${email}'s row (status Active). The admin should change it under Settings > Security:
+=== 1. GOOGLE SHEET (normal) ===================================================
+Paste this ONE line into the password_hash column of ${email}'s row
+in the "Admin Users" tab (status Active). Change it later under Settings > Security.
 
 ${salt}:${hash}
 
-Or, for an emergency account in the server's .env, add this to ADMIN_USERS
-(separate several accounts with commas):
+=== 2. .env ADMIN_USERS (emergency account only, NOT for the Sheet) ============
 
 ${email}:${salt}:${hash}
 `);

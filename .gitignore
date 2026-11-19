@@ -46,3 +46,6 @@ next-env.d.ts
 
 # images uploaded from the admin (served by app/uploads)
 /uploads/
+
+# Google service account key and Sheet links (local only)
+/setting spreadsheet/
