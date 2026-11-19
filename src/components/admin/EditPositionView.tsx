@@ -7,6 +7,7 @@ import { AdminCard, AdminField, AdminNotice, AdminToggle } from "@/components/ad
 import { deletePosition, savePosition } from "@/app/admin/careers/actions";
 import type { FormState } from "@/lib/adminForms";
 import { defaultApplyEmail, employmentTypes, positionCategories, type CareerPosition } from "@/lib/careerModel";
+import { useHydrated } from "@/lib/useHydrated";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif]";
 
@@ -45,11 +46,12 @@ function EditableList({ label, sub, name, items, onChange }: { label: string; su
 }
 
 function Select({ label, name, options, value }: { label: string; name: string; options: string[]; value: string }) {
+  const ready = useHydrated();
   return (
     <label className="box-border [flex:1_1_0] min-w-0 h-fit flex flex-col gap-[8px] justify-start items-start">
       <span className={labelClass}>{label}</span>
       <div className={fieldBox}>
-        <select name={name} defaultValue={value} className={selectClass}>
+        <select name={name} disabled={!ready} defaultValue={value} className={selectClass}>
           {withCurrent(options, value).map((item) => (
             <option key={item}>{item}</option>
           ))}
@@ -68,6 +70,7 @@ export function EditPositionView({ position }: { position?: CareerPosition }) {
   const [open, setOpen] = useState(position?.open ?? true);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [state, action, saving] = useActionState<FormState, FormData>(savePosition, { message: "" });
+  const ready = useHydrated();
   const [deleteState, setDeleteState] = useState<FormState>({ message: "" });
   const [deleting, setDeleting] = useState(false);
 
@@ -148,7 +151,7 @@ export function EditPositionView({ position }: { position?: CareerPosition }) {
         </AdminCard>
 
         <AdminCard title="Actions">
-          <button type="submit" disabled={saving || deleting} className={`box-border w-full h-[48px] shrink-0 flex flex-row gap-[8px] p-[0px_24px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] disabled:opacity-60 disabled:cursor-wait rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium cursor-pointer transition-colors`}>
+          <button type="submit" disabled={!ready || saving || deleting} className={`box-border w-full h-[48px] shrink-0 flex flex-row gap-[8px] p-[0px_24px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] disabled:opacity-60 disabled:cursor-wait rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium cursor-pointer transition-colors`}>
             {saving ? "Saving…" : position ? "Save changes" : "Create position"}
           </button>
           {position ? (

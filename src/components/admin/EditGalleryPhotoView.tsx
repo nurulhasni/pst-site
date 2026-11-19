@@ -8,6 +8,7 @@ import { ImageDrop } from "@/components/admin/ImageDrop";
 import { deletePhotos, savePhoto } from "@/app/admin/gallery/actions";
 import type { FormState } from "@/lib/adminForms";
 import { MAX_PHOTO_MB, galleryCategories, type GalleryPhoto } from "@/lib/galleryModel";
+import { useHydrated } from "@/lib/useHydrated";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif]";
 const fieldBox = "box-border w-full h-[48px] shrink-0 flex flex-row gap-0 p-[0px_16px] justify-between items-center bg-[#FFFFFF] [outline:1px_solid_#475E75] [outline-offset:-0.5px] rounded-[8px] focus-within:[outline:2px_solid_#2F6E80] focus-within:[outline-offset:-1px]";
@@ -20,6 +21,7 @@ export function EditGalleryPhotoView({ photo }: { photo: GalleryPhoto }) {
   const [deleting, setDeleting] = useState(false);
   const [deleteState, setDeleteState] = useState<FormState>({ message: "" });
   const [state, action, saving] = useActionState<FormState, FormData>(savePhoto, { message: "" });
+  const ready = useHydrated();
   const categories = photo.category && !galleryCategories.includes(photo.category) ? [photo.category, ...galleryCategories] : galleryCategories;
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -68,7 +70,7 @@ export function EditGalleryPhotoView({ photo }: { photo: GalleryPhoto }) {
             <label className="box-border [flex:1_1_0] min-w-0 max-sm:w-full h-fit flex flex-col gap-[8px] justify-start items-start">
               <span className={labelClass}>Category</span>
               <div className={fieldBox}>
-                <select name="category" defaultValue={photo.category || galleryCategories[0]} className={`${controlClass} appearance-none cursor-pointer`}>
+                <select name="category" disabled={!ready} defaultValue={photo.category || galleryCategories[0]} className={`${controlClass} appearance-none cursor-pointer`}>
                   {categories.map((item) => (
                     <option key={item}>{item}</option>
                   ))}
@@ -102,7 +104,7 @@ export function EditGalleryPhotoView({ photo }: { photo: GalleryPhoto }) {
           <AdminField label="Display order" name="order" type="number" value={String(photo.order)} hint="Lower numbers appear first." />
         </AdminCard>
         <AdminCard title="Actions">
-          <button type="submit" disabled={saving || deleting} className={`box-border w-full h-[48px] shrink-0 flex flex-row gap-[8px] p-[0px_24px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] disabled:opacity-60 disabled:cursor-wait rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium cursor-pointer transition-colors`}>
+          <button type="submit" disabled={!ready || saving || deleting} className={`box-border w-full h-[48px] shrink-0 flex flex-row gap-[8px] p-[0px_24px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] disabled:opacity-60 disabled:cursor-wait rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium cursor-pointer transition-colors`}>
             {saving ? "Saving…" : "Save photo"}
           </button>
           <Link href="/admin/gallery" className={`box-border w-full text-[14px]/[18px] text-[#475E75] hover:text-[#000354] transition-colors ${font} font-medium text-center`}>

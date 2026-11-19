@@ -8,6 +8,7 @@ import { ImageDrop } from "@/components/admin/ImageDrop";
 import { deletePost, savePost } from "@/app/admin/blog/actions";
 import type { FormState } from "@/lib/adminForms";
 import { EXCERPT_MAX, MAX_COVER_MB, META_DESCRIPTION_MAX, META_TITLE_MAX, blogCategories, postStatus, slugify, type BlogPost } from "@/lib/blogModel";
+import { useHydrated } from "@/lib/useHydrated";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif]";
 
@@ -46,6 +47,7 @@ export function EditBlogPostView({ post, today }: { post?: BlogPost; today: stri
   const [deleting, setDeleting] = useState(false);
   const [deleteState, setDeleteState] = useState<FormState>({ message: "" });
   const [state, action, saving] = useActionState<FormState, FormData>(savePost, { message: "" });
+  const ready = useHydrated();
   const bodyArea = useRef<HTMLTextAreaElement>(null);
 
   const shownSlug = slugTouched ? slug : slugify(title);
@@ -134,7 +136,7 @@ export function EditBlogPostView({ post, today }: { post?: BlogPost; today: stri
             <label className="box-border [flex:1_1_0] min-w-0 max-sm:w-full h-fit flex flex-col gap-[8px] justify-start items-start">
               <span className={labelClass}>Category</span>
               <div className={`${fieldBox} justify-between`}>
-                <select name="category" defaultValue={post?.category || blogCategories[0]} className={`${controlClass} appearance-none cursor-pointer`}>
+                <select name="category" disabled={!ready} defaultValue={post?.category || blogCategories[0]} className={`${controlClass} appearance-none cursor-pointer`}>
                   {categories.map((item) => (
                     <option key={item}>{item}</option>
                   ))}
@@ -310,7 +312,7 @@ export function EditBlogPostView({ post, today }: { post?: BlogPost; today: stri
         </AdminCard>
 
         <AdminCard title="Actions">
-          <button type="submit" disabled={saving || deleting} className={`box-border w-full h-[48px] shrink-0 flex flex-row gap-[8px] p-[0px_24px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] disabled:opacity-60 disabled:cursor-wait rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium cursor-pointer transition-colors`}>
+          <button type="submit" disabled={!ready || saving || deleting} className={`box-border w-full h-[48px] shrink-0 flex flex-row gap-[8px] p-[0px_24px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] disabled:opacity-60 disabled:cursor-wait rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium cursor-pointer transition-colors`}>
             {saving ? "Saving…" : !published ? "Save draft" : scheduled ? "Schedule post" : post ? "Save post" : "Publish post"}
           </button>
           {live && (

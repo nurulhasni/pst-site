@@ -7,6 +7,7 @@ import { ChevronDown, CloudUpload, Trash2, X } from "lucide-react";
 import { AdminCard, AdminField, AdminNotice, AdminToggle } from "@/components/admin/AdminUi";
 import { uploadPhoto } from "@/app/admin/gallery/actions";
 import { MAX_PHOTO_MB, galleryCategories } from "@/lib/galleryModel";
+import { useHydrated } from "@/lib/useHydrated";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif]";
 
@@ -21,6 +22,7 @@ type Item = { key: string; file: File; preview: string; status: Status; error?: 
 const megabytes = (bytes: number) => `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 
 export function UploadGalleryView({ nextOrder }: { nextOrder: number }) {
+  const ready = useHydrated();
   const router = useRouter();
   const input = useRef<HTMLInputElement>(null);
   const [items, setItems] = useState<Item[]>([]);
@@ -172,7 +174,7 @@ export function UploadGalleryView({ nextOrder }: { nextOrder: number }) {
             <label className="box-border [flex:1_1_0] min-w-0 max-sm:w-full h-fit flex flex-col gap-[8px] justify-start items-start">
               <span className={labelClass}>Category</span>
               <div className={`${fieldBox} justify-between`}>
-                <select name="category" defaultValue={galleryCategories[0]} className={`${controlClass} appearance-none cursor-pointer`}>
+                <select name="category" disabled={!ready} defaultValue={galleryCategories[0]} className={`${controlClass} appearance-none cursor-pointer`}>
                   {galleryCategories.map((item) => (
                     <option key={item}>{item}</option>
                   ))}
@@ -207,7 +209,7 @@ export function UploadGalleryView({ nextOrder }: { nextOrder: number }) {
         </AdminCard>
 
         <AdminCard title="Actions">
-          <button type="submit" disabled={busy} className={`box-border w-full h-[48px] shrink-0 flex flex-row gap-[8px] p-[0px_24px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] disabled:opacity-60 disabled:cursor-wait rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium cursor-pointer transition-colors`}>
+          <button type="submit" disabled={!ready || busy} className={`box-border w-full h-[48px] shrink-0 flex flex-row gap-[8px] p-[0px_24px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] disabled:opacity-60 disabled:cursor-wait rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium cursor-pointer transition-colors`}>
             {busy ? "Uploading…" : `Upload ${remaining} ${remaining === 1 ? "image" : "images"}`}
           </button>
           <Link href="/admin/gallery" className={`box-border w-full text-[14px]/[18px] text-[#475E75] hover:text-[#000354] transition-colors ${font} font-medium text-center`}>

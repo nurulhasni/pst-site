@@ -7,6 +7,7 @@ import { AdminCard, AdminCheckbox, AdminField, AdminNotice, AdminToggle } from "
 import { deleteClient, saveClient } from "@/app/admin/clients/actions";
 import type { FormState } from "@/lib/adminForms";
 import { industries, type Client } from "@/lib/clientModel";
+import { useHydrated } from "@/lib/useHydrated";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif] ";
 
@@ -30,6 +31,7 @@ export function EditClientView({ client }: { client?: Client }) {
   const [deleteState, setDeleteState] = useState<FormState>({ message: "" });
   const [deleting, setDeleting] = useState(false);
   const [state, action, saving] = useActionState<FormState, FormData>(saveClient, { message: "" });
+  const ready = useHydrated();
   const fileInput = useRef<HTMLInputElement>(null);
 
   const currentLogo = removed ? "" : (preview?.url ?? client?.logo ?? "");
@@ -94,7 +96,7 @@ export function EditClientView({ client }: { client?: Client }) {
             <label className="box-border [flex:1_1_0] min-w-0 max-sm:w-full h-fit flex flex-col gap-[8px] justify-start items-start">
               <span className={labelClass}>Industry *</span>
               <div className={fieldBox}>
-                <select name="industry" defaultValue={client?.industry ?? industries[0].name} className={selectClass}>
+                <select name="industry" disabled={!ready} defaultValue={client?.industry ?? industries[0].name} className={selectClass}>
                   {client && !industries.some((i) => i.name === client.industry) && <option>{client.industry}</option>}
                   {industries.map((item) => (
                     <option key={item.name}>{item.name}</option>
@@ -191,7 +193,7 @@ export function EditClientView({ client }: { client?: Client }) {
         </AdminCard>
 
         <AdminCard title="Actions">
-          <button type="submit" disabled={saving || deleting} className={`box-border w-full h-[48px] shrink-0 flex flex-row gap-[8px] p-[0px_24px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] disabled:opacity-60 disabled:cursor-wait rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font}font-medium cursor-pointer transition-colors`}>
+          <button type="submit" disabled={!ready || saving || deleting} className={`box-border w-full h-[48px] shrink-0 flex flex-row gap-[8px] p-[0px_24px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] disabled:opacity-60 disabled:cursor-wait rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font}font-medium cursor-pointer transition-colors`}>
             {saving ? "Saving…" : "Save client"}
           </button>
           <Link href="/admin/clients" className={`box-border w-full text-[14px]/[18px] text-[#475E75] hover:text-[#000354] transition-colors ${font}font-medium text-center`}>

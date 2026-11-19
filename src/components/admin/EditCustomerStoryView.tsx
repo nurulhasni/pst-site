@@ -8,6 +8,7 @@ import { ImageDrop } from "@/components/admin/ImageDrop";
 import { deleteStory, saveStory } from "@/app/admin/testimonials/actions";
 import type { FormState } from "@/lib/adminForms";
 import { NARRATIVE_MAX, QUOTE_MAX, attribution, quoted, storyIndustries, storyServices, type Story } from "@/lib/storyModel";
+import { useHydrated } from "@/lib/useHydrated";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif]";
 
@@ -54,6 +55,7 @@ export function EditCustomerStoryView({ story }: { story?: Story }) {
   const [deleting, setDeleting] = useState(false);
   const [deleteState, setDeleteState] = useState<FormState>({ message: "" });
   const [state, action, saving] = useActionState<FormState, FormData>(saveStory, { message: "" });
+  const ready = useHydrated();
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -95,7 +97,7 @@ export function EditCustomerStoryView({ story }: { story?: Story }) {
               <label className="box-border [flex:1_1_0] min-w-0 max-sm:w-full h-fit flex flex-col gap-[8px] justify-start items-start">
                 <span className={labelClass}>Industry</span>
                 <ChevronField>
-                  <select name="industry" defaultValue={story?.industry || storyIndustries[0]} className={selectClass}>
+                  <select name="industry" disabled={!ready} defaultValue={story?.industry || storyIndustries[0]} className={selectClass}>
                     {withCurrent(storyIndustries, story?.industry ?? "").map((item) => (
                       <option key={item}>{item}</option>
                     ))}
@@ -105,7 +107,7 @@ export function EditCustomerStoryView({ story }: { story?: Story }) {
               <label className="box-border [flex:1_1_0] min-w-0 max-sm:w-full h-fit flex flex-col gap-[8px] justify-start items-start">
                 <span className={labelClass}>Service</span>
                 <ChevronField>
-                  <select name="service" value={service} onChange={(event) => setService(event.target.value)} className={selectClass}>
+                  <select name="service" disabled={!ready} value={service} onChange={(event) => setService(event.target.value)} className={selectClass}>
                     {withCurrent(storyServices, story?.service ?? "").map((item) => (
                       <option key={item}>{item}</option>
                     ))}
@@ -216,7 +218,7 @@ export function EditCustomerStoryView({ story }: { story?: Story }) {
           <AdminCard title="Actions">
             <button
               type="submit"
-              disabled={saving || deleting}
+              disabled={!ready || saving || deleting}
               className={`box-border w-full h-[48px] shrink-0 flex flex-row gap-[8px] p-[0px_24px] justify-center items-center bg-[#000354] hover:bg-[#0B1470] disabled:opacity-60 disabled:cursor-wait rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium cursor-pointer transition-colors`}
             >
               {saving ? "Saving…" : "Save story"}
