@@ -24,7 +24,9 @@ const hash = scryptSync(password, Buffer.from(salt, "hex"), 64).toString("hex");
 console.log(`
 === 1. GOOGLE SHEET (normal) ===================================================
 Paste this ONE line into the password_hash column of ${email}'s row
-in the "Admin Users" tab (status Active). Change it later under Settings > Security.
+in the "Admin Users" tab (status Active, role Admin or Editor).
+They change it later under Settings > Security. Admins can also add people
+and reset passwords from Settings > Admin users without this script.
 
 ${salt}:${hash}
 

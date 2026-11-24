@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AdminGuard } from "@/components/admin/AdminGuard";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { SubscribersView } from "@/components/admin/SubscribersView";
 
@@ -10,7 +11,9 @@ export const metadata: Metadata = {
 export default function AdminSubscribersPage() {
   return (
     <AdminShell activeKey="subscribers" breadcrumb="Audience / Subscribers" title="Subscribers">
-      <SubscribersView />
+      <AdminGuard>
+        <SubscribersView />
+      </AdminGuard>
     </AdminShell>
   );
 }

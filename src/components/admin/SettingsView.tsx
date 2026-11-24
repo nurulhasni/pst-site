@@ -55,13 +55,17 @@ export function SettingsView({
   adminUsers,
   sheetReadable,
   currentEmail,
+  canManageUsers,
   canChangePassword,
 }: {
   adminUsers: AdminUserSummary[];
   sheetReadable: boolean;
   currentEmail: string;
+  canManageUsers: boolean;
   canChangePassword: boolean;
 }) {
+  // Editors don't see the account list at all
+  const visibleSections = canManageUsers ? sections : sections.filter((s) => s.id !== "admin-users");
   const [whatsappOn, setWhatsappOn] = useState(true);
   const [assistantOn, setAssistantOn] = useState(true);
   const [dirty, setDirty] = useState(true);
@@ -74,7 +78,7 @@ export function SettingsView({
   return (
     <div className="box-border w-full h-fit shrink-0 flex flex-row gap-[24px] p-[32px] justify-start items-start max-lg:flex-col max-lg:p-[20px]">
       <nav className="box-border w-[220px] max-lg:w-full shrink-0 h-fit flex flex-col gap-[2px] p-[8px] justify-start items-start bg-[#FFFFFF] [outline:1px_solid_#D5DADD] [outline-offset:-0.5px] rounded-[12px]">
-        {sections.map((section, index) => (
+        {visibleSections.map((section, index) => (
           <a
             key={section.id}
             href={`#${section.id}`}
@@ -210,7 +214,7 @@ export function SettingsView({
         </div>
         </form>
 
-        <AdminUsersCard users={adminUsers} sheetReadable={sheetReadable} currentEmail={currentEmail} />
+        {canManageUsers && <AdminUsersCard users={adminUsers} sheetReadable={sheetReadable} currentEmail={currentEmail} />}
         <ChangePasswordCard canChange={canChangePassword} />
       </div>
     </div>

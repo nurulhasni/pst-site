@@ -17,6 +17,7 @@ import {
   TriangleAlert,
   type LucideIcon,
 } from "lucide-react";
+import { AdminGuard } from "@/components/admin/AdminGuard";
 import { AdminShell } from "@/components/admin/AdminShell";
 
 export const metadata: Metadata = {
@@ -59,6 +60,7 @@ const quickActions: { label: string; href: string; Icon: LucideIcon }[] = [
 export default function AdminDashboardPage() {
   return (
     <AdminShell activeKey="dashboard" breadcrumb="Overview" title="Dashboard">
+      <AdminGuard>
       <div className="box-border w-full h-fit shrink-0 flex flex-col gap-[24px] p-[32px] justify-start items-start max-lg:p-[20px]">
         <div className="box-border w-full h-fit shrink-0 flex flex-row flex-wrap gap-[16px] justify-between items-end">
           <div className="box-border w-fit max-w-full shrink-0 h-fit flex flex-col gap-[4px] justify-start items-start">
@@ -155,6 +157,7 @@ export default function AdminDashboardPage() {
           </div>
         </div>
       </div>
+      </AdminGuard>
     </AdminShell>
   );
 }

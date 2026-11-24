@@ -1,20 +1,31 @@
+import { randomInt } from "node:crypto";
 import { envAdminEmails, envAdminPassword, hashPassword, passwordMatches, type AdminSession } from "@/lib/adminAuth";
-import { listRecords, updateRecord, type SheetRecord } from "@/lib/sheetStore";
+import { createRecord, listRecords, updateRecord, type SheetRecord } from "@/lib/sheetStore";
 
 // Admin accounts live in the "Admin Users" tab, by default in a spreadsheet of
 // its own (GOOGLE_SHEET_ADMIN_USERS) shared only with IT and the service account.
-// IT adds a row (email, name, status Active) and pastes a temporary
-// password_hash from `npm run hash-password`; the admin then changes it in
-// Settings. Accounts in ADMIN_USERS (.env) stay as an emergency way in.
+// People with role Admin add accounts, reset passwords and change roles under
+// Settings > Admin users; a new or reset account gets a temporary password that
+// must be changed at the next sign-in. Accounts in ADMIN_USERS (.env) stay as
+// an emergency way in and always count as Admin.
 
 export const adminUsersTab = "Admin Users";
-export const adminUserColumns = ["email", "name", "status", "password_hash", "password_changed_at", "last_login"];
+export const adminUserColumns = ["email", "name", "status", "role", "password_hash", "password_changed_at", "last_login", "must_change_password"];
+
+export const adminRoles = ["Admin", "Editor"] as const;
+export type AdminRole = (typeof adminRoles)[number];
+
+// An empty or unknown role is the smaller one, so a typo in the Sheet never
+// hands out more access
+export const toRole = (value: string | undefined): AdminRole => ((value ?? "").trim().toLowerCase() === "admin" ? "Admin" : "Editor");
 
 export type AdminUser = {
   id: string;
   email: string;
   name: string;
   active: boolean;
+  role: AdminRole;
+  mustChangePassword: boolean;
   passwordHash: string;
   passwordChangedAt: string;
   lastLogin: string;
@@ -34,6 +45,8 @@ const toUser = (r: SheetRecord): AdminUser => ({
   name: r.name ?? "",
   // Only an explicit Active lets someone in, so a typo locks rather than opens
   active: (r.status ?? "").trim().toLowerCase() === "active",
+  role: toRole(r.role),
+  mustChangePassword: (r.must_change_password ?? "").trim().toLowerCase() === "yes",
   passwordHash: sheetHash(r.password_hash),
   passwordChangedAt: r.password_changed_at ?? "",
   lastLogin: r.last_login ?? "",
@@ -68,7 +81,7 @@ export async function listAdminUsers(): Promise<{ users: AdminUser[]; sheetReada
   const users = [...(fromSheet ?? [])];
   for (const email of envAdminEmails()) {
     if (!users.some((u) => u.email === email)) {
-      users.push({ id: `env-${email}`, email, name: "", active: true, passwordHash: "", passwordChangedAt: "", lastLogin: "", source: "env" });
+      users.push({ id: `env-${email}`, email, name: "", active: true, role: "Admin", mustChangePassword: false, passwordHash: "", passwordChangedAt: "", lastLogin: "", source: "env" });
     }
   }
   return { users, sheetReadable: fromSheet !== null };
@@ -116,19 +129,25 @@ export async function recordLogin(email: string): Promise<void> {
   }
 }
 
-export async function sessionStillValid(session: AdminSession): Promise<boolean> {
+export type SessionAccount = { role: AdminRole; mustChangePassword: boolean };
+
+// The account behind a signed session, or null when it may no longer sign in
+// (disabled, removed, or its password changed after the session was signed)
+export async function sessionAccount(session: AdminSession): Promise<SessionAccount | null> {
   const users = await sheetUsers();
   const user = users?.find((u) => u.email === session.email);
   if (user) {
-    if (!user.active) return false;
+    if (!user.active) return null;
     // A password change ends every session signed before it
     const changed = Date.parse(user.passwordChangedAt);
-    return Number.isNaN(changed) || session.iat * 1000 >= changed;
+    if (!Number.isNaN(changed) && session.iat * 1000 < changed) return null;
+    return { role: user.role, mustChangePassword: user.mustChangePassword };
   }
-  if (envAdminPassword(session.email)) return true;
-  // The Sheet couldn't be read at all: trust the signed session for now
-  // rather than lock every admin out during a Google outage
-  return users === null;
+  if (envAdminPassword(session.email)) return { role: "Admin", mustChangePassword: false };
+  // The Sheet couldn't be read at all: trust the signed session for now rather
+  // than lock everyone out during a Google outage, but with Editor rights only
+  // since the role is unknown
+  return users === null ? { role: "Editor", mustChangePassword: false } : null;
 }
 
 export type PasswordChange = { ok: true; changedAt: number } | { ok: false; message: string };
@@ -147,7 +166,71 @@ export async function changePassword(email: string, current: string, next: strin
   await updateRecord(adminUsersTab, adminUserColumns, user.id, {
     password_hash: hashPassword(next),
     password_changed_at: new Date(changedAt).toISOString(),
+    must_change_password: "",
   });
   forget();
   return { ok: true, changedAt };
+}
+
+// Readable temporary passwords: no 0/O or 1/l/I, so they survive being read
+// out or copied from a chat message
+const tempAlphabet = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
+
+function temporaryPassword(): string {
+  return Array.from({ length: 14 }, () => tempAlphabet[randomInt(tempAlphabet.length)]).join("");
+}
+
+export type AccountChange = { ok: true; message: string; tempPassword?: string } | { ok: false; message: string };
+
+export async function addAdminUser(input: { email: string; name: string; role: AdminRole }): Promise<AccountChange> {
+  forget();
+  const users = await sheetUsers();
+  if (users === null) return { ok: false, message: "The Admin Users tab couldn't be read right now. Please try again in a moment." };
+  if (users.some((u) => u.email === input.email)) return { ok: false, message: `${input.email} already has an account.` };
+
+  const tempPassword = temporaryPassword();
+  await createRecord(adminUsersTab, adminUserColumns, {
+    email: input.email,
+    name: input.name,
+    status: "Active",
+    role: input.role,
+    password_hash: hashPassword(tempPassword),
+    password_changed_at: new Date().toISOString(),
+    must_change_password: "Yes",
+  });
+  forget();
+  return { ok: true, message: `${input.email} was added as ${input.role}. Send them this temporary password; they must change it when they first sign in.`, tempPassword };
+}
+
+export type AccountUpdate = { kind: "reset" } | { kind: "status"; active: boolean } | { kind: "role"; role: AdminRole };
+
+// Nobody can reset, disable or demote their own account here, so there is
+// always an Admin left who can undo a mistake
+export async function updateAdminUser(actorEmail: string, email: string, change: AccountUpdate): Promise<AccountChange> {
+  forget();
+  const user = await sheetUser(email);
+  if (!user) return { ok: false, message: "This account isn't in the Admin Users tab. Reload and try again." };
+  if (user.email === actorEmail) return { ok: false, message: "You can't change your own account here. Ask another Admin, or use Security to change your password." };
+
+  if (change.kind === "reset") {
+    const tempPassword = temporaryPassword();
+    await updateRecord(adminUsersTab, adminUserColumns, user.id, {
+      password_hash: hashPassword(tempPassword),
+      // Signs them out everywhere, the same as a password change
+      password_changed_at: new Date().toISOString(),
+      must_change_password: "Yes",
+    });
+    forget();
+    return { ok: true, message: `New temporary password for ${user.email}. They are signed out everywhere and must change it when they sign in.`, tempPassword };
+  }
+
+  if (change.kind === "status") {
+    await updateRecord(adminUsersTab, adminUserColumns, user.id, { status: change.active ? "Active" : "Disabled" });
+    forget();
+    return { ok: true, message: `${user.email} is now ${change.active ? "active" : "disabled"}.` };
+  }
+
+  await updateRecord(adminUsersTab, adminUserColumns, user.id, { role: change.role });
+  forget();
+  return { ok: true, message: `${user.email} is now ${change.role}.` };
 }
