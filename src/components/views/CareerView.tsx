@@ -17,7 +17,9 @@ import {
 import { Footer } from "@/components/sections/Footer";
 import { FloatingContact } from "@/components/sections/FloatingContact";
 import { PageHero } from "@/components/PageHero";
+import { useState } from "react";
 import { CtaBanner } from "@/components/CtaBanner";
+import { ApplyDialog } from "@/components/sections/ApplyDialog";
 import { useLanguage } from "@/components/LanguageProvider";
 import { defaultApplyEmail, type CareerPosition } from "@/lib/careerModel";
 import type { CareerContent } from "@/lib/careers";
@@ -28,14 +30,14 @@ const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-s
 const copy = {
   en: {
     current: "Career",
-    heroTitle: "Don't stop your\nknowledge investment",
+    heroTitle: "Build your career\nas an SAP consultant",
     heroDesc:
-      "Several positions are open in Business Process and Resources Planning. Join the world-class SAP consultants through the following opportunities.",
+      "We are hiring for business process and resource planning roles. Fresh graduates are welcome: we train you on SAP and put you on real client projects across Indonesia.",
     openEyebrow: "OPEN POSITIONS",
     whyEyebrow: "WHY PST",
-    whyTitle: "Grow with a learning organization",
+    whyTitle: "Learn on the job, on real projects",
     whyDesc:
-      "We take our employees' development seriously. You will work in a dynamic environment where you can grow both professionally and personally, and learning will always be part of your job.",
+      "You learn SAP through our internal curriculum, work on client projects across Indonesia with travel and accommodation paid, and follow a clear path from Trainee to Project Manager. Learning is part of the job, every day.",
     advantages: [
       "Total IT solution",
       "Learning organization",
@@ -63,14 +65,14 @@ const copy = {
   },
   id: {
     current: "Karier",
-    heroTitle: "Jangan berhenti\nberinvestasi pada ilmu",
+    heroTitle: "Bangun karier Anda\nsebagai konsultan SAP",
     heroDesc:
-      "Beberapa posisi terbuka di bidang Business Process dan Resources Planning. Bergabunglah dengan konsultan SAP kelas dunia melalui kesempatan berikut.",
+      "Kami membuka posisi di bidang business process dan resource planning. Fresh graduate juga bisa melamar. Kami melatih Anda tentang SAP dan menempatkan Anda di proyek klien yang nyata di seluruh Indonesia.",
     openEyebrow: "POSISI TERBUKA",
     whyEyebrow: "MENGAPA PST",
-    whyTitle: "Bertumbuh di organisasi pembelajar",
+    whyTitle: "Belajar sambil bekerja di proyek nyata",
     whyDesc:
-      "Kami serius mengembangkan karyawan kami. Anda akan bekerja di lingkungan dinamis tempat Anda dapat bertumbuh secara profesional maupun pribadi, dan belajar akan selalu menjadi bagian dari pekerjaan Anda.",
+      "Anda mempelajari SAP melalui kurikulum internal, bekerja di proyek klien di seluruh Indonesia dengan biaya perjalanan dan akomodasi ditanggung, dan menapaki jenjang yang jelas dari Trainee hingga Project Manager. Belajar adalah bagian dari pekerjaan, setiap hari.",
     advantages: [
       "Solusi TI menyeluruh",
       "Organisasi pembelajar",
@@ -83,12 +85,12 @@ const copy = {
     jobsEyebrow: "POSISI TERBUKA",
     jobsTitle: "Lowongan saat ini",
     jobsDesc:
-      "Lulusan baru dipersilakan. Semua posisi mensyaratkan kesediaan ditempatkan di lokasi proyek mana pun.",
+      "Fresh graduate juga bisa melamar. Semua posisi mensyaratkan kesediaan ditempatkan di lokasi proyek mana pun.",
     reflectLabel: "Sebelum wawancara, renungkan:",
     applyNow: "Lamar sekarang",
     responsibilities: "TANGGUNG JAWAB",
     qualifications: "KUALIFIKASI",
-    freshGrad: "Lulusan baru dipersilakan",
+    freshGrad: "Terbuka untuk fresh graduate",
     noOpenings: "Saat ini belum ada lowongan terbuka. Anda tetap dapat mengirim CV ke recruitment@pst.co.id.",
     faqEyebrow: "FAQ",
     faqTitle: "Pertanyaan yang sering diajukan",
@@ -132,6 +134,8 @@ export function CareerView({ positions, faqs }: CareerContent) {
     question: (lang === "id" && f.questionId) || f.question,
     answer: (lang === "id" && f.answerId) || f.answer,
   }));
+  // The job the visitor is applying for; null while the form is closed
+  const [applyFor, setApplyFor] = useState<string | null>(null);
 
   return (
     <main className="w-full overflow-x-hidden">
@@ -209,7 +213,7 @@ export function CareerView({ positions, faqs }: CareerContent) {
         {jobs.map((job) => {
           const Icon = job.Icon;
           return (
-            <article key={job.anchor} id={job.anchor} className="scroll-mt-[96px] box-border w-full h-fit flex flex-row flex-wrap gap-[48px] p-[36px] justify-start items-start bg-[#FFFFFF] [border-width:1px] [border-style:solid] [border-color:#D5DADD] rounded-[12px]">
+            <article key={job.anchor} id={job.anchor} className="scroll-mt-[96px] box-border w-full h-fit flex flex-row flex-wrap gap-[48px] p-[36px] max-sm:p-[24px] max-sm:gap-[32px] justify-start items-start bg-[#FFFFFF] [border-width:1px] [border-style:solid] [border-color:#D5DADD] rounded-[12px]">
               <div className="box-border w-[340px] max-w-full shrink-0 h-fit flex flex-col gap-[16px]">
                 <div className="box-border w-[48px] h-[48px] flex items-center justify-center bg-[#EAF3F5] rounded-[8px]">
                   <Icon size={24} className="text-[#2F6E80]" />
@@ -225,11 +229,11 @@ export function CareerView({ positions, faqs }: CareerContent) {
                     <div className={`text-[13px]/[20px] text-[#354A5F] whitespace-pre-line ${font}`}>{job.note}</div>
                   </div>
                 )}
-                <a href={`mailto:${job.applyEmail}`} className={`box-border w-fit h-[44px] flex items-center p-[0px_20px] bg-[#000354] hover:bg-[#0B1470] rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium`}>
+                <button type="button" onClick={() => setApplyFor(job.title)} className={`cursor-pointer box-border w-fit h-[44px] flex items-center p-[0px_20px] bg-[#000354] hover:bg-[#0B1470] rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium`}>
                   {c.applyNow}
-                </a>
+                </button>
               </div>
-              <div className="box-border [flex:1_1_0] min-w-[300px] h-fit grid grid-cols-2 gap-[32px] max-lg:grid-cols-1">
+              <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] h-fit grid grid-cols-2 gap-[32px] max-lg:grid-cols-1">
                 <div className="box-border w-full h-fit flex flex-col gap-[12px]">
                   <div className={`text-[12px]/[16px] text-[#475E75] ${font} font-medium tracking-[1.2px]`}>{c.responsibilities}</div>
                   {job.responsibilities.map((item) => (
@@ -255,12 +259,12 @@ export function CareerView({ positions, faqs }: CareerContent) {
       </section>
 
       <section className="box-border w-full h-fit flex flex-row flex-wrap gap-[80px] p-[112px_96px] justify-start items-start max-lg:p-[60px_20px] max-lg:gap-[32px]">
-        <div className="box-border [flex:1_1_0] min-w-[300px] max-w-[380px] h-fit flex flex-col gap-[16px]">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] max-w-[380px] h-fit flex flex-col gap-[16px]">
           <Eyebrow>{c.faqEyebrow}</Eyebrow>
           <div className={`text-[44px]/[48px] text-[#000000] ${font} font-medium max-lg:text-[34px]/[38px]`}>{c.faqTitle}</div>
           <div className={`text-[16px]/[24px] text-[#354A5F] ${font}`}>{c.faqDesc}</div>
         </div>
-        <div className="box-border [flex:1_1_0] min-w-[300px] h-fit flex flex-col">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] h-fit flex flex-col">
           {questions.map((faq, index) =>
             faq.answer ? (
               <details key={faq.id} open={index === 0} className="group box-border w-full p-[24px_0px] [border-width:0px_0px_1px_0px] [border-style:solid] [border-color:#D5DADD]">
@@ -282,7 +286,8 @@ export function CareerView({ positions, faqs }: CareerContent) {
       </section>
 
       <section className="box-border w-full h-fit p-[0px_96px_120px_96px] max-lg:p-[0px_20px_60px_20px]">
-        <CtaBanner title={c.ctaTitle} description={c.ctaDesc} label={c.ctaLabel} href="mailto:recruitment@pst.co.id" />
+        <CtaBanner title={c.ctaTitle} description={c.ctaDesc} label={c.ctaLabel} onClick={() => setApplyFor("")} />
+        <ApplyDialog open={applyFor !== null} positions={jobs.map((job) => job.title)} position={applyFor ?? ""} onClose={() => setApplyFor(null)} />
       </section>
 
       <Footer />

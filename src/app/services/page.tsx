@@ -5,7 +5,7 @@ import { getPublicClients, getPublicIndustries } from "@/lib/clients";
 export const metadata: Metadata = {
   title: "Services — PT Prima Sistem Terpadu",
   description:
-    "End-to-end technology services designed to modernize, optimize and transform your enterprise operations.",
+    "Four services that get SAP live in your business and keep it working: SAP implementation, support and outsourcing, process reengineering and IT planning.",
 };
 
 export default async function ServicesPage() {

@@ -17,7 +17,7 @@ const copy = {
   en: {
     current: "Gallery",
     heroTitle: "Our activity",
-    heroDesc: "Awesomeness and creative people. We talk about hope, helping and teamwork.",
+    heroDesc: "PST people help each other, share their hopes and work as one team. These are some of our moments.",
     eyebrow: "OUR ACTIVITY",
     title: "Moments with our people",
     desc: "Workshops, projects and time together: the team behind every PST engagement.",
@@ -30,16 +30,16 @@ const copy = {
     quoteEyebrow: "WORDS OF TEAM MEMBER",
     quote: "Teamwork is the ability to work together toward a common vision.",
     quoteBody:
-      "SAP implementation can be a chance for you to transform your business processes to solve your problems and open up new opportunities, not just to automate the way you work today.",
+      "An SAP implementation is a chance to fix your business processes and open up new opportunities, not just to automate the way you work today.",
     memberAlt: "PST team member",
     ctaTitle: "Ready to find your solution?",
-    ctaDesc: "Talk to our team about how SAP can transform your business processes.",
+    ctaDesc: "Talk to our team about how SAP can improve your business processes.",
     ctaLabel: "Find your solution",
   },
   id: {
     current: "Galeri",
     heroTitle: "Aktivitas kami",
-    heroDesc: "Orang-orang hebat dan kreatif. Kami berbicara tentang harapan, saling membantu, dan kerja sama tim.",
+    heroDesc: "Tim PST saling membantu, berbagi harapan, dan bekerja sebagai satu tim. Inilah momen-momen kami.",
     eyebrow: "AKTIVITAS KAMI",
     title: "Momen bersama tim kami",
     desc: "Workshop, proyek, dan kebersamaan: tim di balik setiap kerja sama PST.",
@@ -52,10 +52,10 @@ const copy = {
     quoteEyebrow: "KATA ANGGOTA TIM",
     quote: "Kerja sama tim adalah kemampuan bekerja bersama menuju visi yang sama.",
     quoteBody:
-      "Implementasi SAP dapat menjadi kesempatan bagi Anda untuk mentransformasi proses bisnis untuk menyelesaikan masalah dan membuka peluang baru, bukan sekadar mengotomatisasi cara kerja Anda saat ini.",
+      "Implementasi SAP adalah kesempatan untuk membenahi proses bisnis dan membuka peluang baru, bukan cuma mengotomatisasi cara kerja yang sekarang.",
     memberAlt: "Anggota tim PST",
     ctaTitle: "Siap menemukan solusi Anda?",
-    ctaDesc: "Bicarakan dengan tim kami bagaimana SAP dapat mentransformasi proses bisnis Anda.",
+    ctaDesc: "Diskusikan dengan tim kami bagaimana SAP bisa membenahi proses bisnis Anda.",
     ctaLabel: "Temukan solusi Anda",
   },
 };
@@ -155,7 +155,7 @@ export function GalleryView({ photos }: { photos: PublicPhoto[] }) {
         <div className="box-border relative w-[420px] max-w-full h-[540px] shrink-0 overflow-hidden rounded-[12px] max-lg:h-[380px] max-lg:w-full">
           <Image src="/images/pst/gallery/LN0A5205_2.jpg" alt={c.memberAlt} fill sizes="(max-width: 1024px) 100vw, 420px" className="object-cover" />
         </div>
-        <div className="box-border [flex:1_1_0] min-w-[300px] h-fit flex flex-col gap-[28px]">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] h-fit flex flex-col gap-[28px]">
           <Quote size={44} className="text-[#A6CBD3]" />
           <div className={`text-[13px]/[17px] text-[#A6CBD3] ${font} font-medium tracking-[1.4px]`}>{c.quoteEyebrow}</div>
           <div className={`text-[40px]/[46px] text-[#FFFFFF] ${font} font-medium max-lg:text-[28px]/[36px]`}>{c.quote}</div>

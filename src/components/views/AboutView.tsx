@@ -6,6 +6,7 @@ import { FloatingContact } from "@/components/sections/FloatingContact";
 import { PageHero } from "@/components/PageHero";
 import { CtaBanner } from "@/components/CtaBanner";
 import { useLanguage } from "@/components/LanguageProvider";
+import { LogoPuzzle } from "@/components/logo-puzzle/LogoPuzzle";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif]";
 
@@ -14,30 +15,30 @@ const copy = {
     current: "About Us",
     heroTitle: "About Prima\nSistem Terpadu",
     heroDesc:
-      "PT Prima Sistem Terpadu (PST) is a local IT consulting company providing total solutions through information technology implementation. Established in 1999, PST partners with SAP Indonesia as an SAP ERP Silver Partner.",
+      "PT Prima Sistem Terpadu (PST) is a local IT consulting company providing total solutions through information technology implementation. Established in 1999, PST partners with SAP Indonesia as an SAP Silver Partner.",
     companySub: "IT consulting · Indonesia",
     factEst: "Established",
     factPartner: "Partnership",
-    factPartnerVal: "SAP ERP Silver Partner",
+    factPartnerVal: "SAP Silver Partner",
     factCert: "Certification",
     factCertVal: "Partner Center of Expertise",
     storyEyebrow: "OUR STORY",
-    storyTitle: "Built around your business processes",
+    storyTitle: "Starting from your business processes",
     storyP1:
       "Many IT implementations, especially ERP, fail due to a lack of understanding of the customer's business processes and issues. Each company is unique, so we can't just assume that any best practice is suitable and applicable.",
     storyP2:
-      "That's why we help you find the right practices and conform them to your organization's culture and management approach. Our team brings experience from various industries, so we understand more clearly what you want and what the best possible solution is.",
+      "That's why we help you find the right practices and conform them to your organization's culture and management approach. Our team brings experience from various industries, so we quickly understand what you need and which solution makes the most sense for your business.",
     sectors: ["Automotive", "FMCG", "Machinery", "Manufacturing"],
     photoAlt: "PST team at work",
     since: "SINCE",
     impactEyebrow: "OUR IMPACT",
-    impactTitle: "Numbers that speak",
+    impactTitle: "PST in numbers",
     impactDesc:
-      "Over two decades of delivering measurable results for Indonesian enterprises, from first blueprint to years of run support.",
+      "More than 25 years of SAP projects for Indonesian companies, from the first blueprint to years of support after go-live.",
     stats: [
       { num: "25+", label: "Years of experience", desc: "Serving Indonesia since 1999" },
       { num: "15+", label: "Enterprise clients", desc: "Indonesian enterprises" },
-      { num: "300+", label: "Projects delivered", desc: "Implementations & rollouts" },
+      { num: "50+", label: "Projects delivered", desc: "Implementations & rollouts" },
     ],
     foundationEyebrow: "OUR FOUNDATION",
     foundationTitle: "Vision & mission",
@@ -46,26 +47,26 @@ const copy = {
       {
         label: "VISION",
         title: "World-class best practices for every industry",
-        text: "Apply suitable world-class best practices into all range of industries through rapid and efficient implementation of IT as a competitive tool for winning the global competition.",
+        text: "To apply suitable world-class best practices across all industries, through rapid and efficient IT implementation, as a competitive tool for winning in global competition.",
       },
       {
         label: "MISSION",
         title: "A valuable asset for the nation",
-        text: "To be a valuable asset for the nation in helping local companies save their IT project investment and prepare their human resource competencies in applicable IT.",
+        text: "To be a valuable asset for the nation by helping local companies save their IT project investments and build their people's skills in applied IT.",
       },
     ],
     philosophyEyebrow: "OUR PHILOSOPHY",
-    philosophyTitle: "Logo philosophy",
+    philosophyTitle: "The piece that holds it together",
     philosophy1:
-      "The business environment and competition always change. It is the nature of business itself. Meanwhile, the colour of the company that plays in the business game is clear.",
+      "Many companies invest heavily in SAP licences, then use only a fraction of them, often little more than the finance module. Sales, procurement, production and warehousing keep running on spreadsheets and separate systems. The investment is there. The value isn't yet.",
     philosophy2:
-      "Puzzle is a kind of game where each piece has a unique shape and is placed in a certain position to form a bigger picture. Each piece should fit in with the previous and the next pieces. PST chose a puzzle as its logo due to its similarity in nature to the business itself.",
+      "That is what the puzzle in our logo stands for. Strategy, People, Process and Product are pieces every company already has. What is often missing is the glue that makes each piece lock into the next. PST is that glue, at the centre of our logo and at the centre of your project.",
     philosophy3:
-      "Just like a puzzle, we can help you create the bigger picture so your company fits in with global challenges.",
-    logoAlt: "PST logo",
+      "We bind your business strategy to every process in SAP, so the investment you have already made pays off in full.",
+    logoAlt: "PST logo: Strategy, People, Process and Product joined by the PST core",
     achievementEyebrow: "ACHIEVEMENT",
     achievementTitle: "Our experience",
-    achievementDesc: "Depth built over 25+ years of SAP projects, measured across the practices our clients rely on most.",
+    achievementDesc: "The expertise we have built over more than 25 years of SAP projects.",
     skills: [
       { label: "SAP ERP Implementation", value: 89 },
       { label: "Business Process Reengineering", value: 94 },
@@ -73,37 +74,37 @@ const copy = {
     ],
     experienceAlt: "PST consultants at a client site",
     ctaTitle: "Achieve your business objective",
-    ctaDesc: "Let our team of SAP experts help you unlock the full potential of your enterprise.",
+    ctaDesc: "Tell us your plans and our SAP consultants will help you map out the next step.",
     ctaLabel: "Get started",
   },
   id: {
     current: "Tentang Kami",
     heroTitle: "Tentang Prima\nSistem Terpadu",
     heroDesc:
-      "PT Prima Sistem Terpadu (PST) adalah perusahaan konsultan TI lokal yang menyediakan solusi menyeluruh melalui implementasi teknologi informasi. Berdiri sejak 1999, PST bermitra dengan SAP Indonesia sebagai SAP ERP Silver Partner.",
+      "PT Prima Sistem Terpadu (PST) adalah perusahaan konsultan TI lokal yang menyediakan solusi menyeluruh melalui implementasi teknologi informasi. Berdiri sejak 1999, PST bermitra dengan SAP Indonesia sebagai SAP Silver Partner.",
     companySub: "Konsultan TI · Indonesia",
     factEst: "Berdiri",
     factPartner: "Kemitraan",
-    factPartnerVal: "SAP ERP Silver Partner",
+    factPartnerVal: "SAP Silver Partner",
     factCert: "Sertifikasi",
     factCertVal: "Partner Center of Expertise",
     storyEyebrow: "KISAH KAMI",
-    storyTitle: "Dibangun di sekitar proses bisnis Anda",
+    storyTitle: "Berangkat dari proses bisnis Anda",
     storyP1:
-      "Banyak implementasi TI, terutama ERP, gagal karena kurangnya pemahaman terhadap proses dan permasalahan bisnis pelanggan. Setiap perusahaan itu unik, sehingga kita tidak bisa begitu saja menganggap setiap best practice cocok dan dapat diterapkan.",
+      "Banyak implementasi TI, terutama ERP, gagal karena kurangnya pemahaman terhadap proses dan permasalahan bisnis pelanggan. Setiap perusahaan itu unik, jadi best practice tidak bisa langsung dipakai begitu saja.",
     storyP2:
-      "Karena itu kami membantu Anda menemukan praktik yang tepat dan menyesuaikannya dengan budaya serta pendekatan manajemen organisasi Anda. Tim kami membawa pengalaman dari berbagai industri, sehingga kami lebih memahami apa yang Anda inginkan dan solusi terbaik yang memungkinkan.",
+      "Karena itu kami membantu Anda menemukan praktik yang tepat dan menyesuaikannya dengan budaya serta pendekatan manajemen organisasi Anda. Tim kami membawa pengalaman dari berbagai industri, sehingga kami cepat memahami kebutuhan Anda dan solusi yang paling masuk akal untuk bisnis Anda.",
     sectors: ["Otomotif", "FMCG", "Permesinan", "Manufaktur"],
     photoAlt: "Tim PST sedang bekerja",
     since: "SEJAK",
     impactEyebrow: "DAMPAK KAMI",
-    impactTitle: "Angka yang berbicara",
+    impactTitle: "PST dalam angka",
     impactDesc:
-      "Lebih dari dua dekade menghadirkan hasil terukur bagi perusahaan Indonesia, dari blueprint pertama hingga dukungan operasional bertahun-tahun.",
+      "Lebih dari 25 tahun mengerjakan proyek SAP untuk perusahaan Indonesia, dari blueprint pertama sampai dukungan bertahun-tahun setelah go-live.",
     stats: [
       { num: "25+", label: "Tahun pengalaman", desc: "Melayani Indonesia sejak 1999" },
       { num: "15+", label: "Klien korporasi", desc: "Perusahaan Indonesia" },
-      { num: "300+", label: "Proyek terselesaikan", desc: "Implementasi & rollout" },
+      { num: "50+", label: "Proyek terselesaikan", desc: "Implementasi & rollout" },
     ],
     foundationEyebrow: "LANDASAN KAMI",
     foundationTitle: "Visi & misi",
@@ -121,17 +122,17 @@ const copy = {
       },
     ],
     philosophyEyebrow: "FILOSOFI KAMI",
-    philosophyTitle: "Filosofi logo",
+    philosophyTitle: "Perekat strategi dan proses",
     philosophy1:
-      "Lingkungan dan persaingan bisnis selalu berubah. Itulah sifat bisnis itu sendiri. Sementara itu, warna perusahaan yang bermain dalam permainan bisnis tersebut jelas terlihat.",
+      "Banyak perusahaan berinvestasi besar pada lisensi SAP, lalu hanya memakai sebagian kecilnya, sering kali sebatas modul finansial. Penjualan, pengadaan, produksi, dan gudang tetap berjalan di spreadsheet dan sistem terpisah. Investasinya sudah ada, nilainya belum.",
     philosophy2:
-      "Puzzle adalah permainan di mana setiap kepingnya memiliki bentuk unik dan ditempatkan pada posisi tertentu untuk membentuk gambaran yang lebih besar. Setiap keping harus cocok dengan keping sebelum dan sesudahnya. PST memilih puzzle sebagai logonya karena sifatnya yang serupa dengan bisnis itu sendiri.",
+      "Itulah arti puzzle di logo kami. Strategi, Manusia, Proses, dan Produk adalah keping yang sudah dimiliki setiap perusahaan. Yang sering hilang adalah perekatnya, yaitu bagian yang membuat setiap keping saling mengunci. PST adalah perekat itu, di tengah logo kami dan di tengah proyek Anda.",
     philosophy3:
-      "Layaknya puzzle, kami dapat membantu Anda membentuk gambaran yang lebih besar agar perusahaan Anda selaras dengan tantangan global.",
-    logoAlt: "Logo PST",
+      "Kami merekatkan strategi bisnis Anda ke seluruh proses di SAP, agar investasi yang sudah Anda keluarkan bernilai penuh.",
+    logoAlt: "Logo PST: Strategi, Manusia, Proses, dan Produk disatukan oleh inti PST",
     achievementEyebrow: "PENCAPAIAN",
     achievementTitle: "Pengalaman kami",
-    achievementDesc: "Kedalaman yang dibangun selama 25+ tahun proyek SAP, diukur dari praktik yang paling diandalkan klien kami.",
+    achievementDesc: "Keahlian yang kami bangun selama lebih dari 25 tahun mengerjakan proyek SAP.",
     skills: [
       { label: "Implementasi SAP ERP", value: 89 },
       { label: "Rekayasa Ulang Proses Bisnis", value: 94 },
@@ -139,7 +140,7 @@ const copy = {
     ],
     experienceAlt: "Konsultan PST di lokasi klien",
     ctaTitle: "Raih tujuan bisnis Anda",
-    ctaDesc: "Biarkan tim ahli SAP kami membantu Anda membuka potensi penuh perusahaan Anda.",
+    ctaDesc: "Ceritakan rencana Anda, dan konsultan SAP kami akan membantu memetakan langkah berikutnya.",
     ctaLabel: "Mulai sekarang",
   },
 };
@@ -197,7 +198,7 @@ export function AboutView() {
       />
 
       <section className="box-border w-full h-fit flex flex-row flex-wrap gap-[96px] p-[120px_96px] justify-start items-center max-lg:p-[60px_20px] max-lg:gap-[48px]">
-        <div className="box-border [flex:1_1_0] min-w-[300px] h-fit flex flex-col gap-[24px]">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] h-fit flex flex-col gap-[24px]">
           <Eyebrow>{c.storyEyebrow}</Eyebrow>
           <div className={`text-[48px]/[53px] text-[#000000] ${font} font-medium max-lg:text-[32px]/[35px]`}>{c.storyTitle}</div>
           <p className={`text-[17px]/[28px] text-[#354A5F] ${font}`}>{c.storyP1}</p>
@@ -214,7 +215,7 @@ export function AboutView() {
             })}
           </div>
         </div>
-        <div className="box-border [flex:1_1_0] min-w-[300px] max-w-[560px] h-[520px] relative">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] max-w-[560px] h-[520px] relative">
           <div
             className="box-border w-full h-full bg-cover bg-center rounded-[12px]"
             style={{ backgroundImage: `url(${storyPhoto})` }}
@@ -253,7 +254,7 @@ export function AboutView() {
           <div className={`text-[48px]/[53px] text-[#000000] ${font} font-medium max-lg:text-[32px]/[35px]`}>{c.foundationTitle}</div>
           <div className={`text-[18px]/[27px] text-[#354A5F] ${font}`}>{c.foundationDesc}</div>
         </div>
-        <div className="box-border [flex:1_1_0] min-w-[300px] h-fit grid grid-cols-2 gap-[24px] max-lg:grid-cols-1">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] h-fit grid grid-cols-2 gap-[24px] max-lg:grid-cols-1">
           {c.statements.map((statement, index) => {
             const Icon = statementIcons[index];
             return (
@@ -270,11 +271,12 @@ export function AboutView() {
         </div>
       </section>
 
-      <section className="box-border w-full h-fit flex flex-row flex-wrap gap-[96px] p-[96px] justify-start items-center bg-[#000354] max-lg:p-[60px_20px] max-lg:gap-[32px]">
+      {/* overflow-hidden: puzzle pieces fly in from outside their box, and must not grow the page while they do */}
+      <section className="box-border w-full h-fit flex flex-row flex-wrap gap-[96px] p-[96px] justify-start items-center bg-[#000354] overflow-hidden max-lg:p-[60px_20px] max-lg:gap-[32px]">
         <div className="box-border w-[520px] max-w-full shrink-0 h-[560px] flex items-center justify-center max-lg:h-[420px]">
-          <div role="img" aria-label={c.logoAlt} className="box-border w-full h-full bg-[url('/images/pst/pst-logo.png')] bg-no-repeat bg-contain bg-center" />
+          <LogoPuzzle lang={lang} label={c.logoAlt} />
         </div>
-        <div className="box-border [flex:1_1_0] min-w-[300px] h-fit flex flex-col gap-[20px]">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] h-fit flex flex-col gap-[20px]">
           <div className={`text-[13px]/[17px] text-[#A6CBD3] ${font} font-medium tracking-[1.4px]`}>{c.philosophyEyebrow}</div>
           <div className={`text-[48px]/[53px] text-[#FFFFFF] ${font} font-medium max-lg:text-[32px]/[35px]`}>{c.philosophyTitle}</div>
           <p className={`text-[18px]/[31px] text-[#FFFFFFCC] ${font}`}>{c.philosophy1}</p>
@@ -284,7 +286,7 @@ export function AboutView() {
       </section>
 
       <section className="box-border w-full h-fit flex flex-row flex-wrap gap-[64px] p-[120px_96px] justify-start items-center bg-[#F5F6F7] max-lg:p-[60px_20px] max-lg:gap-[32px]">
-        <div className="box-border [flex:1_1_0] min-w-[300px] h-fit flex flex-col gap-[24px]">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] h-fit flex flex-col gap-[24px]">
           <Eyebrow>{c.achievementEyebrow}</Eyebrow>
           <div className={`text-[48px]/[53px] text-[#000000] ${font} font-medium max-lg:text-[32px]/[35px]`}>{c.achievementTitle}</div>
           <div className={`text-[18px]/[27px] text-[#354A5F] ${font}`}>{c.achievementDesc}</div>
@@ -302,7 +304,7 @@ export function AboutView() {
             ))}
           </div>
         </div>
-        <div className="box-border [flex:1_1_0] min-w-[300px] max-w-[560px] h-[480px] relative">
+        <div className="box-border [flex:1_1_0] min-w-[min(300px,100%)] max-w-[560px] h-[480px] relative">
           <div
             className="box-border w-full h-full bg-cover bg-center rounded-[12px]"
             style={{ backgroundImage: `url(${experiencePhoto})` }}
@@ -311,7 +313,7 @@ export function AboutView() {
           />
           <div className="box-border w-[280px] h-fit absolute right-[-24px] bottom-[-24px] flex flex-col gap-[6px] p-[24px] bg-[#FFFFFF] rounded-[12px] [box-shadow:0px_10px_30px_#22364940] max-lg:right-[16px]">
             <div className={`text-[16px]/[21px] text-[#000354] ${font} font-medium`}>Partner Center of Expertise</div>
-            <div className={`text-[13px]/[17px] text-[#354A5F] ${font}`}>SAP ERP Silver Partner · VAR-Delivered Support</div>
+            <div className={`text-[13px]/[17px] text-[#354A5F] ${font}`}>SAP Silver Partner · VAR-Delivered Support</div>
           </div>
         </div>
       </section>

@@ -1,9 +1,9 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Check, Download, X } from "lucide-react";
-import { requestProfile, type ProfileState } from "@/app/actions";
+import { requestProfile, type DownloadDoc, type ProfileState } from "@/app/actions";
 import { useLanguage } from "@/components/LanguageProvider";
 
 const font = "font-['72_Brand_Variable',var(--font-public-sans),system-ui,sans-serif]";
@@ -59,9 +59,6 @@ export function ProfileDownloadDialog() {
   const { lang } = useLanguage();
   const c = copy[lang];
   const [open, setOpen] = useState(false);
-  const [state, action, pending] = useActionState(requestProfile, initialState);
-
-  const errorText = state.status === "error" ? c[state.code === "email" ? "invalidEmail" : state.code === "missing" ? "missing" : "server"] : "";
 
   return (
     <>
@@ -74,60 +71,104 @@ export function ProfileDownloadDialog() {
         <Download size={18} className="text-[#000354]" />
       </button>
 
-      {/* Portal to body so the parent section's stacking context (z-index) can't clip the dialog */}
-      {open && createPortal(
-        <div role="dialog" aria-modal="true" aria-label={c.title} className="fixed inset-0 z-[60] flex items-center justify-center p-[20px] bg-[#000354A6]" onClick={() => setOpen(false)}>
-          <div onClick={(event) => event.stopPropagation()} className="box-border w-full max-w-[520px] max-h-full overflow-y-auto flex flex-col gap-[20px] p-[32px] bg-[#FFFFFF] rounded-[16px]">
-            <div className="box-border w-full flex flex-row gap-[16px] justify-between items-start">
-              <div className="box-border w-full flex flex-col gap-[6px]">
-                <div className={`text-[22px]/[29px] text-[#000000] ${font} font-medium`}>{c.title}</div>
-                <div className={`text-[14px]/[20px] text-[#475E75] ${font}`}>{c.sub}</div>
-              </div>
-              <button type="button" aria-label={c.close} onClick={() => setOpen(false)} className="box-border w-[32px] h-[32px] shrink-0 flex items-center justify-center bg-[#F5F6F7] hover:bg-[#EAF3F5] rounded-[999px] cursor-pointer">
-                <X size={16} className="text-[#223548]" />
-              </button>
-            </div>
-
-            {state.status === "success" ? (
-              <div className="box-border w-full flex flex-col gap-[20px] items-start">
-                <div className="box-border w-[64px] h-[64px] flex items-center justify-center bg-[#F5FAE5] rounded-[999px]">
-                  <Check size={30} className="text-[#188918]" />
-                </div>
-                <div className="box-border w-full flex flex-col gap-[8px]">
-                  <div className={`text-[24px]/[32px] text-[#000000] ${font} font-medium`}>
-                    {c.done}, {state.name}!
-                  </div>
-                  <div className={`text-[15px]/[23px] text-[#354A5F] ${font}`}>{c.doneDesc}</div>
-                </div>
-                <a href="/company-profile.pdf" download className={`box-border w-fit h-[48px] flex items-center gap-[8px] p-[0px_24px] bg-[#000354] hover:bg-[#0B1470] rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium`}>
-                  <Download size={18} className="text-[#A6CBD3]" />
-                  {c.download}
-                </a>
-              </div>
-            ) : (
-              <form action={action} className="box-border w-full flex flex-col gap-[18px]">
-                <label className="box-border w-full flex flex-col gap-[8px]">
-                  <span className={labelClass}>{c.name}</span>
-                  <input name="name" required autoComplete="name" placeholder={c.namePh} className={inputClass} />
-                </label>
-                <label className="box-border w-full flex flex-col gap-[8px]">
-                  <span className={labelClass}>{c.org}</span>
-                  <input name="organization" required autoComplete="organization" placeholder={c.orgPh} className={inputClass} />
-                </label>
-                <label className="box-border w-full flex flex-col gap-[8px]">
-                  <span className={labelClass}>{c.email}</span>
-                  <input name="email" type="email" required autoComplete="email" placeholder={c.emailPh} className={inputClass} />
-                </label>
-                {errorText && <p className={`text-[14px] text-[#B42318] ${font}`}>{errorText}</p>}
-                <button type="submit" disabled={pending} className={`box-border w-full h-[48px] bg-[#000354] hover:bg-[#0B1470] disabled:opacity-60 rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium cursor-pointer transition-colors`}>
-                  {pending ? c.sending : c.send}
-                </button>
-              </form>
-            )}
-          </div>
-        </div>,
-        document.body,
+      {open && (
+        <LeadDownloadDialog document="company-profile" file="/company-profile.pdf" title={c.title} sub={c.sub} doneDesc={c.doneDesc} onClose={() => setOpen(false)} />
       )}
     </>
+  );
+}
+
+// The name / organization / email form shown before a download. Used for the
+// company profile and the SAP certificates; each download is recorded in the
+// Activity Log and the "Downloads" Sheet tab under its document key.
+export function LeadDownloadDialog({
+  document: doc,
+  file,
+  title,
+  sub,
+  doneDesc,
+  onClose,
+}: {
+  document: DownloadDoc;
+  file: string;
+  title: string;
+  sub: string;
+  doneDesc: string;
+  onClose: () => void;
+}) {
+  const { lang } = useLanguage();
+  const c = copy[lang];
+  const [state, action, pending] = useActionState(requestProfile, initialState);
+
+  const errorText = state.status === "error" ? c[state.code === "email" ? "invalidEmail" : state.code === "missing" ? "missing" : "server"] : "";
+
+  // Close on Escape and stop the page scrolling behind the popup
+  useEffect(() => {
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") onClose();
+    }
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = overflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [onClose]);
+
+  // Portal to body so the parent section's stacking context (z-index) can't clip the dialog
+  return createPortal(
+    <div role="dialog" aria-modal="true" aria-label={title} className="fixed inset-0 z-[60] flex items-center justify-center p-[20px] bg-[#000354A6]" onClick={onClose}>
+      <div onClick={(event) => event.stopPropagation()} className="box-border w-full max-w-[520px] max-h-full overflow-y-auto flex flex-col gap-[20px] p-[32px] max-sm:p-[24px] bg-[#FFFFFF] rounded-[16px]">
+        <div className="box-border w-full flex flex-row gap-[16px] justify-between items-start">
+          <div className="box-border w-full flex flex-col gap-[6px]">
+            <div className={`text-[22px]/[29px] text-[#000000] ${font} font-medium`}>{title}</div>
+            <div className={`text-[14px]/[20px] text-[#475E75] ${font}`}>{sub}</div>
+          </div>
+          <button type="button" aria-label={c.close} onClick={onClose} className="box-border w-[32px] h-[32px] shrink-0 flex items-center justify-center bg-[#F5F6F7] hover:bg-[#EAF3F5] rounded-[999px] cursor-pointer">
+            <X size={16} className="text-[#223548]" />
+          </button>
+        </div>
+
+        {state.status === "success" ? (
+          <div className="box-border w-full flex flex-col gap-[20px] items-start">
+            <div className="box-border w-[64px] h-[64px] flex items-center justify-center bg-[#F5FAE5] rounded-[999px]">
+              <Check size={30} className="text-[#188918]" />
+            </div>
+            <div className="box-border w-full flex flex-col gap-[8px]">
+              <div className={`text-[24px]/[32px] text-[#000000] ${font} font-medium`}>
+                {c.done}, {state.name}!
+              </div>
+              <div className={`text-[15px]/[23px] text-[#354A5F] ${font}`}>{doneDesc}</div>
+            </div>
+            <a href={file} download className={`box-border w-fit h-[48px] flex items-center gap-[8px] p-[0px_24px] bg-[#000354] hover:bg-[#0B1470] rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium`}>
+              <Download size={18} className="text-[#A6CBD3]" />
+              {c.download}
+            </a>
+          </div>
+        ) : (
+          <form action={action} className="box-border w-full flex flex-col gap-[18px]">
+            <input type="hidden" name="document" value={doc} />
+            <label className="box-border w-full flex flex-col gap-[8px]">
+              <span className={labelClass}>{c.name}</span>
+              <input name="name" required autoComplete="name" placeholder={c.namePh} className={inputClass} />
+            </label>
+            <label className="box-border w-full flex flex-col gap-[8px]">
+              <span className={labelClass}>{c.org}</span>
+              <input name="organization" required autoComplete="organization" placeholder={c.orgPh} className={inputClass} />
+            </label>
+            <label className="box-border w-full flex flex-col gap-[8px]">
+              <span className={labelClass}>{c.email}</span>
+              <input name="email" type="email" required autoComplete="email" placeholder={c.emailPh} className={inputClass} />
+            </label>
+            {errorText && <p className={`text-[14px] text-[#B42318] ${font}`}>{errorText}</p>}
+            <button type="submit" disabled={pending} className={`box-border w-full h-[48px] bg-[#000354] hover:bg-[#0B1470] disabled:opacity-60 rounded-[8px] text-[16px]/[20px] text-[#FFFFFF] ${font} font-medium cursor-pointer transition-colors`}>
+              {pending ? c.sending : c.send}
+            </button>
+          </form>
+        )}
+      </div>
+    </div>,
+    document.body,
   );
 }

@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   experimental: {
-    // Admin image uploads go through Server Actions; the largest allowed image is 8 MB
+    // Admin image uploads (up to 8 MB) and job-application CVs (up to 5 MB) go through Server Actions
     serverActions: { bodySizeLimit: "9mb" },
     proxyClientMaxBodySize: "9mb",
   },

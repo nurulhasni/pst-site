@@ -41,7 +41,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# local Sheet stand-in used when Google is not configured
+# local data: Sheet stand-in when Google is not configured, chat and activity logs
 /.data/
 
 # images uploaded from the admin (served by app/uploads)

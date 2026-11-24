@@ -1,5 +1,6 @@
 import { Hero } from "@/components/sections/Hero";
 import { ClientsStrip } from "@/components/sections/ClientsStrip";
+import { HowWeWork } from "@/components/sections/HowWeWork";
 import { AboutIntro } from "@/components/sections/AboutIntro";
 import { ImpactStats } from "@/components/sections/ImpactStats";
 import { Services } from "@/components/sections/Services";
@@ -16,6 +17,7 @@ export default function Home() {
     <main className="w-full overflow-x-hidden">
       <Hero />
       <ClientsStrip />
+      <HowWeWork />
       <AboutIntro />
       <ImpactStats />
       <Services />

@@ -21,7 +21,7 @@ const copy = {
     current: "Hubungi Kami",
     title: "Mari mulai percakapan",
     description:
-      "Punya rencana proyek? Kami senang mendengarnya. Hubungi kami dan mari jajaki bagaimana kita dapat bekerja sama.",
+      "Punya rencana proyek? Ceritakan kepada kami, lalu kita bahas bersama cara terbaik mengerjakannya.",
     directions: "Petunjuk arah",
     office: "Kantor PST",
     areaLine: "Kemayoran, Jakarta Pusat 10640",

@@ -35,8 +35,8 @@ export function Footer() {
 
   return (
     <footer className="box-border w-full h-fit shrink-0 flex flex-col gap-[56px] p-[72px_96px_32px_96px] justify-start items-start bg-[#F5F6F7] [border-width:1px_0px_0px_0px] [border-style:solid] [border-color:#D5DADD] relative max-lg:p-[36px_20px_32px_20px] max-lg:gap-[32px]">
-      <div className="box-border w-full h-fit flex flex-row gap-[48px] justify-start items-start max-lg:flex-col max-lg:gap-[32px]">
-        <div className="box-border w-[404px] max-w-full shrink-0 h-fit flex flex-col gap-[20px] justify-start items-start max-lg:w-full">
+      <div className="box-border w-full h-fit grid grid-cols-[minmax(0,1.4fr)_minmax(0,0.75fr)_minmax(0,0.75fr)_minmax(0,1.1fr)] gap-[48px] items-start max-xl:grid-cols-2 max-xl:gap-[40px_48px] max-sm:grid-cols-1 max-sm:gap-[32px]">
+        <div className="box-border w-full min-w-0 h-fit flex flex-col gap-[20px] justify-start items-start">
           <div className="box-border w-fit h-[44px] flex flex-row gap-[12px] justify-start items-center">
             <div className="box-border w-[44px] h-[44px] shrink-0 bg-[url('/images/pst/pst-logo.png')] bg-no-repeat bg-contain bg-center" />
             <div className={`text-[14px]/[16px] text-[#000354] ${font} font-bold whitespace-nowrap`}>
@@ -48,7 +48,7 @@ export function Footer() {
           <div className={`text-[14px]/[22px] w-[340px] max-w-full text-[#354A5F] ${font} font-normal`}>{t("footer.about")}</div>
         </div>
 
-        <div className="box-border w-[200px] max-lg:w-full shrink-0 h-fit flex flex-col gap-[14px] justify-start items-start">
+        <div className="box-border w-full min-w-0 h-fit flex flex-col gap-[14px] justify-start items-start">
           <div className={headingClass}>{t("footer.company")}</div>
           {companyLinks.map((link) => (
             <Link key={link.labelKey} href={link.href} className={`${textClass} hover:text-[#000354] transition-colors`}>
@@ -57,7 +57,7 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="box-border w-[200px] max-lg:w-full shrink-0 h-fit flex flex-col gap-[14px] justify-start items-start">
+        <div className="box-border w-full min-w-0 h-fit flex flex-col gap-[14px] justify-start items-start">
           <div className={headingClass}>{t("footer.resources")}</div>
           {resourceLinks.map((link) =>
             link.href.startsWith("/") ? (
@@ -72,7 +72,7 @@ export function Footer() {
           )}
         </div>
 
-        <div className="box-border w-[300px] max-lg:w-full shrink-0 h-fit flex flex-col gap-[14px] justify-start items-start">
+        <div className="box-border w-full min-w-0 h-fit flex flex-col gap-[14px] justify-start items-start">
           <div className={headingClass}>{t("footer.contact")}</div>
           {contactItems.map((item) => (
             <div key={item.icon} className="box-border w-full h-fit flex flex-row gap-[10px] justify-start items-start">

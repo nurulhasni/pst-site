@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { logout } from "@/app/admin/actions";
 import {
+  Activity,
   Briefcase,
   Building2,
   FileText,
@@ -9,6 +10,7 @@ import {
   LogOut,
   Mail,
   MessageSquareQuote,
+  MessagesSquare,
   Settings,
   type LucideIcon,
 } from "lucide-react";
@@ -32,7 +34,11 @@ const contentItems: NavItem[] = [
   { key: "testimonials", label: "Testimonials", Icon: MessageSquareQuote, href: "/admin/testimonials" },
 ];
 
-const audienceItems: NavItem[] = [{ key: "subscribers", label: "Subscribers", Icon: Mail, href: "/admin/subscribers", badge: "3 new" }];
+const audienceItems: NavItem[] = [
+  { key: "subscribers", label: "Subscribers", Icon: Mail, href: "/admin/subscribers", badge: "3 new" },
+  { key: "chats", label: "Chat History", Icon: MessagesSquare, href: "/admin/chats" },
+  { key: "activity", label: "Activity Log", Icon: Activity, href: "/admin/activity" },
+];
 
 function NavRow({ item, active }: { item: NavItem; active: boolean }) {
   const { Icon } = item;

@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers";
 import { unlockCookie } from "@/lib/blog";
+import { currentPage, recordActivity, sheetsConfigured } from "@/lib/activityLog";
 import { appendRow } from "@/lib/sheets";
 
 export type ContactState = {
@@ -43,6 +44,17 @@ export async function unlockArticle(
     };
   }
 
+  const updates = formData.get("updates") === "on";
+  await recordActivity({
+    type: "article_unlock",
+    page: await currentPage(),
+    name,
+    email,
+    company: field("company"),
+    phone: field("phone"),
+    detail: [field("from"), updates ? "Wants new articles and updates" : ""].filter(Boolean).join(" · "),
+  });
+
   const store = await cookies();
   store.set(unlockCookie, "1", {
     httpOnly: true,
@@ -76,27 +88,38 @@ export async function submitContact(
     return { status: "error", message: "Please enter a valid email address." };
   }
 
-  try {
-    await appendRow("Contacts", [
-      new Date().toISOString(),
-      name,
-      email,
-      company,
-      subject,
-      message,
-      phone,
-    ]);
-    return {
-      status: "success",
-      message: "Thanks! Our team will get back to you soon.",
-    };
-  } catch {
+  const logged = await recordActivity({
+    type: "contact_form",
+    page: await currentPage(),
+    name,
+    email,
+    company,
+    phone,
+    detail: [subject, message].filter(Boolean).join(": "),
+  });
+
+  // The "Contacts" tab is kept for staff who already read it. Without Google
+  // (the demo) the Activity Log alone holds the message.
+  let sheetSaved = !sheetsConfigured();
+  if (sheetsConfigured()) {
+    try {
+      await appendRow("Contacts", [new Date().toISOString(), name, email, company, subject, message, phone]);
+      sheetSaved = true;
+    } catch {
+      sheetSaved = false;
+    }
+  }
+  if (!logged && !sheetSaved) {
     return {
       status: "error",
       message:
         "Something went wrong. Please try again or email marketing@pst.co.id.",
     };
   }
+  return {
+    status: "success",
+    message: "Thanks! Our team will get back to you soon.",
+  };
 }
 
 export type ProfileState = {
@@ -106,6 +129,15 @@ export type ProfileState = {
   email: string;
 };
 
+// Documents a visitor can download after leaving their details. The key goes
+// into the "Downloads" Sheet tab; the label into the Activity Log.
+const downloadDocs = {
+  "company-profile": { type: "profile_download", label: "Company profile (PDF)" },
+  "pcoe-certificate": { type: "certificate_download", label: "SAP Partner Center of Expertise certificate (PDF)" },
+  "partneredge-certificate": { type: "certificate_download", label: "SAP PartnerEdge Silver Partner certificate (PDF)" },
+} as const;
+export type DownloadDoc = keyof typeof downloadDocs;
+
 export async function requestProfile(
   _prev: ProfileState,
   formData: FormData,
@@ -114,6 +146,9 @@ export async function requestProfile(
   const name = field("name");
   const organization = field("organization");
   const email = field("email");
+  const docKey = (field("document") || "company-profile") as DownloadDoc;
+  const doc = downloadDocs[docKey];
+  if (!doc) return { status: "error", code: "server", name: "", email: "" };
 
   if (!name || !organization || !email) {
     return { status: "error", code: "missing", name: "", email: "" };
@@ -122,10 +157,24 @@ export async function requestProfile(
     return { status: "error", code: "email", name: "", email: "" };
   }
 
-  try {
-    await appendRow("Downloads", [new Date().toISOString(), name, organization, email, "company-profile"]);
-    return { status: "success", code: "", name: name.split(" ")[0], email };
-  } catch {
-    return { status: "error", code: "server", name: "", email: "" };
+  const logged = await recordActivity({
+    type: doc.type,
+    page: await currentPage(),
+    name,
+    email,
+    company: organization,
+    detail: doc.label,
+  });
+
+  let sheetSaved = !sheetsConfigured();
+  if (sheetsConfigured()) {
+    try {
+      await appendRow("Downloads", [new Date().toISOString(), name, organization, email, docKey]);
+      sheetSaved = true;
+    } catch {
+      sheetSaved = false;
+    }
   }
+  if (!logged && !sheetSaved) return { status: "error", code: "server", name: "", email: "" };
+  return { status: "success", code: "", name: name.split(" ")[0], email };
 }

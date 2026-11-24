@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/components/LanguageProvider";
+import { CertificateBadges } from "@/components/sections/CertificateBadges";
 import { localize } from "@/lib/sheetI18n";
 import type { ImpactStat } from "@/lib/sheets";
 
@@ -46,6 +47,7 @@ export function ImpactStatsView({ stats }: { stats: ImpactStat[] }) {
           </div>
         ))}
       </div>
+      <CertificateBadges />
     </div>
   );
 }
