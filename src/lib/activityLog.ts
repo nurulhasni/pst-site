@@ -2,18 +2,18 @@ import { appendFile, mkdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { headers } from "next/headers";
 import { isActivityType, type ActivityRow } from "@/lib/activityModel";
-import { getAccessToken } from "@/lib/sheets";
+import { getAccessToken, sheetReady, spreadsheetFor } from "@/lib/sheets";
 
 // One row for every form a visitor sends and every WhatsApp, email, phone or
 // Apply link they click. With Google configured the rows go to the "Activity
-// Log" tab of the site's Sheet. Without it (local dev, the Render demo) they go
+// Log" tab of its spreadsheet (GOOGLE_SHEET_ACTIVITY_LOG). Without it (local dev, the Render demo) they go
 // to .data/activity-log.jsonl, which is wiped whenever the host redeploys.
 
 export const activityTab = "Activity Log";
 const columns = ["time", "type", "page", "name", "email", "company", "phone", "detail", "file", "lang"] as const;
 
-export const sheetsConfigured = () =>
-  Boolean(process.env.GOOGLE_SHEET_ID && process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL && process.env.GOOGLE_PRIVATE_KEY);
+// Each tab may live in its own spreadsheet file; see spreadsheetFor in sheets.ts
+export const sheetsConfigured = (tab: string = activityTab) => sheetReady(tab);
 
 const localFile = () => path.join(/*turbopackIgnore: true*/ process.cwd(), ".data", "activity-log.jsonl");
 
@@ -21,7 +21,7 @@ const localFile = () => path.join(/*turbopackIgnore: true*/ process.cwd(), ".dat
 
 async function sheetsFetch(suffix: string, init: RequestInit = {}): Promise<Response> {
   const token = await getAccessToken();
-  return fetch(`https://sheets.googleapis.com/v4/spreadsheets/${process.env.GOOGLE_SHEET_ID}${suffix}`, {
+  return fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetFor(activityTab)}${suffix}`, {
     ...init,
     headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", ...init.headers },
     cache: "no-store",

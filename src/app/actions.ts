@@ -100,8 +100,8 @@ export async function submitContact(
 
   // The "Contacts" tab is kept for staff who already read it. Without Google
   // (the demo) the Activity Log alone holds the message.
-  let sheetSaved = !sheetsConfigured();
-  if (sheetsConfigured()) {
+  let sheetSaved = !sheetsConfigured("Contacts");
+  if (sheetsConfigured("Contacts")) {
     try {
       await appendRow("Contacts", [new Date().toISOString(), name, email, company, subject, message, phone]);
       sheetSaved = true;
@@ -166,8 +166,8 @@ export async function requestProfile(
     detail: doc.label,
   });
 
-  let sheetSaved = !sheetsConfigured();
-  if (sheetsConfigured()) {
+  let sheetSaved = !sheetsConfigured("Downloads");
+  if (sheetsConfigured("Downloads")) {
     try {
       await appendRow("Downloads", [new Date().toISOString(), name, organization, email, docKey]);
       sheetSaved = true;

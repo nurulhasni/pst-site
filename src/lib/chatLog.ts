@@ -1,6 +1,6 @@
 import { appendFile, mkdir, readFile } from "node:fs/promises";
 import path from "node:path";
-import { getAccessToken } from "@/lib/sheets";
+import { getAccessToken, sheetReady, spreadsheetFor } from "@/lib/sheets";
 
 // Every chat message and every contact left in the chat becomes one row.
 // With Google configured the rows go to the "Chat Log" tab of the site's Sheet,
@@ -35,15 +35,15 @@ export type ChatSession = {
   lead: { time: string; name: string; contact: string; company: string } | null;
 };
 
-const sheetsConfigured = () =>
-  Boolean(process.env.GOOGLE_SHEET_ID && process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL && process.env.GOOGLE_PRIVATE_KEY);
+// The chat log may live in its own spreadsheet file (GOOGLE_SHEET_CHAT_LOG)
+const sheetsConfigured = () => sheetReady(chatTab);
 
 const localFile = () => path.join(/*turbopackIgnore: true*/ process.cwd(), ".data", "chat-log.jsonl");
 
 // --- Google Sheets -----------------------------------------------------------
 
 const sheetsUrl = (suffix: string) =>
-  `https://sheets.googleapis.com/v4/spreadsheets/${process.env.GOOGLE_SHEET_ID}${suffix}`;
+  `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetFor(chatTab)}${suffix}`;
 
 async function sheetsFetch(suffix: string, init: RequestInit = {}): Promise<Response> {
   const token = await getAccessToken();

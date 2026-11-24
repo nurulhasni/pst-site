@@ -1,8 +1,12 @@
 import { readCv } from "@/lib/cvFiles";
+import { requireAdmin } from "@/lib/adminSession";
 
-// Downloads a CV linked from the Activity Log. Files have random names and the
+// Downloads a CV linked from the Activity Log or the Applications tab. Files have random names and the
 // name is checked against a strict pattern, so nothing else on disk can be read.
 export async function GET(_request: Request, { params }: { params: Promise<{ file: string }> }) {
+  // The proxy only checks the cookie signature; this also turns away disabled
+  // accounts and ended sessions
+  await requireAdmin();
   const { file } = await params;
   const cv = await readCv(file);
   if (!cv) return new Response("Not found", { status: 404 });

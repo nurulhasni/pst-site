@@ -2,6 +2,7 @@
 
 import { headers } from "next/headers";
 import { currentPage, recordActivity } from "@/lib/activityLog";
+import { saveApplication } from "@/lib/applications";
 import { CvError, saveCv } from "@/lib/cvFiles";
 
 export type ApplyState = {
@@ -54,16 +55,22 @@ export async function submitApplication(_prev: ApplyState, formData: FormData): 
     return fail("server");
   }
 
-  const saved = await recordActivity({
-    type: "job_application",
-    page: await currentPage(),
-    name,
-    email,
-    phone,
-    company: [university, major].filter(Boolean).join(" · "),
-    detail: `${position} · GPA ${gpa.toFixed(2)}`,
-    file,
-  });
-  if (!saved) return fail("server");
+  const page = await currentPage();
+  // HR works from the Applications tab; the Activity Log keeps a short copy
+  // next to the site's other leads. Either one is enough to accept the application.
+  const [inSheet, logged] = await Promise.all([
+    saveApplication({ position, name, email, phone, university, major, gpa: gpa.toFixed(2), cvFile: file, page }),
+    recordActivity({
+      type: "job_application",
+      page,
+      name,
+      email,
+      phone,
+      company: [university, major].filter(Boolean).join(" · "),
+      detail: `${position} · GPA ${gpa.toFixed(2)}`,
+      file,
+    }),
+  ]);
+  if (!inSheet && !logged) return fail("server");
   return { status: "success", code: "", name: name.split(" ")[0] };
 }

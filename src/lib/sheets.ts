@@ -70,6 +70,11 @@ export function spreadsheetSetting(tab: string): string {
   return spreadsheetVariable[tab] ?? "GOOGLE_SHEET_ID";
 }
 
+// True when the service account is set and the tab's spreadsheet file is known
+export function sheetReady(tab: string): boolean {
+  return serviceAccountReady() && Boolean(spreadsheetFor(tab));
+}
+
 export function serviceAccountReady(): boolean {
   return Boolean(process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL && process.env.GOOGLE_PRIVATE_KEY);
 }
